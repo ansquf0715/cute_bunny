@@ -10,9 +10,9 @@ public class Enemy : MonoBehaviour
     public GameObject Player;
     private float Dist;
     private float DestroyTime = 1.0f;
+    private float damage;
 
     //애니메이터 조작을 위한 변수
-    //private bool died;
     private bool hitted;
 
     //체력 바 조작을 위한 변수
@@ -25,7 +25,6 @@ public class Enemy : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         CurrentHealth = MaxHealth;
-        //died = false;
         hitted = false;
         anim.SetBool("isDie", false);
     }
@@ -35,35 +34,20 @@ public class Enemy : MonoBehaviour
     {
         HPBar_Control();
     }
-    //void MoveAnim()
-    //{
-    //    //player와 enemy의 거리가 10.0f보다 작은 경우 공격할 자세를 취함
 
-    //    Dist = Vector3.Distance(Player.transform.position, gameObject.transform.position);
-    //    if (Dist < 10.0f) //player가 거리 안에 들어오면
-    //    {
-    //        anim.SetBool("isDance", true);
-    //        anim.SetBool("isCloser", closer);
-    //        anim.SetBool("isAttacked", hitted);
-    //        StartCoroutine(GetHit());
-    //    }
-    //    else
-    //    {
-    //        closer = false;
-    //        anim.SetBool("isDance", false);
-    //        anim.SetBool("isCloser", closer);
-    //        anim.SetBool("isAttacked", hitted);
-    //    }
-
-    //}
     private void OnCollisionEnter(Collision other)
     {
+        damage = GameObject.FindWithTag("Player").GetComponent<Player>().getDamage();
+
         if (other.gameObject.tag == "Bullet")
         {
             Destroy(other.gameObject); //총알 삭제
-            CurrentHealth--; // 총알 한대에 1만큼 체력이 닳음
+            //CurrentHealth -= damage;// 총알 한대에 1만큼 체력이 닳음
+            CurrentHealth = CurrentHealth - damage;
 
-            if (CurrentHealth == 0) //체력이 0이 되면 적 삭제
+            Debug.Log("Current Health " + CurrentHealth);
+
+            if (CurrentHealth < 0) //체력이 0이 되면 적 삭제
             {
                 //died = true;
                 anim.SetBool("isDie", true);
@@ -77,14 +61,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
-
     void HPBar_Control()
     {
         hpbar.value = CurrentHealth / MaxHealth;
     }
-
-
 
     //public void Enemy_Rotation()
     //{

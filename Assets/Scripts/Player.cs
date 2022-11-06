@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     float vAxis;
     bool runDown;
 
+    public float damage;
+
     Vector3 moveVec;
     Animator anim;
     Rigidbody rigid;
@@ -24,6 +26,7 @@ public class Player : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
         rigid = GetComponent<Rigidbody>();
+        damage = 1.0f;
     }
 
     // Update is called once per frame
@@ -32,6 +35,7 @@ public class Player : MonoBehaviour
         PlayerMove();
         Fire();
         rigid.velocity = Vector3.zero;
+        //Debug.Log("Player damage : " + damage);
     }
 
     void PlayerMove()
@@ -62,7 +66,19 @@ public class Player : MonoBehaviour
         {
             GameObject bullet = Instantiate(bulletFactory); // 총알 공장에서 총알을 만들고
             bullet.transform.position = firePosition.transform.position; // 총알을 발사한다
+            Debug.Log("Damage : " + damage);
         }
+    }
+
+    public float getDamage()
+    {
+        return damage;
+    }
+
+    public void setDamage(float newDamage)
+    {
+        damage = newDamage;
+        Debug.Log("new Damage : " + damage);
     }
 
 }

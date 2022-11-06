@@ -42,9 +42,9 @@ public class FightingZone : MonoBehaviour
     {
         int selection = Random.Range(0, enemies.Length);
         GameObject selectedPrefab = enemies[selection];
-        //Vector3 spawnPos = spawn + new Vector3(-3.0f, 0f, 0f);
+        Vector3 spawnPos = spawn + new Vector3(-3.0f, 0f, 0f);
 
-        GameObject instance = Instantiate(selectedPrefab, spawn, 
+        GameObject instance = Instantiate(selectedPrefab, spawnPos, 
             Quaternion.identity * selectedPrefab.transform.localRotation);
     }
 }

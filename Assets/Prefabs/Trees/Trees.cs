@@ -6,13 +6,15 @@ public class Trees : MonoBehaviour
 {
     public float Treehealth;
     Vector3 pos;
+    public float damage;
 
     // Start is called before the first frame update
     void Start()
     {
         pos = this.gameObject.transform.position;
+        damage = GameObject.FindWithTag("Player").GetComponent<Player>().getDamage();
     }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -25,7 +27,7 @@ public class Trees : MonoBehaviour
         {
             //Debug.Log(pos);
             Destroy(other.gameObject);
-            Treehealth--;
+            Treehealth -= damage;
             if (Treehealth == 0)
             {
                 SpawnPos();
