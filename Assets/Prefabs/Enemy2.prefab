@@ -12473,6 +12473,7 @@ Transform:
   - {fileID: 2337164310700108134}
   - {fileID: 2337164310834322359}
   - {fileID: 2337164310970219678}
+  - {fileID: 8211458185225858987}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -12525,7 +12526,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 8592757678435453573, guid: 108df30ee96bd634abcaabb34a5ddf19, type: 3}
   hpbar: {fileID: 2337164311465690340}
-  MaxHealth: 7
+  EMaxHealth: 7
+  weaponFactory: {fileID: 8041458441350406581, guid: bf53b2db81a8f494486e7ac73f363ab8, type: 3}
+  weaponPosition: {fileID: 7612586311801202481}
+  Epower: 2
 --- !u!136 &3229012131412875491
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -13042,4 +13046,34 @@ Transform:
   - {fileID: 2337164311404618872}
   m_Father: {fileID: 2337164310730798653}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7612586311801202481
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8211458185225858987}
+  m_Layer: 0
+  m_Name: Enemy2WeaponPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8211458185225858987
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612586311801202481}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.22, y: 0.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2337164309805480583}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

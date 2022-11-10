@@ -11,6 +11,9 @@ TagManager:
   - SpeedPlusItem
   - DamagePlusItem
   - DamageMinusItem
+  - HPPlusItem
+  - HPMinusItem
+  - Fruit1
   layers:
   - Default
   - TransparentFX

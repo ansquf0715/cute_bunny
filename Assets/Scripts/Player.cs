@@ -15,18 +15,28 @@ public class Player : MonoBehaviour
     float vAxis;
     bool runDown;
 
-    public float damage;
+    public float power; //player 공격력
+    public float MaxHealth; //최대 체력
+    private float CurrentHealth; //현재 체력
 
     Vector3 moveVec;
     Animator anim;
     Rigidbody rigid;
+
+    //씨앗 심기 코드 만들어보기 위함 -> 인벤토리 만들고 없애기
+    private int countFruit;
+    public GameObject tree;
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
         rigid = GetComponent<Rigidbody>();
-        damage = 1.0f;
+        power = 1.0f;
+        MaxHealth = 20.0f;
+        CurrentHealth = MaxHealth;
+
+        countFruit = 0; //씨앗 개수 없앨거임
     }
 
     // Update is called once per frame
@@ -35,7 +45,9 @@ public class Player : MonoBehaviour
         PlayerMove();
         Fire();
         rigid.velocity = Vector3.zero;
+        //checkHealth();
         //Debug.Log("Player damage : " + damage);
+        makeTree();
     }
 
     void PlayerMove()
@@ -48,7 +60,7 @@ public class Player : MonoBehaviour
 
         anim.SetBool("isWalk", moveVec != Vector3.zero);
         anim.SetBool("isRun", runDown);
-
+      
         if (!(hAxis == 0 && vAxis == 0))
         {
             transform.position += moveVec * speed * Time.deltaTime;
@@ -66,19 +78,70 @@ public class Player : MonoBehaviour
         {
             GameObject bullet = Instantiate(bulletFactory); // 총알 공장에서 총알을 만들고
             bullet.transform.position = firePosition.transform.position; // 총알을 발사한다
-            Debug.Log("Damage : " + damage);
+            //Debug.Log("Damage : " + power);
         }
     }
 
-    public float getDamage()
+    public float getPower()
     {
-        return damage;
+        return power;
     }
 
-    public void setDamage(float newDamage)
+    public void setPower(float newPower)
     {
-        damage = newDamage;
-        Debug.Log("new Damage : " + damage);
+        power = newPower;
+        //Debug.Log("new Damage : " + power);
     }
 
+    public Vector3 getPos()
+    {
+        return this.transform.position;
+    }
+    public Vector3 GetMoveVec()
+    {
+        return gameObject.transform.forward;
+    }
+
+    public float getHealth()
+    {
+        return CurrentHealth;
+    }
+
+    public void setHealth(float newHealth)
+    {
+        CurrentHealth = newHealth;
+        Debug.Log("Player cHealth : " + CurrentHealth);
+    }
+
+    private void checkHealth()
+    {
+        if(CurrentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public int getFruitCount()
+    {
+        return countFruit;
+    }
+
+    public void setFruitCount(int newFruitCount)
+    {
+        countFruit = newFruitCount;
+    }
+
+    void makeTree()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            Vector3 mousePoint = Camera.main.ScreenToWorldPoint(new Vector3(
+                Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+
+            Vector3 treePoint = new Vector3(mousePoint.x, 0, mousePoint.z);
+
+            Debug.Log("Tree Point : " + treePoint);
+            Instantiate(tree, treePoint, Quaternion.identity);
+        }
+    }
 }

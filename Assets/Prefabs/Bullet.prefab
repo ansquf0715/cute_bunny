@@ -142,6 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   DestroyTime: 2
+  player: {fileID: 8592757678435453574, guid: 108df30ee96bd634abcaabb34a5ddf19, type: 3}
 --- !u!135 &3121908581811669390
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Items : MonoBehaviour
 {
-    float damage;
 
     // Start is called before the first frame update
     void Start()
@@ -31,25 +30,45 @@ public class Items : MonoBehaviour
                 DamageMinus();
                 Destroy(gameObject);
             }
+            if (this.gameObject.tag == "HPPlusItem")
+            {
+                HPPlus();
+                Destroy(gameObject);
+            }
+            if (this.gameObject.tag == "HPMinusItem")
+            {
+                HPMinus();
+                Destroy(gameObject);
+            }
         }
     }
 
-    void OriginalDamage()
+    void HPPlus()
     {
-
+        float health = GameObject.FindWithTag("Player").GetComponent<Player>().getHealth();
+        health = health + 2f;
+        GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(health);
     }
+
+    void HPMinus()
+    {
+        float health = GameObject.FindWithTag("Player").GetComponent<Player>().getHealth();
+        health = health - 2f;
+        GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(health);
+    }
+
     void DamagePlus()
     {
-        float damage = GameObject.FindWithTag("Player").GetComponent<Player>().getDamage();
-        damage = damage + 2f;
-        GameObject.FindWithTag("Player").GetComponent<Player>().setDamage(damage);
+        float power = GameObject.FindWithTag("Player").GetComponent<Player>().getPower();
+        power = power + 2f;
+        GameObject.FindWithTag("Player").GetComponent<Player>().setPower(power);
     }
 
     void DamageMinus()
     {
-        float damage = GameObject.FindWithTag("Player").GetComponent<Player>().getDamage();
-        damage -= 0.5f;
-        GameObject.FindWithTag("Player").GetComponent<Player>().setDamage(damage);
+        float power = GameObject.FindWithTag("Player").GetComponent<Player>().getPower();
+        power -= 0.5f;
+        GameObject.FindWithTag("Player").GetComponent<Player>().setPower(power);
     }
 
     IEnumerator delayTime()

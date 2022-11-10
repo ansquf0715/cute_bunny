@@ -390,6 +390,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obj: {fileID: 7735265292154317221}
   hp_bar: {fileID: 86449762}
+--- !u!1 &1290568325314216697
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5578281649209896049}
+  m_Layer: 0
+  m_Name: Enemy3WeaponPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5578281649209896049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290568325314216697}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.93, y: 0.88, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7735265292154317221}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4867752067178492489
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -534,4 +564,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 8592757678435453573, guid: 108df30ee96bd634abcaabb34a5ddf19, type: 3}
   hpbar: {fileID: 86449764}
-  MaxHealth: 3
+  EMaxHealth: 5
+  weaponFactory: {fileID: 1513730156559056398, guid: 8cae2455cc4896f488d0264de1b229ca, type: 3}
+  weaponPosition: {fileID: 1290568325314216697}
+  Epower: 3
