@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 5957375613790585268}
   - component: {fileID: 5957375613790585269}
   - component: {fileID: 5957375613790585270}
-  - component: {fileID: 7664975516548835222}
   - component: {fileID: -7929572269729104879}
   - component: {fileID: -6736626766011671621}
   - component: {fileID: 2631076577694587963}
+  - component: {fileID: -8575318059876765896}
   m_Layer: 0
   m_Name: Tree Type3 05
   m_TagString: Tree
@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5957375613790585271}
   m_LocalRotation: {x: 0.0000000218557, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.25, y: 0, z: 103.79}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -85,19 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7664975516548835222
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5957375613790585271}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.3535223, y: 4.317549, z: 0.9326248}
-  m_Center: {x: -0.19405222, y: 2.1587746, z: 0.09637058}
 --- !u!114 &-7929572269729104879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Treehealth: 4
-  fruit: {fileID: 1362007828102441389, guid: e04643efc1b625d48849a670d2e04bd5, type: 3}
+  fruit: {fileID: 3172012433111918621, guid: bf28c020aac2c5743bada6c015abcb50, type: 3}
 --- !u!54 &-6736626766011671621
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -141,3 +128,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 8, y: 0, z: 8}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &-8575318059876765896
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5957375613790585271}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.48237422
+  m_Height: 7.6526914
+  m_Direction: 1
+  m_Center: {x: -0.29242003, y: 3.5035856, z: 0.081789166}

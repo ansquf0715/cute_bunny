@@ -14,6 +14,12 @@ TagManager:
   - HPPlusItem
   - HPMinusItem
   - Fruit1
+  - Apple
+  - Grape
+  - Orange
+  - Plum
+  - Peach
+  - Raspberry
   layers:
   - Default
   - TransparentFX

@@ -12446,6 +12446,7 @@ GameObject:
   - component: {fileID: 2337164311576950009}
   - component: {fileID: 3229012131412875491}
   - component: {fileID: 868941231313424889}
+  - component: {fileID: 8937238853741792434}
   m_Layer: 0
   m_Name: Enemy2
   m_TagString: Enemy
@@ -12461,7 +12462,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2337164311576950014}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -10, y: 0, z: 15.3}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 2337164311316862728}
@@ -12524,12 +12525,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1169fa2c66f2c2d42abdbdc64cefe80d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 8592757678435453573, guid: 108df30ee96bd634abcaabb34a5ddf19, type: 3}
   hpbar: {fileID: 2337164311465690340}
   EMaxHealth: 7
   weaponFactory: {fileID: 8041458441350406581, guid: bf53b2db81a8f494486e7ac73f363ab8, type: 3}
   weaponPosition: {fileID: 7612586311801202481}
-  Epower: 2
+  items: []
 --- !u!136 &3229012131412875491
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -12557,6 +12557,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &8937238853741792434
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2337164311576950014}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.5997653, y: 0.2, z: 3.3136077}
+  m_Center: {x: 0.07267094, y: 0, z: -0.27740663}
 --- !u!1 &2337164311590572074
 GameObject:
   m_ObjectHideFlags: 0

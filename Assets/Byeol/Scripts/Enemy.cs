@@ -29,6 +29,9 @@ public class Enemy : MonoBehaviour
 
     Vector3 toPlayer;
 
+    public GameObject[] items; //enemy를 처치하면 드랍할 아이템들
+    BoxCollider rangeCollider; //아이템 떨어트릴 위치 지정을 위한 변수
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +41,7 @@ public class Enemy : MonoBehaviour
         Movespeed = 2.0f;
         hitted = false;
         anim.SetBool("isDie", false);
+        rangeCollider = gameObject.GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -76,6 +80,7 @@ public class Enemy : MonoBehaviour
                 //died = true;
                 anim.SetBool("isDie", true);
                 Destroy(gameObject, DestroyTime);
+                dropItem();
             }
 
             hitted = true;
@@ -142,4 +147,42 @@ public class Enemy : MonoBehaviour
         return gameObject.transform.forward;
     }
 
+    //int RandomItemCount() //몇 개를 떨어트릴 지 갯수 정하기
+    //{
+    //    int randomItemCount = Random.Range(0, 3);
+    //    Debug.Log("random Item Count" + randomItemCount);
+    //    return randomItemCount;
+    //}
+
+    GameObject selectItem() //랜덤으로 떨어트릴 아이템 정하기
+    {
+        int selectedIndex = Random.Range(0, items.Length);
+        GameObject selectedPrefab = items[selectedIndex];
+        return selectedPrefab;
+    }
+
+    void dropItem() //아이템 떨어트리기!
+    {
+        int randomItemCount = Random.Range(0, 3);
+
+        for (int i = 0; i < randomItemCount; i++)
+        {
+            Instantiate(selectItem(), RandomItemPosition(), Quaternion.identity);
+        }
+    }
+
+    Vector3 RandomItemPosition() //아이템을 떨어트릴 랜덤한 위치
+    {
+        float range_X = rangeCollider.bounds.size.x;
+        float range_Z = rangeCollider.bounds.size.z;
+
+        range_X = Random.Range((range_X / 2) * -1, range_X / 2);
+        range_Z = Random.Range((range_Z / 2) * -1, range_Z / 2);
+
+        Vector3 RandomPosition = new Vector3(range_X, 0.5f, range_Z);
+        Vector3 SpawnPos = gameObject.transform.position + RandomPosition;
+
+        //Debug.Log("Spawn Pos" + SpawnPos);
+        return SpawnPos;
+    }
 }

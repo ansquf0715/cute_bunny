@@ -7015,6 +7015,7 @@ GameObject:
   - component: {fileID: 2778726640486518376}
   - component: {fileID: -4123728754166530388}
   - component: {fileID: 9037562168523255472}
+  - component: {fileID: 6952123567389729591}
   m_Layer: 0
   m_Name: Enemy1
   m_TagString: Enemy
@@ -7093,11 +7094,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1169fa2c66f2c2d42abdbdc64cefe80d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
   hpbar: {fileID: 2778726639605802638}
   EMaxHealth: 7
   weaponFactory: {fileID: 2731603719322465509, guid: 3cadb5593d5c19e45bc51a4d4626f7be, type: 3}
   weaponPosition: {fileID: 4341459861493208656}
+  items:
+  - {fileID: 3105448999714495083, guid: dd47b7aff263c1b408ce5d6181c1ea7c, type: 3}
+  - {fileID: 5123577028416008716, guid: 1fbd50ef733c61844b7f97b358949127, type: 3}
+  - {fileID: 4866814380056981485, guid: 419264b3e73a3c647b1029a68adb7df1, type: 3}
 --- !u!136 &-4123728754166530388
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7124,6 +7128,19 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6952123567389729591
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2778726640486518377}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 0.5, z: 4}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2778726640490528294
 GameObject:

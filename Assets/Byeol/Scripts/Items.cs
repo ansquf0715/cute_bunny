@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class Items : MonoBehaviour
 {
+    public string itemName; //아이템의 이름
+    //public ItemType itemType; //아이템 유형
+    public Sprite itemImage; //아이템의 이미지(인벤토리 안에서 띄울)
+    public GameObject itemPrefab; //아이템의 프리팹(아이템 생성시 프리팹으로 찍어냄)
 
     // Start is called before the first frame update
     void Start()
     {
-        //damage = GameObject.FindWithTag("Player").GetComponent<Player>().getDamage();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     private void OnTriggerEnter(Collider other)
     {

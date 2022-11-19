@@ -35,12 +35,11 @@ public class Trees : MonoBehaviour
             Treehealth -= damage;
             if (Treehealth == 0)
             {
-                SpawnPos();
+                //SpawnPos();
                 Destroy(gameObject);
                 dropFruit();
                 GameObject.Find("FightingZone").GetComponent<FightingZone>().countDeath();
-                //gameObject.transform.parent.GetComponent<FightingZone>().spawn 
-                //    = this.gameObject.transform.position;
+
             }
         }
     }
@@ -70,11 +69,8 @@ public class Trees : MonoBehaviour
         float range_X = rangeCollider.bounds.size.x;
         float range_Z = rangeCollider.bounds.size.z;
 
-        //range_X = Random.Range((range_X / 2) * -1, range_X / 2);
-        //range_Z = Random.Range((range_Z / 2) * -1, range_Z / 2);
-
-        range_X = Random.Range(range_X - 5, range_X + 5);
-        range_Z = Random.Range(range_Z - 5, range_Z + 5);
+        range_X = Random.Range((range_X / 2) * -1, range_X / 2);
+        range_Z = Random.Range((range_Z / 2) * -1, range_Z / 2);
 
         Vector3 RandomPosition = new Vector3(range_X, 0.5f, range_Z);
 

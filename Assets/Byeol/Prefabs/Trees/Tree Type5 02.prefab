@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 6089329195517872213}
   - component: {fileID: 6089329195517872210}
   - component: {fileID: 4217685813326171703}
-  - component: {fileID: 7560944120792091815}
   - component: {fileID: -5054900152752005155}
+  - component: {fileID: 6680860188806868997}
+  - component: {fileID: 2888146008168023243}
   m_Layer: 0
   m_Name: Tree Type5 02
   m_TagString: Tree
@@ -29,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6089329195517872211}
   m_LocalRotation: {x: 0.0000000218557, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -71.9, y: 0, z: 105.78}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -100,19 +101,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!65 &7560944120792091815
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6089329195517872211}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.3843727, y: 1.9074619, z: 0.37796783}
-  m_Center: {x: -0.019254684, y: 0.95373094, z: 0.013572663}
 --- !u!114 &-5054900152752005155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,3 +114,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Treehealth: 3
+  fruit: {fileID: 4877541414216249079, guid: 517a093910a3ad44c9044cb72a95cc6b, type: 3}
+--- !u!136 &6680860188806868997
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6089329195517872211}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.20982757
+  m_Height: 3.1248934
+  m_Direction: 1
+  m_Center: {x: 0.046533942, y: 1.5624467, z: -0.0024172962}
+--- !u!65 &2888146008168023243
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6089329195517872211}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.1248934, y: 0.21337418, z: 2.6817765}
+  m_Center: {x: 0.21823633, y: 0.10668709, z: 0.04750681}
