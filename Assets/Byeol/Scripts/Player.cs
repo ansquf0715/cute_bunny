@@ -110,7 +110,7 @@ public class Player : MonoBehaviour
     public void setHealth(float newHealth)
     {
         CurrentHealth = newHealth;
-        Debug.Log("Player cHealth : " + CurrentHealth);
+        //Debug.Log("Player cHealth : " + CurrentHealth);
     }
 
     private void checkHealth()

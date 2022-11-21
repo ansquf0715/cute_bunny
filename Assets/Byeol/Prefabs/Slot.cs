@@ -5,17 +5,18 @@ using UnityEngine.UI;
 
 public class Slot : MonoBehaviour
 {
+    private int temCount; //획득한 아이템의 개수
+
     public Items item; //획득한 아이템
-    private int itemCount; //획득한 아이템의 개수
     public Image itemImage; // 아이템의 이미지
 
-    //public TreeFruit fruit;
-    public Image fruitImage;
+    public TreeFruit fruit; //획득한 과일
+    private int fruitCount; //획득한 과일의 개수
+    public Image fruitImage; //과일의 이미지
 
-    public GameObject fruit;
+    [SerializeField]
+    private Text text_Count;
 
-    //[SerializeField]
-    //private Text text_Count;
     //[SerializeField]
     //private GameObject CountImage;
 
@@ -23,7 +24,7 @@ public class Slot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //item = null;
     }
 
     // Update is called once per frame
@@ -32,66 +33,55 @@ public class Slot : MonoBehaviour
         
     }
 
-    private void setColor(float _alpha) //아이템 이미지의 투명도 조절
+    private void setColor() //아이템 이미지의 투명도를 조정하기 위해
     {
-        Color color = itemImage.color;
-        color.a = _alpha;
+        Color color = new Color(255.0f, 255.0f, 255.0f, 255.0f);
+        fruitImage.color = color;
         itemImage.color = color;
     }
 
-    public void AddItem(Items _item) // 얘 아직 불러주는 데 없음
+    public void AddItem(Items _item, int _count = 1)
     {
         item = _item;
+        temCount = _count;
         itemImage.sprite = item.itemImage;
-        Debug.Log("item! ");
-        setColor(1);
+        text_Count.text = temCount.ToString();
+
+        setColor();
     }
 
-    //public void AddFruit(TreeFruit _fruit)
-    //{
-    //    fruit = _fruit;
-    //    fruitImage.sprite = fruit.fruitImage;
-    //    Debug.Log("Fruit! ");
-    //    setColor(1);
-    //}
-
-    public void AddFruit(GameObject _fruit)
+    public void AddFruit(TreeFruit _fruit)
     {
         fruit = _fruit;
-        fruitImage.sprite = GameObject.Find("TreeFruit").GetComponent<TreeFruit>().getFruitImage();
-        Debug.Log("item Apple!");
-        setColor(1);
+        fruitImage.sprite = fruit.fruitImage;
+        //Debug.Log("Fruit! ");
+        setColor();
     }
 
-    //public void AddItem(Items _item, int _count = 1)
-    //{
-    //    item = _item;
-    //    itemCount = _count;
-    //    itemImage.sprite = item.itemImage;
-
-    //    if(item.itemType != item.ItemType.Equipment)
-    //    {
-    //        CountImage.SetActive(true);
-    //        text_Count.text = itemCount.ToString();
-    //    }
-    //    else
-    //    {
-    //        text_Count.text = "0";
-    //        CountImage.SetActive(false);
-    //    }
-
-    //    setColor(1);
-    //}
-
-    ////해당 슬롯의 아이템 갯수 업데이트
     //public void SetSlotCount(int _count)
     //{
-    //    itemCount += _count;
-    //    text_Count.text = itemCount.ToString();
+    //    //temCount += _count;
+    //    temCount++;
+    //    text_Count.text = temCount.ToString();
 
-    //    if (itemCount <= 0)
+    //    if (temCount <= 0)
     //        ClearSlot();
     //}
+    
+    public void SetSlotCount()
+    {
+        temCount++;
+        text_Count.text = temCount.ToString();
+    }
+
+    private void ClearSlot()
+    {
+        item = null;
+        temCount = 0;
+        itemImage.sprite = null;
+
+        //text_Count.text = "0";
+    }
 
     //private void ClearSlot()
     //{

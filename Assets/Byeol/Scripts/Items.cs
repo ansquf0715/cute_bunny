@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Items : MonoBehaviour
 {
+    Inventory inventory;
+
     public string itemName; //아이템의 이름
-    //public ItemType itemType; //아이템 유형
     public Sprite itemImage; //아이템의 이미지(인벤토리 안에서 띄울)
     public GameObject itemPrefab; //아이템의 프리팹(아이템 생성시 프리팹으로 찍어냄)
 
     // Start is called before the first frame update
     void Start()
     {
-
+        inventory = FindObjectOfType<Inventory>();
     }
 
     // Update is called once per frame
@@ -24,24 +25,31 @@ public class Items : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
+
             if (this.gameObject.tag == "DamagePlusItem")
             {
                 DamagePlus();
+                //inventory.AcquireItem(this);
+                inventory.PutItems(this);
+                //inventory.SetItemCount(this);
                 Destroy(gameObject);
             }
             if (this.gameObject.tag == "DamageMinusItem")
             {
                 DamageMinus();
+                inventory.AcquireItem(this);
                 Destroy(gameObject);
             }
             if (this.gameObject.tag == "HPPlusItem")
             {
                 HPPlus();
+                inventory.AcquireItem(this);
                 Destroy(gameObject);
             }
             if (this.gameObject.tag == "HPMinusItem")
             {
                 HPMinus();
+                inventory.AcquireItem(this);
                 Destroy(gameObject);
             }
         }

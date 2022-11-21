@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class TreeFruit : MonoBehaviour
 {
+    Inventory inventory;
+
     public string fruitName; // 과일 이름
     public Sprite fruitImage; //과일 이미지 ( 인벤토리 안에서 띄울)
     public GameObject fruitPrefab; //아이템의 프리팹 (과일 생성시 프리팹으로 찍어냄)
@@ -19,6 +21,8 @@ public class TreeFruit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        inventory = FindObjectOfType<Inventory>();
+
         AppleHealth = 1;
         GrapeHealth = 1;
         OrangeHealth = 1;
@@ -37,6 +41,9 @@ public class TreeFruit : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            //GameObject.Find("Inventory").GetComponent<Inventory>().AcquireFruit(this);
+            //inventory.AcquireFruit(this);
+
             if (this.gameObject.tag == "Apple")
             {
                 AppleEffect();
@@ -45,7 +52,7 @@ public class TreeFruit : MonoBehaviour
                 fruitcount++;
                 GameObject.FindWithTag("Player").GetComponent<Player>().setFruitCount(fruitcount);
 
-                GameObject.Find("Inventory").GetComponent<Inventory>().AcquireFruit(gameObject);
+                inventory.AcquireFruit(this);
 
                 Destroy(gameObject);
             }
@@ -57,6 +64,7 @@ public class TreeFruit : MonoBehaviour
                 int fruitcount = GameObject.FindWithTag("Player").GetComponent<Player>().getFruitCount();
                 fruitcount++;
                 GameObject.FindWithTag("Player").GetComponent<Player>().setFruitCount(fruitcount);
+                inventory.AcquireFruit(this);
 
                 Destroy(gameObject);
             }
@@ -68,6 +76,7 @@ public class TreeFruit : MonoBehaviour
                 int fruitcount = GameObject.FindWithTag("Player").GetComponent<Player>().getFruitCount();
                 fruitcount++;
                 GameObject.FindWithTag("Player").GetComponent<Player>().setFruitCount(fruitcount);
+                inventory.AcquireFruit(this);
 
                 Destroy(gameObject);
             }
@@ -79,6 +88,7 @@ public class TreeFruit : MonoBehaviour
                 int fruitcount = GameObject.FindWithTag("Player").GetComponent<Player>().getFruitCount();
                 fruitcount++;
                 GameObject.FindWithTag("Player").GetComponent<Player>().setFruitCount(fruitcount);
+                inventory.AcquireFruit(this);
 
                 Destroy(gameObject);
             }
@@ -90,6 +100,7 @@ public class TreeFruit : MonoBehaviour
                 int fruitcount = GameObject.FindWithTag("Player").GetComponent<Player>().getFruitCount();
                 fruitcount++;
                 GameObject.FindWithTag("Player").GetComponent<Player>().setFruitCount(fruitcount);
+                inventory.AcquireFruit(this);
 
                 Destroy(gameObject);
             }
@@ -101,6 +112,7 @@ public class TreeFruit : MonoBehaviour
                 int fruitcount = GameObject.FindWithTag("Player").GetComponent<Player>().getFruitCount();
                 fruitcount++;
                 GameObject.FindWithTag("Player").GetComponent<Player>().setFruitCount(fruitcount);
+                inventory.AcquireFruit(this);
 
                 Destroy(gameObject);
             }
