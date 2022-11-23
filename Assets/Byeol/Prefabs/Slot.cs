@@ -5,18 +5,19 @@ using UnityEngine.UI;
 
 public class Slot : MonoBehaviour
 {
-    private int temCount; //획득한 아이템의 개수
+    public int temCount; //획득한 아이템의 개수
 
     public Items item; //획득한 아이템
     public Image itemImage; // 아이템의 이미지
+    public string itemName;
 
     public TreeFruit fruit; //획득한 과일
-    private int fruitCount; //획득한 과일의 개수
+    //private int fruitCount; //획득한 과일의 개수
     public Image fruitImage; //과일의 이미지
+    public string fruitName;
 
     [SerializeField]
     private Text text_Count;
-
     //[SerializeField]
     //private GameObject CountImage;
 
@@ -45,32 +46,27 @@ public class Slot : MonoBehaviour
         item = _item;
         temCount = _count;
         itemImage.sprite = item.itemImage;
+        itemName = _item.itemName;
         text_Count.text = temCount.ToString();
 
         setColor();
     }
 
-    public void AddFruit(TreeFruit _fruit)
+    public void AddFruit(TreeFruit _fruit, int _count = 1)
     {
         fruit = _fruit;
+        temCount = _count;
         fruitImage.sprite = fruit.fruitImage;
-        //Debug.Log("Fruit! ");
+        fruitName = _fruit.fruitName;
+        text_Count.text = temCount.ToString();
+
         setColor();
     }
-
-    //public void SetSlotCount(int _count)
-    //{
-    //    //temCount += _count;
-    //    temCount++;
-    //    text_Count.text = temCount.ToString();
-
-    //    if (temCount <= 0)
-    //        ClearSlot();
-    //}
     
     public void SetSlotCount()
     {
         temCount++;
+        //Debug.Log("템카운트 올라감");
         text_Count.text = temCount.ToString();
     }
 

@@ -20,6 +20,8 @@ TagManager:
   - Plum
   - Peach
   - Raspberry
+  - Seed
+  - FightingZone
   layers:
   - Default
   - TransparentFX

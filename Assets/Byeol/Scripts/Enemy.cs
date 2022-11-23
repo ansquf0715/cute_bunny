@@ -163,7 +163,7 @@ public class Enemy : MonoBehaviour
 
     void dropItem() //아이템 떨어트리기!
     {
-        int randomItemCount = Random.Range(0, 3);
+        int randomItemCount = Random.Range(0, 2);
 
         for (int i = 0; i < randomItemCount; i++)
         {
@@ -179,7 +179,7 @@ public class Enemy : MonoBehaviour
         range_X = Random.Range((range_X / 2) * -1, range_X / 2);
         range_Z = Random.Range((range_Z / 2) * -1, range_Z / 2);
 
-        Vector3 RandomPosition = new Vector3(range_X, 0.5f, range_Z);
+        Vector3 RandomPosition = new Vector3(range_X, 1f, range_Z);
         Vector3 SpawnPos = gameObject.transform.position + RandomPosition;
 
         //Debug.Log("Spawn Pos" + SpawnPos);

@@ -29,27 +29,25 @@ public class Items : MonoBehaviour
             if (this.gameObject.tag == "DamagePlusItem")
             {
                 DamagePlus();
-                //inventory.AcquireItem(this);
                 inventory.PutItems(this);
-                //inventory.SetItemCount(this);
                 Destroy(gameObject);
             }
             if (this.gameObject.tag == "DamageMinusItem")
             {
                 DamageMinus();
-                inventory.AcquireItem(this);
+                inventory.PutItems(this);
                 Destroy(gameObject);
             }
             if (this.gameObject.tag == "HPPlusItem")
             {
                 HPPlus();
-                inventory.AcquireItem(this);
+                inventory.PutItems(this);
                 Destroy(gameObject);
             }
             if (this.gameObject.tag == "HPMinusItem")
             {
                 HPMinus();
-                inventory.AcquireItem(this);
+                inventory.PutItems(this);
                 Destroy(gameObject);
             }
         }

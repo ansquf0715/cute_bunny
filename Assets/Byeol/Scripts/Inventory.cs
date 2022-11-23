@@ -21,23 +21,14 @@ public class Inventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //slots = new Slot[10];
-        //for (int i = 0; i < slots.Length; i++)
-        //{
-        //    slots[i] = SlotsParent.transform.GetChild(i).GetComponent<Slot>();
-        //}
-
+        InventoryBase.SetActive(false);
         slots = SlotsParent.GetComponentsInChildren<Slot>();
-
-        //Debug.Log("Slots : " + slots.Length);
-        //Debug.Log("비어있을 때 " + slots[1].item == null);
     }
 
     // Update is called once per frame
     void Update()
     {
         TryOpenInventory();
-        //Debug.Log("나 들어있음?" + slots[0].item);
     }
 
     private void TryOpenInventory() //tab 누르면 inventory 화면 띄우기
@@ -75,38 +66,41 @@ public class Inventory : MonoBehaviour
         return 15; //아니라면 쓰레기값 -> 예외처리 해야함
     }
 
-    public int isExist(Items _item, int _count = 1) //슬롯에 이미 존재하는 아이템인지 확인
+    public int ItemExist(Items _item, int _count = 1) //슬롯에 이미 존재하는 아이템인지 확인
+    {
+        Debug.Log("isExist 불려짐");
+        for (int i = 0; i < slots.Length; i++)
+        {
+            //Debug.Log("포문 도는 중");
+            if (slots[i].itemName == _item.itemName)
+            {
+                Debug.Log("i나옴");
+                return i;
+            }
+        }
+        Debug.Log("는 -1");
+        return -1;
+    }
+
+    public int FruitExist(TreeFruit _fruit, int _count = 1)
     {
         for(int i=0; i<slots.Length; i++)
         {
-            //Debug.Log("나 널아님 " + slots[i].item);
-            Debug.Log("그만할래요 " + _item);
-            if (slots[i].item.itemName == _item.itemName)
+            if(slots[i].fruitName == _fruit.fruitName)
             {
                 return i;
             }
-            //if (slots[i].item != null)
-            //{
-            //    Debug.Log("나 널아님 " + slots[i].item);
-            //    if (slots[i].item.itemName == _item.itemName)
-            //    {
-            //        return i;
-            //    }
-            //}
         }
         return -1;
     }
 
-    public void putExists(Items _item, int index, int _count = 1)
+    public void putItemExists(Items _item, int index, int _count = 1)
     {
-        //for(int i=0; i<slots.Length; i++)
-        //{
-        //    if(slots[i].item.itemName == _item.itemName)
-        //    {
-        //        //slots[i].SetSlotCount(_count);
-        //        slots[i].SetSlotCount();
-        //    }
-        //}
+        slots[index].SetSlotCount();
+    }
+
+    public void putFruitExists(TreeFruit _fruit, int index, int _count = 1)
+    {
         slots[index].SetSlotCount();
     }
 
@@ -116,19 +110,19 @@ public class Inventory : MonoBehaviour
         slots[toPut].AddItem(_item);
         CheckSlotFull[toPut] = true;
     }
+    public void AcquireFruit(TreeFruit _fruit, int _count = 1)
+    {
+        int toPut = checkFull();
+        slots[toPut].AddFruit(_fruit);
+        CheckSlotFull[toPut] = true;
+    }
 
     public void PutItems(Items _item, int _count = 1)
     {
-        //if (isExist(_item, _count) == true)
-        //{
-        //    Debug.Log("It's isExist");
-        //    putExists(_item, _count);
-        //}
-        if (isExist(_item, _count) != -1)
+        int check = ItemExist(_item, _count);
+        if(check != -1)
         {
-            Debug.Log("그만할래요 " + _item.itemName);
-            int temp = isExist(_item, _count);
-            putExists(_item, temp, _count);
+            putItemExists(_item, check, _count);
         }
         else
         {
@@ -136,38 +130,46 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AcquireFruit(TreeFruit _fruit, int _count = 1)
+    public void PutFruits(TreeFruit _fruit, int _count=1)
     {
-        int toPut = checkFull();
-        slots[toPut].AddFruit(_fruit);
-        CheckSlotFull[toPut] = true;
-        //slots[toPut].SetSlotCount(_count);
+        //Debug.Log("Put Fruits 함수");
+        int check = FruitExist(_fruit, _count);
+        if(check != -1)
+        {
+            putFruitExists(_fruit, check, _count);
+        }
+        else
+        {
+            AcquireFruit(_fruit, _count);
+        }
     }
 
-    //public void AcquireItem(Item _item, int _count=1)
-    //{
-    //    if(Item.ItemType.Equipment != _item.itemType)
-    //    {
-    //        for(int i=0; i<slots.Length; i++)
-    //        {
-    //            if(slots[i].item != null)
-    //            {
-    //                if(slots[i].item.itemName = _item.itemName)
-    //                {
-    //                    slots[i].SetSlotCount(_count);
-    //                    return;
-    //                }
-    //            }
-    //        }
-    //    }
+    public bool canCountSeed() //인벤에 씨앗이 있는지
+    {
+        Debug.Log("can Count Seed");
+        for(int i=0; i<slots.Length; i++)
+        {
+            if(slots[i].fruitName == "seed")
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    //    for(int i=0; i<slots.Length; i++)
-    //    {
-    //        if(slots[i].item = null)
-    //        {
-    //            slots[i].AddItem(_item, _count);
-    //            return;
-    //        }
-    //    }
-    //}
+    public int getCountSeed() //seed 개수 가져오는 함수
+    {
+        if (canCountSeed() == true)
+        {
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i].fruitName == "seed")
+                {
+                    return slots[i].temCount;
+                }
+            }
+        }
+        return 0;
+        //return 0; //씨앗이 없을 때
+    }
 }

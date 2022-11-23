@@ -9,10 +9,13 @@ public class FightingZone : MonoBehaviour
 
     int deathCount;
 
+    //BoxCollider rangeCollider;
+
     // Start is called before the first frame update
     void Start()
     {
         deathCount = 0;
+        //rangeCollider = gameObject.GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -47,4 +50,9 @@ public class FightingZone : MonoBehaviour
         GameObject instance = Instantiate(selectedPrefab, spawnPos, 
             Quaternion.identity * selectedPrefab.transform.localRotation);
     }
+
+    //public BoxCollider getBoxCollider()
+    //{
+    //    return rangeCollider;
+    //}
 }

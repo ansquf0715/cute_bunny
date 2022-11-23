@@ -550,6 +550,19 @@ CapsuleCollider:
   m_Height: 2.3780346
   m_Direction: 1
   m_Center: {x: -0, y: 0.99434996, z: 0}
+--- !u!65 &2770652035216159350
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6922875266917495583}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.590422, y: 0.3791114, z: 4.084262}
+  m_Center: {x: -0.08290255, y: -0.3104443, z: -0.2585653}
 --- !u!114 &1368833862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,17 +579,6 @@ MonoBehaviour:
   EMaxHealth: 5
   weaponFactory: {fileID: 1513730156559056398, guid: 8cae2455cc4896f488d0264de1b229ca, type: 3}
   weaponPosition: {fileID: 1290568325314216697}
-  items: []
---- !u!65 &2770652035216159350
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6922875266917495583}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.590422, y: 0.3791114, z: 4.084262}
-  m_Center: {x: -0.08290255, y: -0.3104443, z: -0.2585653}
+  items:
+  - {fileID: 3105448999714495083, guid: dd47b7aff263c1b408ce5d6181c1ea7c, type: 3}
+  - {fileID: 8607669326350864275, guid: 9182e74d19794814e84b85bb3de83339, type: 3}

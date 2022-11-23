@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    Inventory inventory;
+
     public float speed;
     public float runSpeed;
     public float rotateSpeed;
@@ -24,7 +26,7 @@ public class Player : MonoBehaviour
     Rigidbody rigid;
 
     //¾¾¾Ñ ½É±â ÄÚµå ¸¸µé¾îº¸±â À§ÇÔ -> ÀÎº¥Åä¸® ¸¸µé°í ¾ø¾Ö±â
-    private int countFruit;
+    //private int countFruit;
     public GameObject tree;
 
     // Start is called before the first frame update
@@ -36,7 +38,7 @@ public class Player : MonoBehaviour
         MaxHealth = 20.0f;
         CurrentHealth = MaxHealth;
 
-        countFruit = 0; //¾¾¾Ñ °³¼ö ¾ø¾Ù°ÅÀÓ
+        //countFruit = 0; //¾¾¾Ñ °³¼ö ¾ø¾Ù°ÅÀÓ
     }
 
     // Update is called once per frame
@@ -121,27 +123,95 @@ public class Player : MonoBehaviour
         }
     }
 
-    public int getFruitCount()
-    {
-        return countFruit;
-    }
+    //public int getFruitCount()
+    //{
+    //    return countFruit;
+    //}
 
-    public void setFruitCount(int newFruitCount)
-    {
-        countFruit = newFruitCount;
-    }
+    //public void setFruitCount(int newFruitCount)
+    //{
+    //    countFruit = newFruitCount;
+    //}
 
     void makeTree()
     {
-        if(Input.GetMouseButtonDown(0))
+        //BoxCollider makeTreeSize = GameObject.FindWithTag("FightingZone").GetComponent<FightingZone>().getBoxCollider();
+        //float range_X = makeTreeSize.bounds.size.x;
+        //float range_Z = makeTreeSize.bounds.size.z;
+
+        if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mousePoint = Camera.main.ScreenToWorldPoint(new Vector3(
-                Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-            Vector3 treePoint = new Vector3(mousePoint.x, 0, mousePoint.z);
-
-            Debug.Log("Tree Point : " + treePoint);
+            Vector3 treePoint = new Vector3(0, 0, 0);
+            //if(Physics.Raycast(ray, out hit, 10000f))
+            if (Physics.Raycast(ray, out hit, 10000f))
+            {
+                treePoint = hit.point;
+            }
+            treePoint.y = 0;
             Instantiate(tree, treePoint, Quaternion.identity);
+
+            //Debug.Log("Tree Point : " + treePoint);
+            //Instantiate(tree, treePoint, Quaternion.identity);
         }
     }
+
+    //void makeTree()
+    //{
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        int numberOfSeed = 0;
+    //        //Debug.Log("number Of Seed " + numberOfSeed);
+    //        if (inventory.canCountSeed() == true)
+    //        {
+    //            if (inventory.getCountSeed() != 0)
+    //                numberOfSeed = inventory.getCountSeed();
+    //            else
+    //                numberOfSeed = 0;
+    //        }
+    //        else if (inventory.canCountSeed() == false)
+    //            return;
+
+    //        if (numberOfSeed > 0)
+    //        {
+    //            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //            RaycastHit hit;
+
+    //            Vector3 treePoint = new Vector3(0, 0, 0);
+    //            //if(Physics.Raycast(ray, out hit, 10000f))
+    //            if (Physics.Raycast(ray, out hit, 10000f))
+    //            {
+    //                treePoint = hit.point;
+    //            }
+    //            treePoint.y = 0;
+    //            Instantiate(tree, treePoint, Quaternion.identity);
+    //        }
+    //        else
+    //            return;
+
+    //    }
+    //}
+
+    //bool canImakeTree() //¾¾¾ÑÀÇ °³¼ö¸¦ ¹Þ¾Æ¿È
+    //{
+    //    int numberOfSeed = 0;
+    //    if(inventory.canCountSeed() == true)
+    //    {
+    //        if (inventory.getCountSeed() != 0)
+    //        {
+    //            numberOfSeed = inventory.getCountSeed();
+    //        }
+    //        else
+    //        {
+    //            numberOfSeed = 0;
+    //        }
+    //    }
+
+    //    if (numberOfSeed > 0)
+    //        return true;
+    //    else
+    //        return false;
+    //}
 }

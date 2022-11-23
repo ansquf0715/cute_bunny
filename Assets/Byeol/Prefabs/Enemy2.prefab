@@ -12529,7 +12529,10 @@ MonoBehaviour:
   EMaxHealth: 7
   weaponFactory: {fileID: 8041458441350406581, guid: bf53b2db81a8f494486e7ac73f363ab8, type: 3}
   weaponPosition: {fileID: 7612586311801202481}
-  items: []
+  items:
+  - {fileID: 3105448999714495083, guid: dd47b7aff263c1b408ce5d6181c1ea7c, type: 3}
+  - {fileID: 3799243422871292309, guid: 90cabb35369a67649ae5aa4a3a8b16c3, type: 3}
+  - {fileID: 8607669326350864275, guid: 9182e74d19794814e84b85bb3de83339, type: 3}
 --- !u!136 &3229012131412875491
 CapsuleCollider:
   m_ObjectHideFlags: 0
