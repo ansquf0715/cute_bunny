@@ -8,8 +8,10 @@ public class Trees : MonoBehaviour
     Vector3 pos;
     private float damage;
 
-    public GameObject fruit;
+    //public GameObject fruit;
     BoxCollider rangeCollider; //과일을 떨어트릴 위치를 정하기 위해
+
+    public GameObject[] items; //tree에서 떨어트리는 아이템들
 
     // Start is called before the first frame update
     void Start()
@@ -54,15 +56,7 @@ public class Trees : MonoBehaviour
             = this.gameObject.transform.position;
     }
 
-    void dropFruit()
-    {
-        int maxFruit = 3;
 
-        for(int i=0; i<maxFruit; i++)
-        {
-            Instantiate(fruit, RandomPosition(), Quaternion.identity);
-        }
-    }
     
     Vector3 RandomPosition()
     {
@@ -79,4 +73,29 @@ public class Trees : MonoBehaviour
         return SpawnPos;
     }
 
+    GameObject selectItem() //랜덤으로 떨어트릴 아이템 정하기
+    {
+        int selectedIndex = Random.Range(0, items.Length);
+        GameObject selectedPrefab = items[selectedIndex];
+        return selectedPrefab;
+    }
+
+    void dropFruit()
+    {
+        int randomItemCount = Random.Range(1, 4);
+        for(int i=0; i<randomItemCount; i++)
+        {
+            Instantiate(selectItem(), RandomPosition(), Quaternion.identity);
+        }
+    }
+
+    //void dropFruit()
+    //{
+    //    int maxFruit = 3;
+
+    //    for (int i = 0; i < maxFruit; i++)
+    //    {
+    //        Instantiate(fruit, RandomPosition(), Quaternion.identity);
+    //    }
+    //}
 }

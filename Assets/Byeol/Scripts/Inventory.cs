@@ -78,7 +78,7 @@ public class Inventory : MonoBehaviour
                 return i;
             }
         }
-        Debug.Log("´Â -1");
+        //Debug.Log("´Â -1");
         return -1;
     }
 
@@ -171,5 +171,16 @@ public class Inventory : MonoBehaviour
         }
         return 0;
         //return 0; //¾¾¾ÑÀÌ ¾øÀ» ¶§
+    }
+
+    public void setSeedCount()
+    {
+        for(int i=0; i<slots.Length; i++)
+        {
+            if(slots[i].fruitName == "seed")
+            {
+                slots[i].temCount--;
+            }
+        }
     }
 }

@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     Animator anim;
     Rigidbody rigid;
 
+    int seedCount; //¾¾¾Ñ °³¼ö
+
     //¾¾¾Ñ ½É±â ÄÚµå ¸¸µé¾îº¸±â À§ÇÔ -> ÀÎº¥Åä¸® ¸¸µé°í ¾ø¾Ö±â
     //private int countFruit;
     public GameObject tree;
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour
         power = 1.0f;
         MaxHealth = 20.0f;
         CurrentHealth = MaxHealth;
+        seedCount = 0;
 
         //countFruit = 0; //¾¾¾Ñ °³¼ö ¾ø¾Ù°ÅÀÓ
     }
@@ -123,15 +126,24 @@ public class Player : MonoBehaviour
         }
     }
 
-    //public int getFruitCount()
-    //{
-    //    return countFruit;
-    //}
+    public void setSeedCount(int count = 1)
+    {
+        //seedCount = count;
+        //seedCount += count;
+        seedCount++;
 
-    //public void setFruitCount(int newFruitCount)
-    //{
-    //    countFruit = newFruitCount;
-    //}
+        Debug.Log("SetSeedCount " + seedCount);
+    }
+
+    void fixSeedCount()
+    {
+        GameObject.FindObjectOfType<Inventory>().setSeedCount();
+    }
+
+    GameObject TreeToMake()
+    {
+        return GameObject.FindObjectOfType<Seed>().selectTree();
+    }
 
     void makeTree()
     {
@@ -139,42 +151,40 @@ public class Player : MonoBehaviour
         //float range_X = makeTreeSize.bounds.size.x;
         //float range_Z = makeTreeSize.bounds.size.z;
 
-        if (Input.GetMouseButtonDown(0))
+        if (seedCount > 0)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            Vector3 treePoint = new Vector3(0, 0, 0);
-            //if(Physics.Raycast(ray, out hit, 10000f))
-            if (Physics.Raycast(ray, out hit, 10000f))
+            if (Input.GetMouseButtonDown(0))
             {
-                treePoint = hit.point;
-            }
-            treePoint.y = 0;
-            Instantiate(tree, treePoint, Quaternion.identity);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
 
-            //Debug.Log("Tree Point : " + treePoint);
-            //Instantiate(tree, treePoint, Quaternion.identity);
+                Vector3 treePoint = new Vector3(0, 0, 0);
+                //if(Physics.Raycast(ray, out hit, 10000f))
+                if (Physics.Raycast(ray, out hit, 10000f))
+                {
+                    treePoint = hit.point;
+                }
+                treePoint.y = 0;
+                Instantiate(TreeToMake(), treePoint, Quaternion.identity);
+
+                //seedCount--;
+                fixSeedCount();
+                //Debug.Log("Tree Point : " + treePoint);
+                //Instantiate(tree, treePoint, Quaternion.identity);
+            }
         }
+
     }
 
     //void makeTree()
     //{
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        int numberOfSeed = 0;
-    //        //Debug.Log("number Of Seed " + numberOfSeed);
-    //        if (inventory.canCountSeed() == true)
-    //        {
-    //            if (inventory.getCountSeed() != 0)
-    //                numberOfSeed = inventory.getCountSeed();
-    //            else
-    //                numberOfSeed = 0;
-    //        }
-    //        else if (inventory.canCountSeed() == false)
-    //            return;
+    //    //BoxCollider makeTreeSize = GameObject.FindWithTag("FightingZone").GetComponent<FightingZone>().getBoxCollider();
+    //    //float range_X = makeTreeSize.bounds.size.x;
+    //    //float range_Z = makeTreeSize.bounds.size.z;
 
-    //        if (numberOfSeed > 0)
+    //    if(seedCount > 0)
+    //    {
+    //        if (Input.GetMouseButtonDown(0))
     //        {
     //            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
     //            RaycastHit hit;
@@ -187,31 +197,15 @@ public class Player : MonoBehaviour
     //            }
     //            treePoint.y = 0;
     //            Instantiate(tree, treePoint, Quaternion.identity);
-    //        }
-    //        else
-    //            return;
 
-    //    }
-    //}
-
-    //bool canImakeTree() //¾¾¾ÑÀÇ °³¼ö¸¦ ¹Þ¾Æ¿È
-    //{
-    //    int numberOfSeed = 0;
-    //    if(inventory.canCountSeed() == true)
-    //    {
-    //        if (inventory.getCountSeed() != 0)
-    //        {
-    //            numberOfSeed = inventory.getCountSeed();
-    //        }
-    //        else
-    //        {
-    //            numberOfSeed = 0;
+    //            //seedCount--;
+    //            fixSeedCount();
+    //            //Debug.Log("Tree Point : " + treePoint);
+    //            //Instantiate(tree, treePoint, Quaternion.identity);
     //        }
     //    }
 
-    //    if (numberOfSeed > 0)
-    //        return true;
-    //    else
-    //        return false;
     //}
+
+
 }

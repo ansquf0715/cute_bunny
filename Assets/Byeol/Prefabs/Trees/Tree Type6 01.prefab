@@ -114,7 +114,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Treehealth: 3
-  fruit: {fileID: 6425413136743954253, guid: ee70a76f5ac38c64fa681da8d49630c3, type: 3}
+  items:
+  - {fileID: 6425413136743954253, guid: ee70a76f5ac38c64fa681da8d49630c3, type: 3}
+  - {fileID: 6426959461106538075, guid: 27c4201ea315dca458c7b42e4be78445, type: 3}
 --- !u!136 &3029952269591455973
 CapsuleCollider:
   m_ObjectHideFlags: 0
