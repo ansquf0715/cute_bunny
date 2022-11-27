@@ -53,37 +53,37 @@ public class Items : MonoBehaviour
         }
     }
 
-    void HPPlus()
+    public void HPPlus()
     {
         float health = GameObject.FindWithTag("Player").GetComponent<Player>().getHealth();
         health = health + 2f;
         GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(health);
     }
 
-    void HPMinus()
+    public void HPMinus()
     {
         float health = GameObject.FindWithTag("Player").GetComponent<Player>().getHealth();
         health = health - 2f;
         GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(health);
     }
 
-    void DamagePlus()
+    public void DamagePlus()
     {
         float power = GameObject.FindWithTag("Player").GetComponent<Player>().getPower();
         power = power + 2f;
         GameObject.FindWithTag("Player").GetComponent<Player>().setPower(power);
     }
 
-    void DamageMinus()
+    public void DamageMinus()
     {
         float power = GameObject.FindWithTag("Player").GetComponent<Player>().getPower();
         power -= 0.5f;
         GameObject.FindWithTag("Player").GetComponent<Player>().setPower(power);
     }
 
-    IEnumerator delayTime()
-    {
-        yield return new WaitForSeconds(5);
-    }
+    //IEnumerator delayTime()
+    //{
+    //    yield return new WaitForSeconds(5);
+    //}
 
 }

@@ -35,13 +35,13 @@ public class DragSlot : MonoBehaviour
         Color color = new Color(255.0f, 255.0f, 255.0f, 255.0f);
         imageItem.color = color;
     }
-    public void setColorWhite(Image _itemImage)
+    public void setColorWhite()
     {
-        Color color = _itemImage.color;
+        Color color = imageItem.color;
         color.a = 0f;
-        _itemImage.color = color;
+        imageItem.color = color;
 
-        Debug.Log("DragSlot setcolor");
+        //Debug.Log("DragSlot setcolor");
     }
 
 }

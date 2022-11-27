@@ -116,7 +116,7 @@ MonoBehaviour:
   Treehealth: 3
   items:
   - {fileID: 4877541414216249079, guid: 517a093910a3ad44c9044cb72a95cc6b, type: 3}
-  - {fileID: 6426959461106538075, guid: 27c4201ea315dca458c7b42e4be78445, type: 3}
+  - {fileID: 6229171010683198030, guid: 27c4201ea315dca458c7b42e4be78445, type: 3}
 --- !u!136 &6680860188806868997
 CapsuleCollider:
   m_ObjectHideFlags: 0

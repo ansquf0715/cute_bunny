@@ -77,11 +77,13 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
             || DragSlot.instance.transform.localPosition.y < baseRect.yMin
             || DragSlot.instance.transform.localPosition.y > baseRect.yMax)
         {
+            //afterDrop();
+            //Debug.Log("after drop");
             DragSlot.instance.dragSlot.ClearSlot();
+
         }
 
-        //여기 문제
-        //DragSlot.instance.setColorWhite(this);
+        DragSlot.instance.setColorWhite();
         DragSlot.instance.dragSlot = null;
 
         //Debug.Log("On End Drag");
@@ -94,10 +96,10 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         if (DragSlot.instance.dragSlot != null)
         {
             ChangeSlot();
-            Debug.Log("Change Slot");
+            
         }
-
-        Debug.Log("On Drop");
+        
+        //Debug.Log("On Drop");
 
     }
 
@@ -137,9 +139,11 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         setColor();
     }
     
-    public void SetSlotCount()
+    public void SetSlotCount(int _count = 1)
     {
-        temCount++;
+        temCount += _count;
+        Debug.Log("카운트 " + temCount);
+        //temCount++;
         //Debug.Log("템카운트 올라감");
 
         //if(fruitName == "Seed")
@@ -177,4 +181,17 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
             //ClearSlot??????
             DragSlot.instance.dragSlot.ClearSlot();
     }
+
+    void afterDrop()
+    {
+        Instantiate(DragSlot.instance.dragSlot.item.itemPrefab,
+            GameObject.FindWithTag("Player").GetComponent<Player>().getPos(),
+            Quaternion.identity
+            );
+        DragSlot.instance.dragSlot.SetSlotCount(-1);
+        Debug.Log("SetSlotCount 불려지나?");
+
+        DragSlot.instance.dragSlot = null;
+    }
+
 }
