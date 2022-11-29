@@ -74,7 +74,7 @@ public class Inventory : MonoBehaviour
             //Debug.Log("Æ÷¹® µµ´Â Áß");
             if (slots[i].itemName == _item.itemName)
             {
-                Debug.Log("i³ª¿È");
+               // Debug.Log("i³ª¿È");
                 return i;
             }
         }

@@ -9,7 +9,10 @@ public class ItemEffect
 
 public class ItemEffectDatabase : MonoBehaviour
 {
+    string itemname;
+
     Items items;
+    TreeFruit fruits;
 
     [SerializeField]
     private ItemEffect[] itemEffects;
@@ -18,6 +21,7 @@ public class ItemEffectDatabase : MonoBehaviour
     void Start()
     {
         items = FindObjectOfType<Items>();
+        fruits = FindObjectOfType<TreeFruit>();
     }
 
     // Update is called once per frame
@@ -26,23 +30,45 @@ public class ItemEffectDatabase : MonoBehaviour
         
     }
 
-    public void UseItem(Items _item)
+    public void UseItem(string itemName)
     {
-        if(_item.itemName == "DamagePlusItem")
+        switch(itemName)
         {
-            items.DamagePlus();
-        }
-        if(_item.itemName == "DamageMinusItem")
-        {
-            items.DamageMinus();
-        }
-        if(_item.itemName == "HPPlusItem")
-        {
-            items.HPPlus();
-        }
-        if(_item.itemName == "HPMinusItem")
-        {
-            items.HPMinus();
+            case "DamagePlusItem":
+                items.DamagePlus();
+                break;
+            case "DamageMinusItem":
+                items.DamageMinus();
+                break;
+            case "HPPlusItem":
+                items.HPPlus();
+                break;
+            case "HPMinusItem":
+                items.HPMinus();
+                Debug.Log("HP Minus called");
+                break;
+            case "Apple":
+                fruits.AppleEffect();
+                Debug.Log("Apple Called");
+                break;
+            case "Grape":
+                fruits.GrapeEffect();
+                break;
+            case "Orange":
+                fruits.OrangeEffect();
+                break;
+            case "Peach":
+                fruits.PeachEffect();
+                break;
+            case "Plum":
+                fruits.PlumEffect();
+                break;
+            case "Raspberry":
+                fruits.RaspberryEffect();
+                break;
+            case "seed":
+                fruits.SeedEffect();
+                break;
         }
 
     }

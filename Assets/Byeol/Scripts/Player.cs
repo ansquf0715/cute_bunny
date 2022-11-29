@@ -107,6 +107,11 @@ public class Player : MonoBehaviour
         return gameObject.transform.forward;
     }
 
+    public float getMaxHealth()
+    {
+        return MaxHealth;
+    }
+
     public float getHealth()
     {
         return CurrentHealth;
@@ -115,6 +120,9 @@ public class Player : MonoBehaviour
     public void setHealth(float newHealth)
     {
         CurrentHealth = newHealth;
+        FindObjectOfType<HPBarControl>().isChange();
+
+        //Debug.Log("Set Health");
         //Debug.Log("Player cHealth : " + CurrentHealth);
     }
 

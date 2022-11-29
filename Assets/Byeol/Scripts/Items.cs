@@ -28,25 +28,25 @@ public class Items : MonoBehaviour
 
             if (this.gameObject.tag == "DamagePlusItem")
             {
-                DamagePlus();
+                //DamagePlus();
                 inventory.PutItems(this);
                 Destroy(gameObject);
             }
             if (this.gameObject.tag == "DamageMinusItem")
             {
-                DamageMinus();
+                //DamageMinus();
                 inventory.PutItems(this);
                 Destroy(gameObject);
             }
             if (this.gameObject.tag == "HPPlusItem")
             {
-                HPPlus();
+                //HPPlus();
                 inventory.PutItems(this);
                 Destroy(gameObject);
             }
             if (this.gameObject.tag == "HPMinusItem")
             {
-                HPMinus();
+                //HPMinus();
                 inventory.PutItems(this);
                 Destroy(gameObject);
             }
@@ -58,6 +58,8 @@ public class Items : MonoBehaviour
         float health = GameObject.FindWithTag("Player").GetComponent<Player>().getHealth();
         health = health + 2f;
         GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(health);
+        Debug.Log("HP Plus Item");
+
     }
 
     public void HPMinus()
@@ -65,6 +67,8 @@ public class Items : MonoBehaviour
         float health = GameObject.FindWithTag("Player").GetComponent<Player>().getHealth();
         health = health - 2f;
         GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(health);
+        Debug.Log("HP Minus Item");
+
     }
 
     public void DamagePlus()
@@ -72,6 +76,7 @@ public class Items : MonoBehaviour
         float power = GameObject.FindWithTag("Player").GetComponent<Player>().getPower();
         power = power + 2f;
         GameObject.FindWithTag("Player").GetComponent<Player>().setPower(power);
+        Debug.Log("Damage Plus");
     }
 
     public void DamageMinus()
@@ -79,6 +84,8 @@ public class Items : MonoBehaviour
         float power = GameObject.FindWithTag("Player").GetComponent<Player>().getPower();
         power -= 0.5f;
         GameObject.FindWithTag("Player").GetComponent<Player>().setPower(power);
+        Debug.Log("Damage Minus");
+
     }
 
     //IEnumerator delayTime()

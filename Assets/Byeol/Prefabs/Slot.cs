@@ -25,6 +25,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
     //[SerializeField]
     //private GameObject CountImage;
 
+    private ItemEffectDatabase itemEffectDatabase;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +33,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         //item = null;
         baseRect = transform.parent.parent.GetComponent<RectTransform>().rect;
         //Debug.Log("Base Rect" + baseRect);
+        itemEffectDatabase = FindObjectOfType<ItemEffectDatabase>();
     }
 
     // Update is called once per frame
@@ -44,26 +46,45 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            Debug.Log(item.itemName + "을 사용");
+            //Debug.Log(item.itemName + "을 사용");
+            int type = checkItemOrFruit();
+
+            if (type == 1)
+                itemEffectDatabase.UseItem(itemName);
+            else if (type == 2)
+                itemEffectDatabase.UseItem(fruitName);
+            ChangeCount();
         }
     }
 
     //마우스 드래그가 시작 됐을 때 발생하는 이벤트
     public void OnBeginDrag(PointerEventData eventData)
     {
-        DragSlot.instance.dragSlot = this;
-        DragSlot.instance.DragSetImage(itemImage);
-        DragSlot.instance.transform.position = eventData.position;
+        int type = checkItemOrFruit();
+
+        if(type == 1)
+        {
+            DragSlot.instance.dragSlot = this;
+            DragSlot.instance.DragSetImage(itemImage);
+            DragSlot.instance.transform.position = eventData.position;
+        }
+        else if(type == 2)
+        {
+            DragSlot.instance.dragSlot = this;
+            DragSlot.instance.DragSetImage(fruitImage);
+            DragSlot.instance.transform.position = eventData.position;
+        }
 
         //Debug.Log("Begin Drag");
-
     }
 
     //마우스 드래그 중일 때 계속 발생하는 이벤트
     public void OnDrag(PointerEventData eventData)
     {
         DragSlot.instance.transform.position = eventData.position;
-        //Debug.Log("On Drag");
+        //Debug.Log("On Drag");afterDrop(DragSlot.instance.dragSlot.item.itemPrefab);
+        //afterDrop();
+        //Debug.Log("after drop");
     }
 
     //마우스 드래그가 끝났을 때 발생하는 이벤트
@@ -72,19 +93,22 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         //DragSlot.instance.setColorWhite();
         //DragSlot.instance.dragSlot = null;
 
-        if(DragSlot.instance.transform.localPosition.x < baseRect.xMin
+        
+
+        if (DragSlot.instance.transform.localPosition.x < baseRect.xMin
             || DragSlot.instance.transform.localPosition.x > baseRect.xMax
             || DragSlot.instance.transform.localPosition.y < baseRect.yMin
             || DragSlot.instance.transform.localPosition.y > baseRect.yMax)
         {
-            //afterDrop();
-            //Debug.Log("after drop");
             DragSlot.instance.dragSlot.ClearSlot();
-
+            Debug.Log("clear slot");
+            DragSlot.instance.setColorWhite();
+            DragSlot.instance.dragSlot = null;
+            Debug.Log("drag slot null");
         }
 
-        DragSlot.instance.setColorWhite();
-        DragSlot.instance.dragSlot = null;
+        //DragSlot.instance.setColorWhite();
+        //DragSlot.instance.dragSlot = null;
 
         //Debug.Log("On End Drag");
     }
@@ -95,12 +119,19 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
     {
         if (DragSlot.instance.dragSlot != null)
         {
-            ChangeSlot();
-            
+            ChangeCount();
         }
         
         //Debug.Log("On Drop");
 
+    }
+
+    private int checkItemOrFruit() // item일 경우 1을 fruit일 경우 2를 리턴
+    {
+        if (this == item)
+            return 1;
+        else
+            return 2;
     }
 
     private void setColor() //아이템 이미지의 투명도를 조정하기 위해
@@ -160,6 +191,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         item = null;
         temCount = 0;
         itemImage.sprite = null;
+        text_Count.text = " ";
 
         Color color = itemImage.color;
         color.a = 0f;
@@ -167,31 +199,43 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         //text_Count.text = "0";
     }
 
-    private void ChangeSlot()
+    private void ChangeCount()
     {
-        Items _tempItem = item;
-        int _tempItemCount = temCount;
-        //string _tempItemName = itemName;
-
-        AddItem(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.temCount);
-
-        if (_tempItem != null)
-            DragSlot.instance.dragSlot.AddItem(_tempItem, _tempItemCount);
-        else
-            //ClearSlot??????
-            DragSlot.instance.dragSlot.ClearSlot();
+        if (temCount > 1)
+            SetSlotCount(-1);
+        else if (temCount == 1)
+            ClearSlot();
     }
 
-    void afterDrop()
-    {
-        Instantiate(DragSlot.instance.dragSlot.item.itemPrefab,
-            GameObject.FindWithTag("Player").GetComponent<Player>().getPos(),
-            Quaternion.identity
-            );
-        DragSlot.instance.dragSlot.SetSlotCount(-1);
-        Debug.Log("SetSlotCount 불려지나?");
+    //private void ChangeSlot()
+    //{
+    //    Items _tempItem = item;
+    //    int _tempItemCount = temCount;
+    //    //string _tempItemName = itemName;
 
-        DragSlot.instance.dragSlot = null;
-    }
+    //    AddItem(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.temCount);
+
+    //    if (_tempItem != null)
+    //        DragSlot.instance.dragSlot.AddItem(_tempItem, _tempItemCount);
+    //    else
+    //        //ClearSlot??????
+    //        DragSlot.instance.dragSlot.ClearSlot();
+    //}
+
+    //void afterDrop()
+    //{
+    //    Instantiate(DragSlot.instance.dragSlot.item.itemPrefab,
+    //        GameObject.FindWithTag("Player").GetComponent<Player>().getPos(),
+    //        Quaternion.identity
+    //        );
+    //    //Instantiate(_prefab,
+    //    //    GameObject.FindWithTag("Player").GetComponent<Player>().getPos(),
+    //    //    Quaternion.identity
+    //    //    );
+    //    DragSlot.instance.dragSlot.SetSlotCount(-1);
+    //    Debug.Log("SetSlotCount 불려지나?");
+
+    //    DragSlot.instance.dragSlot = null;
+    //}
 
 }

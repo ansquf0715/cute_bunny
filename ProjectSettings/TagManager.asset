@@ -22,6 +22,7 @@ TagManager:
   - Raspberry
   - Seed
   - FightingZone
+  - HP_Fill
   layers:
   - Default
   - TransparentFX

@@ -130,49 +130,49 @@ public class TreeFruit : MonoBehaviour
         }
     }
 
-    void AppleEffect()
+    public void AppleEffect()
     {
         float player_health = GameObject.FindWithTag("Player").GetComponent<Player>().getHealth();
         player_health += AppleHealth;
         GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(player_health);
     }
 
-    void GrapeEffect()
+    public void GrapeEffect()
     {
         float player_health = GameObject.FindWithTag("Player").GetComponent<Player>().getHealth();
         player_health += GrapeHealth;
         GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(player_health);
     }
 
-    void OrangeEffect()
+    public void OrangeEffect()
     {
         float player_health = GameObject.FindWithTag("Player").GetComponent<Player>().getHealth();
         player_health += OrangeHealth;
         GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(player_health);
     }
 
-    void PeachEffect()
+    public void PeachEffect()
     {
         float player_health = GameObject.FindWithTag("Player").GetComponent<Player>().getHealth();
         player_health += PeachHealth;
         GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(player_health);
     }
 
-    void PlumEffect()
+    public void PlumEffect()
     {
         float player_health = GameObject.FindWithTag("Player").GetComponent<Player>().getHealth();
         player_health += PlumHealth;
         GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(player_health);
     }
 
-    void RaspberryEffect()
+    public void RaspberryEffect()
     {
         float player_health = GameObject.FindWithTag("Player").GetComponent<Player>().getHealth();
         player_health += RaspberryHealth;
         GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(player_health);
     }
 
-    void SeedEffect()
+    public void SeedEffect()
     {
 
     }

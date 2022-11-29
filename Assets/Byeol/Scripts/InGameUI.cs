@@ -60,8 +60,8 @@ public class InGameUI : MonoBehaviour
 
     void SetCountText()
     {
-        GameDay.text = year.ToString() + "³â" + month.ToString() + "¿ù" 
-            + day.ToString() + "ÀÏ";
+        GameDay.text = year.ToString() + "Year " + month.ToString() + "Month " 
+            + day.ToString() + "Day ";
     }
 
 }
