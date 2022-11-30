@@ -52,7 +52,14 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
             if (type == 1)
                 itemEffectDatabase.UseItem(itemName);
             else if (type == 2)
+            {
+                if (itemName == "seed")
+                {
+                    //FindObjectOfType<Player>().makeTree();
+                    return;
+                }
                 itemEffectDatabase.UseItem(fruitName);
+            }
             ChangeCount();
         }
     }
@@ -193,13 +200,15 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         itemImage.sprite = null;
         text_Count.text = " ";
 
+        FindObjectOfType<Inventory>().checkClear(this);
+
         Color color = itemImage.color;
         color.a = 0f;
         itemImage.color = color;
         //text_Count.text = "0";
     }
 
-    private void ChangeCount()
+    public void ChangeCount()
     {
         if (temCount > 1)
             SetSlotCount(-1);

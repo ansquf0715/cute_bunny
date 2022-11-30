@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     float hAxis;
     float vAxis;
     bool runDown;
+    //bool isAttacking;
 
     public float power; //player 공격력
     public float MaxHealth; //최대 체력
@@ -27,19 +28,21 @@ public class Player : MonoBehaviour
 
     int seedCount; //씨앗 개수
 
-    //씨앗 심기 코드 만들어보기 위함 -> 인벤토리 만들고 없애기
-    //private int countFruit;
-    public GameObject tree;
+    public GameObject[] trees;
 
     // Start is called before the first frame update
     void Start()
     {
+        inventory = FindObjectOfType<Inventory>();
         anim = GetComponentInChildren<Animator>();
+
+        anim.SetBool("isAttacking", false);
+
         rigid = GetComponent<Rigidbody>();
         power = 1.0f;
         MaxHealth = 20.0f;
         CurrentHealth = MaxHealth;
-        seedCount = 0;
+        //seedCount = inventory.getCountSeed();
 
         //countFruit = 0; //씨앗 개수 없앨거임
     }
@@ -52,7 +55,11 @@ public class Player : MonoBehaviour
         rigid.velocity = Vector3.zero;
         //checkHealth();
         //Debug.Log("Player damage : " + damage);
-        makeTree();
+
+        if(inventory.getCountSeed() != 0)
+        {
+            makeTree();
+        }
     }
 
     void PlayerMove()
@@ -81,10 +88,25 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space)) //스페이스바를 입력하면
         {
+            anim.SetBool("isAttacking", true);
+            StartCoroutine(CarrotDelay());
             GameObject bullet = Instantiate(bulletFactory); // 총알 공장에서 총알을 만들고
             bullet.transform.position = firePosition.transform.position; // 총알을 발사한다
             //Debug.Log("Damage : " + power);
+            StartCoroutine(AttackingDelay());
         }
+    }
+
+    IEnumerator AttackingDelay()
+    {
+        float delayTime = 0.5f;
+        yield return new WaitForSeconds(delayTime);
+        anim.SetBool("isAttacking", false);
+    }
+
+    IEnumerator CarrotDelay()
+    {
+        yield return new WaitForSeconds(1f);
     }
 
     public float getPower()
@@ -134,34 +156,32 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void setSeedCount(int count = 1)
+    public int setSeedCount()
     {
-        //seedCount = count;
-        //seedCount += count;
-        seedCount++;
-
-        Debug.Log("SetSeedCount " + seedCount);
+        return inventory.getCountSeed();
     }
 
-    void fixSeedCount()
+    GameObject TreeToMake() //여기 수정
     {
-        GameObject.FindObjectOfType<Inventory>().setSeedCount();
+        //Debug.Log("Tree to make 호출됨");
+        //return GameObject.FindObjectOfType<Seed>().selectTree();
+
+        int randomItemCount = Random.Range(0, trees.Length);
+        GameObject selectedPrefab = trees[randomItemCount];
+        return selectedPrefab;
     }
 
-    GameObject TreeToMake()
-    {
-        return GameObject.FindObjectOfType<Seed>().selectTree();
-    }
-
-    void makeTree()
+    public void makeTree()
     {
         //BoxCollider makeTreeSize = GameObject.FindWithTag("FightingZone").GetComponent<FightingZone>().getBoxCollider();
         //float range_X = makeTreeSize.bounds.size.x;
         //float range_Z = makeTreeSize.bounds.size.z;
 
-        if (seedCount > 0)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            seedCount = setSeedCount();
+            Debug.Log("seed Count 갯수 " + seedCount);
+            if (seedCount >= 1)
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -176,44 +196,13 @@ public class Player : MonoBehaviour
                 Instantiate(TreeToMake(), treePoint, Quaternion.identity);
 
                 //seedCount--;
-                fixSeedCount();
+                inventory.setSeedCount();
                 //Debug.Log("Tree Point : " + treePoint);
                 //Instantiate(tree, treePoint, Quaternion.identity);
             }
         }
-
+        else
+            return;
     }
-
-    //void makeTree()
-    //{
-    //    //BoxCollider makeTreeSize = GameObject.FindWithTag("FightingZone").GetComponent<FightingZone>().getBoxCollider();
-    //    //float range_X = makeTreeSize.bounds.size.x;
-    //    //float range_Z = makeTreeSize.bounds.size.z;
-
-    //    if(seedCount > 0)
-    //    {
-    //        if (Input.GetMouseButtonDown(0))
-    //        {
-    //            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //            RaycastHit hit;
-
-    //            Vector3 treePoint = new Vector3(0, 0, 0);
-    //            //if(Physics.Raycast(ray, out hit, 10000f))
-    //            if (Physics.Raycast(ray, out hit, 10000f))
-    //            {
-    //                treePoint = hit.point;
-    //            }
-    //            treePoint.y = 0;
-    //            Instantiate(tree, treePoint, Quaternion.identity);
-
-    //            //seedCount--;
-    //            fixSeedCount();
-    //            //Debug.Log("Tree Point : " + treePoint);
-    //            //Instantiate(tree, treePoint, Quaternion.identity);
-    //        }
-    //    }
-
-    //}
-
 
 }

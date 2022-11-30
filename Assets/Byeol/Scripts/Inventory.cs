@@ -54,6 +54,17 @@ public class Inventory : MonoBehaviour
         InventoryBase.SetActive(false);
     }
 
+    public void checkClear(Slot cleardSlot) //슬롯에 있는게 지워졌는지 확인?
+    {
+        int temp = 0;
+        for(int i=0; i<slots.Length; i++)
+        {
+            if (slots[i] == cleardSlot)
+                temp = i;
+        }
+        CheckSlotFull[temp] = false;
+    }
+
     private int checkFull() //slot 칸이 비었는지 안비었는지 확인하는 함수
     {
         for (int i = 0; i < CheckSlotFull.Length; i++)
@@ -146,7 +157,7 @@ public class Inventory : MonoBehaviour
 
     public bool canCountSeed() //인벤에 씨앗이 있는지
     {
-        Debug.Log("can Count Seed");
+        //Debug.Log("can Count Seed");
         for(int i=0; i<slots.Length; i++)
         {
             if(slots[i].fruitName == "seed")
@@ -173,13 +184,26 @@ public class Inventory : MonoBehaviour
         //return 0; //씨앗이 없을 때
     }
 
+    //public int ChangedSeedCount()
+    //{
+    //    for(int i=0; i<slots.Length; i++)
+    //    {
+    //        if(slots[i].fruitName == "seed")
+    //        {
+    //            return slots[i].temCount;
+    //        }
+    //    }
+    //    return 0;
+    //}
+
     public void setSeedCount()
     {
+        Debug.Log("Set Seed Count 호출됨");
         for(int i=0; i<slots.Length; i++)
         {
             if(slots[i].fruitName == "seed")
             {
-                slots[i].temCount--;
+                slots[i].ChangeCount();
             }
         }
     }

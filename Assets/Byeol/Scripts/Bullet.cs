@@ -9,17 +9,25 @@ public class Bullet : MonoBehaviour
     public float DestroyTime = 2.0f; //사라지는 시간
     public Player player;
 
+    public ParticleSystem particle; 
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
         Destroy(gameObject, DestroyTime);
+        particle.Play();
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.position += player.GetMoveVec() * speed * Time.deltaTime;
+    }
+
+    public void startParticle()
+    {
+        particle.Play();
     }
 
 }

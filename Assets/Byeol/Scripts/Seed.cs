@@ -20,6 +20,8 @@ public class Seed : MonoBehaviour
 
     public GameObject selectTree()
     {
+        Debug.Log("selec Tree »£√‚µ ");
+
         int randomItemCount = Random.Range(0, trees.Length);
         GameObject selectedPrefab = trees[randomItemCount];
         return selectedPrefab;

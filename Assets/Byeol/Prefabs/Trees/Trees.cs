@@ -34,6 +34,7 @@ public class Trees : MonoBehaviour
         {
             //Debug.Log(pos);
             Destroy(other.gameObject);
+            //FindObjectOfType<Bullet>().startParticle();
             Treehealth -= damage;
             if (Treehealth == 0)
             {
