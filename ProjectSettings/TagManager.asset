@@ -23,6 +23,8 @@ TagManager:
   - Seed
   - FightingZone
   - HP_Fill
+  - SellBoxInside
+  - SellBox
   layers:
   - Default
   - TransparentFX

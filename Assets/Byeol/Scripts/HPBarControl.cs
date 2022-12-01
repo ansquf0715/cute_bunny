@@ -46,6 +46,7 @@ public class HPBarControl : MonoBehaviour
     public void isChange()
     {
         isChanged = true;
+        //Debug.Log("is CHange ºÒ·¯Áü");
     }
 
     void setPlayer()
@@ -59,9 +60,13 @@ public class HPBarControl : MonoBehaviour
         currentFill = 
             GameObject.FindWithTag("Player").GetComponent<Player>().getHealth() 
             / maxFill;
+        //Debug.Log("SetHPUI ºÒ·¯Áü CurrentFill" + currentFill);
+
         //Debug.Log("Set HP UI ");
+        //content.fillAmount = Mathf.Lerp(content.fillAmount, currentFill,
+        //    Time.deltaTime * lerpSpeed);
         content.fillAmount = Mathf.Lerp(content.fillAmount, currentFill,
-            Time.deltaTime * lerpSpeed);
+            lerpSpeed);
         //sprite.bounds.size.y = currentFill / maxFill;
     }
 

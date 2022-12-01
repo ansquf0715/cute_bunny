@@ -47,19 +47,36 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             //Debug.Log(item.itemName + "을 사용");
-            int type = checkItemOrFruit();
+            //int type = checkItemOrFruit();
 
-            if (type == 1)
-                itemEffectDatabase.UseItem(itemName);
-            else if (type == 2)
+            //if (type == 1)
+            //{
+            //    itemEffectDatabase.UseItem(itemName);
+
+            //}
+            //else if (type == 2)
+            //{
+            //    if (itemName == "seed")
+            //    {
+            //        //FindObjectOfType<Player>().makeTree();
+            //        return;
+            //    }
+            //    itemEffectDatabase.UseItem(fruitName);
+            //}
+
+            if (this.itemName != null) //item인 경우
             {
-                if (itemName == "seed")
-                {
-                    //FindObjectOfType<Player>().makeTree();
-                    return;
-                }
+                itemEffectDatabase.UseItem(itemName);
+            }
+            if (this.itemName == null)
+            {
+                //if(fruitName == "seed")
+                //{
+                //    return;
+                //}
                 itemEffectDatabase.UseItem(fruitName);
             }
+
             ChangeCount();
         }
     }
@@ -107,11 +124,22 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
             || DragSlot.instance.transform.localPosition.y < baseRect.yMin
             || DragSlot.instance.transform.localPosition.y > baseRect.yMax)
         {
-            DragSlot.instance.dragSlot.ClearSlot();
-            Debug.Log("clear slot");
-            DragSlot.instance.setColorWhite();
-            DragSlot.instance.dragSlot = null;
-            Debug.Log("drag slot null");
+            if(SellingBox.checkSellBox() == true)
+            {
+                SellingBox.SellThings(this.fruitName);
+                DragSlot.instance.dragSlot.ClearSlot();
+                DragSlot.instance.setColorWhite();
+                DragSlot.instance.dragSlot = null;
+            }
+            else
+            {
+                DragSlot.instance.dragSlot.ClearSlot();
+                //Debug.Log("clear slot");
+                DragSlot.instance.setColorWhite();
+                DragSlot.instance.dragSlot = null;
+                //Debug.Log("drag slot null");
+            }
+
         }
 
         //DragSlot.instance.setColorWhite();
@@ -135,8 +163,12 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
 
     private int checkItemOrFruit() // item일 경우 1을 fruit일 경우 2를 리턴
     {
+        
         if (this == item)
+        {
+            Debug.Log("checkm Item or fruit index returns 1");
             return 1;
+        }
         else
             return 2;
     }

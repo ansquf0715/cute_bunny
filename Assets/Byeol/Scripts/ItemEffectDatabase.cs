@@ -42,6 +42,7 @@ public class ItemEffectDatabase : MonoBehaviour
                 break;
             case "HPPlusItem":
                 items.HPPlus();
+                Debug.Log("HP PLus switch");
                 break;
             case "HPMinusItem":
                 items.HPMinus();

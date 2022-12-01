@@ -282,7 +282,7 @@ MonoBehaviour:
   speed: 8
   runSpeed: 10
   rotateSpeed: 3
-  bulletFactory: {fileID: 8862258182668133376, guid: 6c0f3b8f778d5b04a957a029174a47d0, type: 3}
+  bulletFactory: {fileID: 6838136083344314535, guid: 766c1162d95adc54792382b6b45f1e03, type: 3}
   firePosition: {fileID: 8592757679211334046}
   power: 0
   MaxHealth: 0

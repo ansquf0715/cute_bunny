@@ -113,6 +113,7 @@ MonoBehaviour:
   speed: 5
   DestroyTime: 2
   player: {fileID: 8592757678435453574, guid: 108df30ee96bd634abcaabb34a5ddf19, type: 3}
+  particle: {fileID: 7036865209977017769, guid: 4dff84e816a526146a49bf9f96ea4e59, type: 3}
 --- !u!1001 &3636848891491084516
 PrefabInstance:
   m_ObjectHideFlags: 0

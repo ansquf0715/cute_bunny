@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -37,9 +38,10 @@ public class Player : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
 
         anim.SetBool("isAttacking", false);
+        anim.SetBool("isDie", false);
 
         rigid = GetComponent<Rigidbody>();
-        power = 1.0f;
+        power = 2.0f;
         MaxHealth = 20.0f;
         CurrentHealth = MaxHealth;
         //seedCount = inventory.getCountSeed();
@@ -50,16 +52,25 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         PlayerMove();
         Fire();
         rigid.velocity = Vector3.zero;
         //checkHealth();
         //Debug.Log("Player damage : " + damage);
 
-        if(inventory.getCountSeed() != 0)
+        if (inventory.getCountSeed() != 0)
         {
             makeTree();
         }
+        if (CurrentHealth <= 1)
+        {
+            checkPlayerHP();
+
+            //this.gameObject.transform.position = new Vector3(0, 0, 0);
+        }
+
+
     }
 
     void PlayerMove()
@@ -116,8 +127,8 @@ public class Player : MonoBehaviour
 
     public void setPower(float newPower)
     {
-        power = newPower;
-        //Debug.Log("new Damage : " + power);
+        power += newPower;
+        Debug.Log("new Damage : " + power);
     }
 
     public Vector3 getPos()
@@ -139,14 +150,69 @@ public class Player : MonoBehaviour
         return CurrentHealth;
     }
 
-    public void setHealth(float newHealth)
+    //public void setHealth(float newHealth)
+    //{
+    //    CurrentHealth = newHealth;
+    //    FindObjectOfType<HPBarControl>().isChange();
+
+    //    //Debug.Log("Set Health");
+    //    //Debug.Log("Player cHealth : " + CurrentHealth);
+    //}
+
+
+
+
+    public void setHealth(float newHealth) //temp 사용 -> 고쳐야될듯
     {
-        CurrentHealth = newHealth;
+        CurrentHealth += newHealth;
         FindObjectOfType<HPBarControl>().isChange();
+        //Debug.Log("현재 체력 : " + CurrentHealth);
 
         //Debug.Log("Set Health");
         //Debug.Log("Player cHealth : " + CurrentHealth);
     }
+
+
+
+    public void checkPlayerHP() //체력을 확인하고 0되면 애니메이션 나오게하기
+    {
+        Debug.Log("check Player HP 불러짐");
+        anim.SetBool("isDie", true);
+        StartCoroutine(Die());
+        //anim.SetBool("isDie", false);
+        StartCoroutine(rebirth()); //5초가 지나고
+        setHealth(20);
+        StartCoroutine(DelayMove());
+        //setHealth(20);
+    }
+
+    IEnumerator DelayMove()
+    {
+        yield return new WaitForSeconds(5f);
+        this.gameObject.transform.position = new Vector3(0, 0, 0);
+
+    }
+
+    IEnumerator Die()
+    {
+        //Debug.Log("Die animation");
+        yield return new WaitForSeconds(5f);
+    }
+
+    IEnumerator rebirth()
+    {
+        Debug.Log("Rebirth");
+        yield return new WaitForSeconds(5.0f);
+        anim.SetBool("isDie", false);
+
+    }
+
+    //IEnumerator AttackingDelay()
+    //{
+    //    float delayTime = 0.5f;
+    //    yield return new WaitForSeconds(delayTime);
+    //    anim.SetBool("isAttacking", false);
+    //}
 
     private void checkHealth()
     {
@@ -166,7 +232,7 @@ public class Player : MonoBehaviour
         //Debug.Log("Tree to make 호출됨");
         //return GameObject.FindObjectOfType<Seed>().selectTree();
 
-        int randomItemCount = Random.Range(0, trees.Length);
+        int randomItemCount = UnityEngine.Random.Range(0, trees.Length); //?
         GameObject selectedPrefab = trees[randomItemCount];
         return selectedPrefab;
     }
