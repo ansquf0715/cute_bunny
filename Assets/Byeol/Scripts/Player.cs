@@ -28,14 +28,21 @@ public class Player : MonoBehaviour
     Rigidbody rigid;
 
     int seedCount; //씨앗 개수
+    bool CanUseSeed = false; //인벤토리에서 사용되면
 
     public GameObject[] trees;
+
+    BoxCollider fightingZoneCollider;
+    bool isInsideZone = false;
+
+    bool playerDied = false;
 
     // Start is called before the first frame update
     void Start()
     {
         inventory = FindObjectOfType<Inventory>();
         anim = GetComponentInChildren<Animator>();
+        fightingZoneCollider = GameObject.FindWithTag("FightingZonePlane").GetComponent<BoxCollider>();
 
         anim.SetBool("isAttacking", false);
         anim.SetBool("isDie", false);
@@ -52,25 +59,31 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        PlayerMove();
-        Fire();
-        rigid.velocity = Vector3.zero;
-        //checkHealth();
-        //Debug.Log("Player damage : " + damage);
-
-        if (inventory.getCountSeed() != 0)
+        if(playerDied == false)
         {
-            makeTree();
+            PlayerMove();
+            Fire();
+            rigid.velocity = Vector3.zero;
+            //checkHealth();
+            //Debug.Log("Player damage : " + damage);
+
+            if (inventory.getCountSeed() > -1)
+            {
+                makeTree();
+            }
+            if (CurrentHealth <= 0)
+            {
+                checkPlayerHP();
+
+                //this.gameObject.transform.position = new Vector3(0, 0, 0);
+            }
         }
-        if (CurrentHealth <= 1)
-        {
-            checkPlayerHP();
 
-            //this.gameObject.transform.position = new Vector3(0, 0, 0);
-        }
+    }
 
-
+    public bool checkDie()
+    {
+        return playerDied;
     }
 
     void PlayerMove()
@@ -176,8 +189,9 @@ public class Player : MonoBehaviour
 
     public void checkPlayerHP() //체력을 확인하고 0되면 애니메이션 나오게하기
     {
-        Debug.Log("check Player HP 불러짐");
+        //Debug.Log("check Player HP 불러짐");
         anim.SetBool("isDie", true);
+        playerDied = true;
         StartCoroutine(Die());
         //anim.SetBool("isDie", false);
         StartCoroutine(rebirth()); //5초가 지나고
@@ -201,9 +215,10 @@ public class Player : MonoBehaviour
 
     IEnumerator rebirth()
     {
-        Debug.Log("Rebirth");
+        //Debug.Log("Rebirth");
         yield return new WaitForSeconds(5.0f);
         anim.SetBool("isDie", false);
+        playerDied = false;
 
     }
 
@@ -224,7 +239,14 @@ public class Player : MonoBehaviour
 
     public int setSeedCount()
     {
+        //Debug.Log("남은 씨앗 수 " + inventory.getCountSeed());
         return inventory.getCountSeed();
+    }
+
+    public void setUseSeed()
+    {
+        CanUseSeed = true;
+        //Debug.Log("CanUseSeed가뭘까" + CanUseSeed);
     }
 
     GameObject TreeToMake() //여기 수정
@@ -237,34 +259,62 @@ public class Player : MonoBehaviour
         return selectedPrefab;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "FightingZonePlane")
+            isInsideZone = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.tag == "FightingZonePlane")
+            isInsideZone = false;
+
+    }
+
     public void makeTree()
     {
         //BoxCollider makeTreeSize = GameObject.FindWithTag("FightingZone").GetComponent<FightingZone>().getBoxCollider();
         //float range_X = makeTreeSize.bounds.size.x;
         //float range_Z = makeTreeSize.bounds.size.z;
+        //Debug.Log("make tree 호출");
 
         if (Input.GetMouseButtonDown(0))
         {
-            seedCount = setSeedCount();
-            Debug.Log("seed Count 갯수 " + seedCount);
-            if (seedCount >= 1)
+            //Debug.Log("make tree 호출");
+
+            //Debug.Log("Can use seed" + CanUseSeed);
+            if(CanUseSeed == true) //슬롯에서 씨앗을 사용하면 심을 수 있게 만듬
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                Vector3 treePoint = new Vector3(0, 0, 0);
-                //if(Physics.Raycast(ray, out hit, 10000f))
-                if (Physics.Raycast(ray, out hit, 10000f))
+                if(isInsideZone == true) //fighting zone 안에서만 나무 심을 수 있음
                 {
-                    treePoint = hit.point;
-                }
-                treePoint.y = 0;
-                Instantiate(TreeToMake(), treePoint, Quaternion.identity);
+                    seedCount = setSeedCount();
+                    //Debug.Log("seed Count 갯수 " + seedCount);
+                    if (seedCount > -1)
+                    {
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hit;
 
-                //seedCount--;
-                inventory.setSeedCount();
-                //Debug.Log("Tree Point : " + treePoint);
-                //Instantiate(tree, treePoint, Quaternion.identity);
+                        Vector3 treePoint = new Vector3(0, 0, 0);
+                        //if(Physics.Raycast(ray, out hit, 10000f))
+                        if (Physics.Raycast(ray, out hit, 10000f))
+                        {
+                            treePoint = hit.point;
+                        }
+                        treePoint.y = 0;
+
+                        Instantiate(TreeToMake(), treePoint, Quaternion.identity);
+
+                        //seedCount--;
+                        //inventory.setSeedCount();
+                        //Debug.Log("Tree Point : " + treePoint);
+                        //Instantiate(tree, treePoint, Quaternion.identity);
+
+                        //Debug.Log("Can Use seed" + CanUseSeed);
+                        CanUseSeed = false;
+                        //Debug.Log("Can Use seed" + CanUseSeed);
+                    }
+                }
             }
         }
         else

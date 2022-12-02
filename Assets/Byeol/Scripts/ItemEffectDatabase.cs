@@ -36,21 +36,23 @@ public class ItemEffectDatabase : MonoBehaviour
         {
             case "DamagePlusItem":
                 items.DamagePlus();
+                //StartCoroutine(DelayReset());
+                //items.replaceDamagePlus();
                 break;
             case "DamageMinusItem":
                 items.DamageMinus();
                 break;
             case "HPPlusItem":
                 items.HPPlus();
-                Debug.Log("HP PLus switch");
+                //Debug.Log("HP PLus switch");
                 break;
             case "HPMinusItem":
                 items.HPMinus();
-                Debug.Log("HP Minus called");
+                //Debug.Log("HP Minus called");
                 break;
             case "Apple":
                 fruits.AppleEffect();
-                Debug.Log("Apple Called");
+                //Debug.Log("Apple Called");
                 break;
             case "Grape":
                 fruits.GrapeEffect();
@@ -68,10 +70,16 @@ public class ItemEffectDatabase : MonoBehaviour
                 fruits.RaspberryEffect();
                 break;
             case "seed":
+                Debug.Log("seed switch ¹®");
                 fruits.SeedEffect();
                 break;
         }
 
     }
+
+    //IEnumerator DelayReset()
+    //{
+    //    yield return new WaitForSeconds(5);
+    //}
 
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading;
 
 public class Enemy : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class Enemy : MonoBehaviour
     private float DestroyTime = 1.0f;
     private float damage;
     private float Movespeed;
+    private bool checkInside = false;
+    //private bool keepAttacking = false;
 
     //애니메이터 조작을 위한 변수
     private bool hitted;
@@ -47,8 +50,17 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HPBarControl();
-        LookPlayer();
+        //CheckPlayerHealth();
+        
+
+        if(GameObject.FindWithTag("Player").GetComponent<Player>().checkDie() == false)
+        {
+            HPBarControl();
+            LookPlayer();
+        }
+
+        if (GameObject.FindWithTag("Player").GetComponent<Player>().checkDie() == true)
+            Destroy(this.gameObject);
     }
 
     void LookPlayer()
@@ -102,17 +114,41 @@ public class Enemy : MonoBehaviour
         {
             anim.SetBool("isDance", true);
             anim.SetBool("isCloser", true);
+
+            //if (keepAttacking == true)
+            //{
+            //    Debug.Log("Invoke ");
+            //    InvokeRepeating("Fire", 0, 1);
+            //}
+
+            checkInside = true;
+            if(checkInside == true)
+            {
+                InvokeRepeating("Fire", 0, 1);
+            }
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void CheckPlayerHealth()
     {
-        if (other.gameObject.tag == "Player")
+        //Debug.Log("Check Player Health");
+        if (GameObject.FindWithTag("Player").GetComponent<Player>().checkDie() == true)
         {
-            Fire();
-            StartCoroutine(AttackDelay());
+            //keepAttacking = false;
+            //Debug.Log("keep attacking " + keepAttacking);
         }
     }
+
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Player")
+    //    {
+    //        //InvokeRepeating("Fire", 0, 3);
+    //        //Invoke("Fire", 3);
+    //        //Fire();
+    //        //StartCoroutine(AttackDelay());
+    //    }
+    //}
 
     private void OnTriggerExit(Collider other)
     {
@@ -120,6 +156,8 @@ public class Enemy : MonoBehaviour
         {
             anim.SetBool("isDance", false);
             anim.SetBool("isCloser", false);
+            checkInside = false;
+            CancelInvoke();
         }
     }
     IEnumerator GetHit()
@@ -129,22 +167,31 @@ public class Enemy : MonoBehaviour
         anim.SetBool("isAttacked", hitted);
     }
 
-    IEnumerator AttackDelay()
-    {
-        float delayTime = 5f;
-        yield return new WaitForSeconds(delayTime);
-    }
+    //IEnumerator AttackDelay()
+    //{
+    //    //Debug.Log("attack delay 호출");
+    //    float delayTime = 5f;
+    //    yield return new WaitForSeconds(delayTime);
+    //}
 
     void Fire()
     {
+        //Debug.Log("Fire 불러짐");
         GameObject weapon = Instantiate(weaponFactory);
-        weapon.transform.position = weaponPosition.transform.position;
+        //Thread.Sleep(2000);
         //StartCoroutine(AttackDelay());
+
+        weapon.transform.position = weaponPosition.transform.position;
     }
 
     public Vector3 GetToPlayer()
     {
         return gameObject.transform.forward;
+    }
+
+    public Vector3 GetEnemyPos()
+    {
+        return this.gameObject.transform.position;
     }
 
     //int RandomItemCount() //몇 개를 떨어트릴 지 갯수 정하기

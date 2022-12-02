@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemyWeapon : MonoBehaviour
 {
     public GameObject Enemy;
-    public float speed = 5;
-    public float DestroyTime = 0.5f;
+    public float speed = 10f;
+    public float DestroyTime = 7.0f;
     public float Epower;
 
     public Player player;
@@ -23,18 +23,28 @@ public class EnemyWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 dir = Enemy.GetComponent<Enemy>().GetToPlayer();
-        transform.position += dir * speed * Time.deltaTime;
+        //Vector3 dir = Enemy.GetComponent<Enemy>().GetToPlayer();
+        //transform.position += dir * speed * Time.deltaTime;
+
+        Vector3 player_pos = GameObject.FindWithTag("Player").GetComponent<Player>().getPos() +
+            Enemy.GetComponent<Enemy>().GetEnemyPos();
+        this.transform.position = Vector3.MoveTowards(this.transform.position,
+            player_pos, speed * Time.deltaTime);
+        Vector3 toPlayer = player_pos - transform.position;
+        transform.rotation = Quaternion.LookRotation(toPlayer).normalized;
     }
 
     private void OnCollisionEnter(Collision other)
     {
         if(other.gameObject.tag == "Player")
         {
-            float phealth = player.getHealth();
-            phealth -= Epower;
-            player.setHealth(phealth);
+            player.setHealth(-Epower);
         }
     }
+
+    //IEnumerator attackDelay()
+    //{
+    //    yield return new WaitForSeconds(1);
+    //}
 
 }

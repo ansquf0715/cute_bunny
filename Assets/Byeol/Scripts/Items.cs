@@ -68,23 +68,23 @@ public class Items : MonoBehaviour
     public void DamagePlus()
     {
         player.setPower(2f);
-        StartCoroutine(delayTime());
+    }
+
+    public void replaceDamagePlus()
+    {
         player.setPower(-2f);
-        Debug.Log("Damage Plus");
+        //Debug.Log("이거 되나요" + player.getPower());
+
     }
 
     public void DamageMinus()
     {
         player.setPower(-2f);
-        StartCoroutine(delayTime());
-        player.setPower(2f);
-        Debug.Log("Damage Minus");
-
     }
 
-    IEnumerator delayTime()
+    public void replaceDamageMinus()
     {
-        yield return new WaitForSeconds(10f);
-    }
+        player.setPower(2f);
 
+    }
 }

@@ -35,8 +35,12 @@ public class Trees : MonoBehaviour
             //Debug.Log(pos);
             Destroy(other.gameObject);
             //FindObjectOfType<Bullet>().startParticle();
+            Debug.Log("Tree Health " + Treehealth);
+
             Treehealth -= damage;
-            if (Treehealth == 0)
+            Debug.Log("Tree Health Fixed " + Treehealth);
+
+            if (Treehealth <= 0)
             {
                 //SpawnPos();
                 GameObject.Find("FightingZone").GetComponent<FightingZone>().setSpawnPos(pos);

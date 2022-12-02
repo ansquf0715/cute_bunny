@@ -176,6 +176,7 @@ public class Inventory : MonoBehaviour
             {
                 if (slots[i].fruitName == "seed")
                 {
+                    //Debug.Log("템카운트 " + slots[i].temCount);
                     return slots[i].temCount;
                 }
             }

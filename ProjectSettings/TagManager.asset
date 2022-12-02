@@ -25,6 +25,7 @@ TagManager:
   - HP_Fill
   - SellBoxInside
   - SellBox
+  - FightingZonePlane
   layers:
   - Default
   - TransparentFX

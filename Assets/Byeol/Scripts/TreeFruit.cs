@@ -90,6 +90,7 @@ public class TreeFruit : MonoBehaviour
     public void AppleEffect()
     {
         player.setHealth(AppleHealth);
+        //Debug.Log("Apple Effect");
     }
 
     public void GrapeEffect()
@@ -119,6 +120,10 @@ public class TreeFruit : MonoBehaviour
 
     public void SeedEffect()
     {
-
+        //Debug.Log("seed Effect 호출");
+        FindObjectOfType<Player>().setUseSeed();
+        //Debug.Log("make Tree 호출");
+        FindObjectOfType<Player>().makeTree();
+        //return;
     }
 }
