@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class ItemEffect
 {
     public string itemName; //아이템의 이름(key 값으로 사용할 것)
@@ -9,10 +9,13 @@ public class ItemEffect
 
 public class ItemEffectDatabase : MonoBehaviour
 {
+    private Text seedInfo;
+
     string itemname;
 
     Items items;
     TreeFruit fruits;
+    Player player;
 
     [SerializeField]
     private ItemEffect[] itemEffects;
@@ -20,8 +23,11 @@ public class ItemEffectDatabase : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        seedInfo = GameObject.Find("SeedInfo").GetComponent<Text>();
+
         items = FindObjectOfType<Items>();
         fruits = FindObjectOfType<TreeFruit>();
+        player = FindObjectOfType<Player>();
     }
 
     // Update is called once per frame
@@ -35,12 +41,14 @@ public class ItemEffectDatabase : MonoBehaviour
         switch(itemName)
         {
             case "DamagePlusItem":
+                //Debug.Log("Before item " + player.getPower());
                 items.DamagePlus();
-                //StartCoroutine(DelayReset());
-                //items.replaceDamagePlus();
+                Invoke("replaceDamagePlus",15f);
+                //Debug.Log("After replace" + player.getPower());
                 break;
             case "DamageMinusItem":
                 items.DamageMinus();
+                Invoke("replaceDamageMinus", 15f);
                 break;
             case "HPPlusItem":
                 items.HPPlus();
@@ -70,11 +78,21 @@ public class ItemEffectDatabase : MonoBehaviour
                 fruits.RaspberryEffect();
                 break;
             case "seed":
-                Debug.Log("seed switch 문");
+                seedInfo.text = "PLANT A TREE!";
                 fruits.SeedEffect();
                 break;
         }
 
+    }
+
+    void replaceDamagePlus()
+    {
+        player.setPower(-2f);
+    }
+
+    void replaceDamageMinus()
+    {
+        player.setPower(2f);
     }
 
     //IEnumerator DelayReset()

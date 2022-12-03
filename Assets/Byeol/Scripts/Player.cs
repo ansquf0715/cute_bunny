@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class Player : MonoBehaviour
 {
+    private Text seedInfo;
+
     Inventory inventory;
 
     public float speed;
@@ -30,7 +33,14 @@ public class Player : MonoBehaviour
     int seedCount; //씨앗 개수
     bool CanUseSeed = false; //인벤토리에서 사용되면
 
+    //나무를 시간을 두고 심기 위해서
+    List<GameObject> madeTrees = new List<GameObject>();
+    List<Vector3> madeTreePos = new List<Vector3>();
+    List<int> growDays = new List<int>();
+    List<GameObject> treeHoles = new List<GameObject>();
+
     public GameObject[] trees;
+    public GameObject treeHole;
 
     BoxCollider fightingZoneCollider;
     bool isInsideZone = false;
@@ -40,6 +50,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        seedInfo = GameObject.Find("SeedInfo").GetComponent<Text>();
+
         inventory = FindObjectOfType<Inventory>();
         anim = GetComponentInChildren<Animator>();
         fightingZoneCollider = GameObject.FindWithTag("FightingZonePlane").GetComponent<BoxCollider>();
@@ -51,9 +63,12 @@ public class Player : MonoBehaviour
         power = 2.0f;
         MaxHealth = 20.0f;
         CurrentHealth = MaxHealth;
-        //seedCount = inventory.getCountSeed();
 
-        //countFruit = 0; //씨앗 개수 없앨거임
+        //for(int i=0; i<30; i++)
+        //{
+        //    madeTrees[i] = null;
+        //    madeTreesPos[i] = Vector3.zero;
+        //}
     }
 
     // Update is called once per frame
@@ -64,9 +79,7 @@ public class Player : MonoBehaviour
             PlayerMove();
             Fire();
             rigid.velocity = Vector3.zero;
-            //checkHealth();
-            //Debug.Log("Player damage : " + damage);
-
+            
             if (inventory.getCountSeed() > -1)
             {
                 makeTree();
@@ -74,11 +87,8 @@ public class Player : MonoBehaviour
             if (CurrentHealth <= 0)
             {
                 checkPlayerHP();
-
-                //this.gameObject.transform.position = new Vector3(0, 0, 0);
             }
         }
-
     }
 
     public bool checkDie()
@@ -116,7 +126,6 @@ public class Player : MonoBehaviour
             StartCoroutine(CarrotDelay());
             GameObject bullet = Instantiate(bulletFactory); // 총알 공장에서 총알을 만들고
             bullet.transform.position = firePosition.transform.position; // 총알을 발사한다
-            //Debug.Log("Damage : " + power);
             StartCoroutine(AttackingDelay());
         }
     }
@@ -127,7 +136,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(delayTime);
         anim.SetBool("isAttacking", false);
     }
-
     IEnumerator CarrotDelay()
     {
         yield return new WaitForSeconds(1f);
@@ -141,7 +149,7 @@ public class Player : MonoBehaviour
     public void setPower(float newPower)
     {
         power += newPower;
-        Debug.Log("new Damage : " + power);
+        //Debug.Log("new Damage : " + power);
     }
 
     public Vector3 getPos()
@@ -163,63 +171,39 @@ public class Player : MonoBehaviour
         return CurrentHealth;
     }
 
-    //public void setHealth(float newHealth)
-    //{
-    //    CurrentHealth = newHealth;
-    //    FindObjectOfType<HPBarControl>().isChange();
-
-    //    //Debug.Log("Set Health");
-    //    //Debug.Log("Player cHealth : " + CurrentHealth);
-    //}
-
-
-
-
     public void setHealth(float newHealth) //temp 사용 -> 고쳐야될듯
     {
         CurrentHealth += newHealth;
         FindObjectOfType<HPBarControl>().isChange();
-        //Debug.Log("현재 체력 : " + CurrentHealth);
-
-        //Debug.Log("Set Health");
-        //Debug.Log("Player cHealth : " + CurrentHealth);
+        Debug.Log("setHealth 불려짐");
     }
-
-
 
     public void checkPlayerHP() //체력을 확인하고 0되면 애니메이션 나오게하기
     {
-        //Debug.Log("check Player HP 불러짐");
         anim.SetBool("isDie", true);
         playerDied = true;
         StartCoroutine(Die());
-        //anim.SetBool("isDie", false);
         StartCoroutine(rebirth()); //5초가 지나고
         setHealth(20);
         StartCoroutine(DelayMove());
-        //setHealth(20);
     }
 
     IEnumerator DelayMove()
     {
         yield return new WaitForSeconds(5f);
         this.gameObject.transform.position = new Vector3(0, 0, 0);
-
     }
 
     IEnumerator Die()
     {
-        //Debug.Log("Die animation");
         yield return new WaitForSeconds(5f);
     }
 
     IEnumerator rebirth()
     {
-        //Debug.Log("Rebirth");
         yield return new WaitForSeconds(5.0f);
         anim.SetBool("isDie", false);
         playerDied = false;
-
     }
 
     //IEnumerator AttackingDelay()
@@ -239,21 +223,16 @@ public class Player : MonoBehaviour
 
     public int setSeedCount()
     {
-        //Debug.Log("남은 씨앗 수 " + inventory.getCountSeed());
         return inventory.getCountSeed();
     }
 
     public void setUseSeed()
     {
         CanUseSeed = true;
-        //Debug.Log("CanUseSeed가뭘까" + CanUseSeed);
     }
 
     GameObject TreeToMake() //여기 수정
     {
-        //Debug.Log("Tree to make 호출됨");
-        //return GameObject.FindObjectOfType<Seed>().selectTree();
-
         int randomItemCount = UnityEngine.Random.Range(0, trees.Length); //?
         GameObject selectedPrefab = trees[randomItemCount];
         return selectedPrefab;
@@ -269,56 +248,56 @@ public class Player : MonoBehaviour
     {
         if(other.gameObject.tag == "FightingZonePlane")
             isInsideZone = false;
+    }
 
+    void saveTreeInformation(Vector3 treePoint)
+    {
+        madeTrees.Add(TreeToMake());
+        madeTreePos.Add(treePoint);
+        growDays.Add(0);
+        GameObject hole = Instantiate(treeHole, treePoint, Quaternion.identity);
+        treeHoles.Add(hole);
+    }
+
+    void appearTree()
+    {
+        Destroy(treeHoles[0]);
+        Instantiate(madeTrees[0], madeTreePos[0], Quaternion.identity);
+        madeTrees.RemoveAt(0);
+        madeTreePos.RemoveAt(0);
+        treeHoles.RemoveAt(0);
     }
 
     public void makeTree()
     {
-        //BoxCollider makeTreeSize = GameObject.FindWithTag("FightingZone").GetComponent<FightingZone>().getBoxCollider();
-        //float range_X = makeTreeSize.bounds.size.x;
-        //float range_Z = makeTreeSize.bounds.size.z;
-        //Debug.Log("make tree 호출");
-
-        if (Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0))
         {
-            //Debug.Log("make tree 호출");
-
-            //Debug.Log("Can use seed" + CanUseSeed);
-            if(CanUseSeed == true) //슬롯에서 씨앗을 사용하면 심을 수 있게 만듬
+            if (CanUseSeed == true && isInsideZone == true)
             {
-                if(isInsideZone == true) //fighting zone 안에서만 나무 심을 수 있음
+                seedCount = setSeedCount();
+                if (seedCount > -1)
                 {
-                    seedCount = setSeedCount();
-                    //Debug.Log("seed Count 갯수 " + seedCount);
-                    if (seedCount > -1)
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+
+                    Vector3 treePoint = new Vector3(0, 0, 0);
+
+                    //if(Physics.Raycast(ray, out hit, 10000f))
+                    if (Physics.Raycast(ray, out hit, 10000f))
                     {
-                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                        RaycastHit hit;
-
-                        Vector3 treePoint = new Vector3(0, 0, 0);
-                        //if(Physics.Raycast(ray, out hit, 10000f))
-                        if (Physics.Raycast(ray, out hit, 10000f))
-                        {
-                            treePoint = hit.point;
-                        }
-                        treePoint.y = 0;
-
-                        Instantiate(TreeToMake(), treePoint, Quaternion.identity);
-
-                        //seedCount--;
-                        //inventory.setSeedCount();
-                        //Debug.Log("Tree Point : " + treePoint);
-                        //Instantiate(tree, treePoint, Quaternion.identity);
-
-                        //Debug.Log("Can Use seed" + CanUseSeed);
-                        CanUseSeed = false;
-                        //Debug.Log("Can Use seed" + CanUseSeed);
+                        treePoint = hit.point;
                     }
+                    treePoint.y = 0;
+
+                    saveTreeInformation(treePoint);
+                    Invoke("appearTree", 3f);
+
+                    CanUseSeed = false;
+                    seedInfo.text = " ";
+
                 }
+
             }
         }
-        else
-            return;
     }
-
 }

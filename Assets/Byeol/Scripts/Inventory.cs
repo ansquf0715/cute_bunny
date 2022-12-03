@@ -79,7 +79,7 @@ public class Inventory : MonoBehaviour
 
     public int ItemExist(Items _item, int _count = 1) //슬롯에 이미 존재하는 아이템인지 확인
     {
-        Debug.Log("isExist 불려짐");
+        //Debug.Log("isExist 불려짐");
         for (int i = 0; i < slots.Length; i++)
         {
             //Debug.Log("포문 도는 중");

@@ -61,8 +61,6 @@ public class Items : MonoBehaviour
     public void HPMinus()
     {
         player.setHealth(-2f);
-        Debug.Log("HP Minus Item");
-
     }
 
     public void DamagePlus()
@@ -70,21 +68,9 @@ public class Items : MonoBehaviour
         player.setPower(2f);
     }
 
-    public void replaceDamagePlus()
-    {
-        player.setPower(-2f);
-        //Debug.Log("이거 되나요" + player.getPower());
-
-    }
-
     public void DamageMinus()
     {
         player.setPower(-2f);
     }
 
-    public void replaceDamageMinus()
-    {
-        player.setPower(2f);
-
-    }
 }

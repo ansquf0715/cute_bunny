@@ -49,46 +49,48 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
             //Debug.Log(item.itemName + "을 사용");
             int type = checkItemOrFruit();
 
-            //if (type == 1)
-            //{
-            //    Debug.Log("type 1");
-            //    itemEffectDatabase.UseItem(itemName);
-            //    ChangeCount();
-
-            //}
-            //else if (type == 2)
-            //{
-            //    //if (fruitName == "seed")
-            //    //{
-            //    //    Debug.Log("seed에 걸림");
-            //    //    FindObjectOfType<Player>().makeTree();
-            //    //    return;
-            //    //}
-            //    itemEffectDatabase.UseItem(fruitName);
-            //    ChangeCount();
-            //}
-            //else if(type == 0)
-            //{
-            //    itemEffectDatabase.UseItem(fruitName);
-            //}
-
-
-            //Debug.Log("On Pointer Click");
-            if (this.itemName != null ) //item인 경우
+            if (type == 1)
             {
+                Debug.Log("type 1");
                 itemEffectDatabase.UseItem(itemName);
                 ChangeCount();
 
             }
-            if ( this.itemName == null)
+            if (type == 2)
             {
-                Debug.Log("fruit called");
+                //if (fruitName == "seed")
+                //{
+                //    Debug.Log("seed에 걸림");
+                //    FindObjectOfType<Player>().makeTree();
+                //    return;
+                //}
                 itemEffectDatabase.UseItem(fruitName);
                 ChangeCount();
-
             }
-            if (type == 0)
+            else if (type == 0)
+            {
+                Debug.Log("type은 seed");
                 itemEffectDatabase.UseItem(fruitName);
+                ChangeCount();
+            }
+
+
+            //Debug.Log("On Pointer Click");
+            //if (this.itemName != null ) //item인 경우
+            //{
+            //    itemEffectDatabase.UseItem(itemName);
+            //    ChangeCount();
+
+            //}
+            //if ( this.itemName == null)
+            //{
+            //    Debug.Log("fruit called");
+            //    itemEffectDatabase.UseItem(fruitName);
+            //    ChangeCount();
+
+            //}
+            //if (type == 0)
+            //    itemEffectDatabase.UseItem(fruitName);
 
         }
     }
@@ -152,7 +154,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         {
             if(SellingBox.checkSellBox() == true)
             {
-                SellingBox.SellThings(this.fruitName);
+                SellingBox.SellThings(this.fruitName, temCount);
                 DragSlot.instance.dragSlot.ClearSlot();
                 DragSlot.instance.setColorWhite();
                 DragSlot.instance.dragSlot = null;
@@ -199,7 +201,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         {
             if(this.fruitName == "seed")
             {
-                //Debug.Log("check Item Fruit seed에 걸림");
+                Debug.Log("check Item Fruit seed에 걸림");
                 return 0;
             }
             return 2;
@@ -247,7 +249,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
     public void SetSlotCount(int _count = 1)
     {
         temCount += _count;
-        Debug.Log("카운트 " + temCount);
+        //Debug.Log("카운트 " + temCount);
         //temCount++;
         //Debug.Log("템카운트 올라감");
 
