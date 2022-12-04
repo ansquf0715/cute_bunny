@@ -25,19 +25,32 @@ public class TalkManager : MonoBehaviour
 
     void MakeData()
     {
-        talkData.Add(1000, new string[] { "안녕?", "이 곳에 처음 왔구나" });
-        talkData.Add(2000, new string[] { "처음 보는 얼굴인데", "누구야??" });
+        talkData.Add(1000, new string[] { "안녕?", "이 곳에 처음 왔구나",
+        "나를 좀 도와줘", "도와주겠다고?!", "정말 고마워!", "주머니에 관련 내용을 넣어뒀어",
+        "Q를 눌러서 확인해봐!", "Quest가 끝나면 돌아와!"});
+
+        //talkData.Add(2000, new string[] { "처음 보는 얼굴인데", "누구야??" });
 
         portraitData.Add(1000, portraitSprite[0]);
-        portraitData.Add(2000, portraitSprite[1]);
+        //portraitData.Add(2000, portraitSprite[1]);
     }
 
     public string GetTalk(int id, int talkIndex)
     {
+
+        //Debug.Log("Get Talk 호출");
         if (talkIndex == talkData[id].Length)
+        {
+            //Debug.Log("get talk에서 가져dhs talk data null");
             return null;
+
+        }
         else
+        {
+            Debug.Log("talk Data" + talkData[id][talkIndex]);
             return talkData[id][talkIndex];
+        }
+
     }
 
     public Sprite GetSprite(int id)

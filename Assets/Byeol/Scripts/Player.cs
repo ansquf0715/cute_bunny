@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
 
     bool playerDied = false;
 
+    //public NPCManager manager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -127,6 +129,8 @@ public class Player : MonoBehaviour
             GameObject bullet = Instantiate(bulletFactory); // 총알 공장에서 총알을 만들고
             bullet.transform.position = firePosition.transform.position; // 총알을 발사한다
             StartCoroutine(AttackingDelay());
+
+            //manager.ShowText(manager.scanObject);
         }
     }
 
