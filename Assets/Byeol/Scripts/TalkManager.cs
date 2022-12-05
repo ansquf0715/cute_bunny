@@ -27,7 +27,8 @@ public class TalkManager : MonoBehaviour
     {
         talkData.Add(1000, new string[] { "안녕?", "이 곳에 처음 왔구나",
         "나를 좀 도와줘", "도와주겠다고?!", "정말 고마워!", "주머니에 관련 내용을 넣어뒀어",
-        "Q를 눌러서 확인해봐!", "Quest가 끝나면 돌아와!"});
+        "Q를 눌러서 확인해봐!", "Quest가 끝나면 돌아와!","정말 대단하구나",
+            "이제 너가 하고싶은 걸 해봐!"});
 
         //talkData.Add(2000, new string[] { "처음 보는 얼굴인데", "누구야??" });
 

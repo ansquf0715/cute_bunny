@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class NPCManager : MonoBehaviour
 {
@@ -61,14 +62,51 @@ public class NPCManager : MonoBehaviour
         //int questTalkIndex = questManager.GetQuestTalkIndex(id);
 
         string talkData = talkManager.GetTalk(id , talkIndex);
-        talkIndex++;
-        Debug.Log("talkIndex" + talkIndex);
+        //talkIndex++;
+        if(talkIndex == 7) //마지막 말이 끝나면
+        {
+            FindObjectOfType<QuestScript>().setOpenQuest(); //quest를 open할 수 있게
+            bool finishedQuest = FindObjectOfType<QuestScript>().FinishedQuests;
+            //Debug.Log("finished QUest" + finishedQuest);
+            if (finishedQuest == true)
+            {
+                talkIndex++;
+            }
+        }
+
+        if(talkIndex == 8 || talkIndex == 9)
+        {
+            talkIndex++;
+        }
+
+        if(talkIndex == 10)
+        {
+            SceneManager.LoadScene("Ending");
+
+        }
+        //if(talkIndex == 8) //이건지 10인지 확인할 것
+        ////if(talkIndex == 10) //마지막 말
+        //{
+        //    FindObjectOfType<QuestScript>().FinishFifthQuest();
+        //    talkIndex++;
+        //}
+
+        //if (talkIndex == 9 || talkIndex == 10)
+        //    talkIndex++;
+
+        //if(talkIndex == 11)
+        //{
+        //    SceneManager.LoadScene("Ending");
+        //}
+
+        //Debug.Log("talkIndex" + talkIndex);
 
         if (talkData == null)
         {
             isMove = false;
             talkIndex = 0;
             //questText.text = questManager.CheckQuest(id);
+            talkIndex++;
 
             return;
         }
@@ -79,6 +117,8 @@ public class NPCManager : MonoBehaviour
             talkText.text = talkData;
             portraitImage.sprite = talkManager.GetSprite(id);
             portraitImage.color = new Color(1, 1, 1, 1);
+            talkIndex++;
+
         }
 
         else
@@ -89,6 +129,8 @@ public class NPCManager : MonoBehaviour
             color.a = 0f;
             portraitImage.color = color;
             //portraitImage.color = new Color(1, 1, 1, 0);
+            talkIndex++;
+
         }
 
         //isMove = true;

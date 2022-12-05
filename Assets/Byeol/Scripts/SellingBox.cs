@@ -27,6 +27,8 @@ public class SellingBox : MonoBehaviour
     static public int HPPlusItemMoney = 12;
     static public int HPMinusItemMoney = 40;
 
+    static public int checkSellAppleCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,16 +64,22 @@ public class SellingBox : MonoBehaviour
 
     static public void SellThings(string itemName, int temCount)
     {
-        if(itemName == "Apple")
-        {
-            money += AppleMoney * temCount;
-            Debug.Log("사과 값 : " + money);
-        }
+        //if(itemName == "Apple")
+        //{
+        //    money += AppleMoney * temCount;
+        //    Debug.Log("사과 값 : " + money);
+        //}
 
         switch(itemName)
         {
             case "Apple":
                 money += AppleMoney * temCount;
+                checkSellAppleCount += temCount;
+                if (checkSellAppleCount >= 5)
+                {
+                    Debug.Log("check sell apple count" + checkSellAppleCount);
+                    FindObjectOfType<QuestScript>().FinishSecondQuest();
+                }
                 break;
             case "Grape":
                 money += GrapeMoney * temCount;
@@ -99,6 +107,7 @@ public class SellingBox : MonoBehaviour
                 break;
             case "HPPlusItem":
                 money += HPPlusItemMoney * temCount;
+                FindObjectOfType<QuestScript>().FinishThirdQuest();
                 break;
             case "HPMinusItem":
                 money += HPMinusItemMoney * temCount;

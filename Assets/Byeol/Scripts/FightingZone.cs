@@ -9,6 +9,8 @@ public class FightingZone : MonoBehaviour
 
     int deathCount;
 
+    //int checkTreeQuest = 0;
+
     //BoxCollider rangeCollider;
 
     // Start is called before the first frame update
@@ -40,6 +42,8 @@ public class FightingZone : MonoBehaviour
     public void countDeath() //Á×Àº ³ª¹« ¼ö
     {
         deathCount++;
+        if (deathCount >= 3)
+            FindObjectOfType<QuestScript>().FinishFourthQuest();
     }
 
     void Spawn()

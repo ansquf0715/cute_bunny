@@ -23,24 +23,31 @@ public class EnemyWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Vector3 dir = Enemy.GetComponent<Enemy>().GetToPlayer();
-        //transform.position += dir * speed * Time.deltaTime;
+        Vector3 dir = Enemy.GetComponent<Enemy>().GetToPlayer();
+        transform.position += dir * speed * Time.deltaTime;
 
-        Vector3 player_pos = GameObject.FindWithTag("Player").GetComponent<Player>().getPos() +
-            Enemy.GetComponent<Enemy>().GetEnemyPos();
-        this.transform.position = Vector3.MoveTowards(this.transform.position,
-            player_pos, speed * Time.deltaTime);
-        Vector3 toPlayer = player_pos - transform.position;
-        transform.rotation = Quaternion.LookRotation(toPlayer).normalized;
+        //Vector3 player_pos = GameObject.FindWithTag("Player").GetComponent<Player>().getPos() +
+        //    Enemy.GetComponent<Enemy>().GetEnemyPos();
+        //this.transform.position = Vector3.MoveTowards(this.transform.position,
+        //    player_pos, speed * Time.deltaTime);
+        //Vector3 toPlayer = player_pos - transform.position;
+        //transform.rotation = Quaternion.LookRotation(toPlayer).normalized;
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             player.setHealth(-Epower);
+            Destroy(this.gameObject);
         }
     }
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Player")
+    //        player.setHealth(-Epower);
+    //}
 
     //IEnumerator attackDelay()
     //{

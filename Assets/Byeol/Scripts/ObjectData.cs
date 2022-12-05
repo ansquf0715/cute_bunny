@@ -45,7 +45,7 @@ public class ObjectData : MonoBehaviour //, IPointerClickHandler
             if (Physics.Raycast(other.gameObject.transform.position,
                 other.gameObject.transform.forward, out hit, 1000))
             {
-                Debug.Log(hit.transform.gameObject);
+                //Debug.Log(hit.transform.gameObject);
                 manager.ShowText(hit.transform.gameObject);
             }
         }
@@ -55,11 +55,11 @@ public class ObjectData : MonoBehaviour //, IPointerClickHandler
     {
         if(other.gameObject.tag == "Player")
         {
-            Debug.Log("나는 stay 중");
+            //Debug.Log("나는 stay 중");
 
             if (Input.GetKeyUp(KeyCode.G))
             {
-                Debug.Log("G키 눌림");
+                //Debug.Log("G키 눌림");
                 //Debug.Log("민경이가 시킨거" + hit.transform.gameObject);
                 manager.ShowText(hit.transform.gameObject);
             }

@@ -577,7 +577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpbar: {fileID: 86449764}
   EMaxHealth: 5
-  weaponFactory: {fileID: 1513730156559056398, guid: 8cae2455cc4896f488d0264de1b229ca, type: 3}
+  weaponFactory: {fileID: 6285592232907808789, guid: 5d63095c0ddcd1548aa13609efab7f8b, type: 3}
   weaponPosition: {fileID: 1290568325314216697}
   items:
   - {fileID: 3105448999714495083, guid: dd47b7aff263c1b408ce5d6181c1ea7c, type: 3}

@@ -111,7 +111,7 @@ BoxCollider:
   m_GameObject: {fileID: 7573957291726892569}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.7965546, y: 1.4499892, z: 1.0395584}
   m_Center: {x: 0, y: 0.3445595, z: -1.6309048e-16}
@@ -124,7 +124,7 @@ BoxCollider:
   m_GameObject: {fileID: 7573957291726892569}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.7609024, y: 1.9566069, z: 0.7900238}
   m_Center: {x: -0.90174484, y: 2.128757, z: -0.4116212}
@@ -136,8 +136,8 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7573957291726892569}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
+  m_IsTrigger: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.1180267, y: 1.6358919, z: 0.7610245}
   m_Center: {x: 0.84085846, y: 2.2551332, z: 0.08758156}
@@ -154,3 +154,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Treehealth: 13
+  items: []

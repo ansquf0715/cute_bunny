@@ -91,6 +91,7 @@ public class Enemy : MonoBehaviour
             {
                 //died = true;
                 anim.SetBool("isDie", true);
+                FindObjectOfType<QuestScript>().checkFirstQuest();
                 Destroy(gameObject, DestroyTime);
                 dropItem();
             }

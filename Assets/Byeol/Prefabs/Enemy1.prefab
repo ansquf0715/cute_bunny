@@ -7096,12 +7096,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpbar: {fileID: 2778726639605802638}
   EMaxHealth: 7
-  weaponFactory: {fileID: 2731603719322465509, guid: 3cadb5593d5c19e45bc51a4d4626f7be, type: 3}
+  weaponFactory: {fileID: 8265325173539484247, guid: 93c79d0b27fd4ea4da09e2ffc6989e21, type: 3}
   weaponPosition: {fileID: 4341459861493208656}
   items:
   - {fileID: 3105448999714495083, guid: dd47b7aff263c1b408ce5d6181c1ea7c, type: 3}
-  - {fileID: 5123577028416008716, guid: 1fbd50ef733c61844b7f97b358949127, type: 3}
-  - {fileID: 4866814380056981485, guid: 419264b3e73a3c647b1029a68adb7df1, type: 3}
+  - {fileID: 3799243422871292309, guid: 90cabb35369a67649ae5aa4a3a8b16c3, type: 3}
+  - {fileID: 8607669326350864275, guid: 9182e74d19794814e84b85bb3de83339, type: 3}
 --- !u!136 &-4123728754166530388
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -13087,7 +13087,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4341459861493208656}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.29, y: 0.95, z: 0}
+  m_LocalPosition: {x: 1.29, y: 0.95, z: 0.364}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2778726640634393889}
