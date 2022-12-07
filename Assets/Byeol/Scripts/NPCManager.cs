@@ -81,8 +81,8 @@ public class NPCManager : MonoBehaviour
 
         if(talkIndex == 10)
         {
-            SceneManager.LoadScene("Ending");
-
+            //SceneManager.LoadScene("Ending");
+            Invoke("load", 2);
         }
         //if(talkIndex == 8) //이건지 10인지 확인할 것
         ////if(talkIndex == 10) //마지막 말
@@ -142,4 +142,10 @@ public class NPCManager : MonoBehaviour
     {
         TalkImage.SetActive(false);
     }
+
+    void load()
+    {
+        SceneManager.LoadScene("Ending");
+    }
+
 }
