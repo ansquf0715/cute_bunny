@@ -58,16 +58,10 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
             }
             if (type == 2)
             {
-                //if (fruitName == "seed")
-                //{
-                //    Debug.Log("seed에 걸림");
-                //    FindObjectOfType<Player>().makeTree();
-                //    return;
-                //}
                 itemEffectDatabase.UseItem(fruitName);
                 ChangeCount();
             }
-            else if (type == 0)
+            if (type == 0)
             {
                 Debug.Log("type은 seed");
                 itemEffectDatabase.UseItem(fruitName);
@@ -76,21 +70,25 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
 
 
             //Debug.Log("On Pointer Click");
-            //if (this.itemName != null ) //item인 경우
+            //if (this.itemName != null) //item인 경우
             //{
             //    itemEffectDatabase.UseItem(itemName);
             //    ChangeCount();
 
             //}
-            //if ( this.itemName == null)
+            //if (this.itemName == null)
             //{
             //    Debug.Log("fruit called");
             //    itemEffectDatabase.UseItem(fruitName);
             //    ChangeCount();
 
             //}
+
             //if (type == 0)
+            //{
             //    itemEffectDatabase.UseItem(fruitName);
+            //    ChangeCount();
+            //}
 
         }
     }

@@ -51,26 +51,26 @@ public class Items : MonoBehaviour
         }
     }
 
-    public void HPPlus()
-    {
-        player.setHealth(2f);
-        Debug.Log("HP Plus Item");
+    //public void HPPlus()
+    //{
+    //    player.setHealth(2f);
+    //    Debug.Log("HP Plus Item");
 
-    }
+    //}
 
-    public void HPMinus()
-    {
-        player.setHealth(-2f);
-    }
+    //public void HPMinus()
+    //{
+    //    player.setHealth(-2f);
+    //}
 
-    public void DamagePlus()
-    {
-        player.setPower(2f);
-    }
+    //public void DamagePlus()
+    //{
+    //    player.setPower(2f);
+    //}
 
-    public void DamageMinus()
-    {
-        player.setPower(-2f);
-    }
+    //public void DamageMinus()
+    //{
+    //    player.setPower(-2f);
+    //}
 
 }
