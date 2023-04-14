@@ -78,7 +78,7 @@ public class SellingBox : MonoBehaviour
                 if (checkSellAppleCount >= 5)
                 {
                     Debug.Log("check sell apple count" + checkSellAppleCount);
-                    FindObjectOfType<QuestScript>().FinishSecondQuest();
+                    //FindObjectOfType<QuestScript>().FinishSecondQuest();
                 }
                 break;
             case "Grape":
@@ -107,7 +107,7 @@ public class SellingBox : MonoBehaviour
                 break;
             case "HPPlusItem":
                 money += HPPlusItemMoney * temCount;
-                FindObjectOfType<QuestScript>().FinishThirdQuest();
+                //FindObjectOfType<QuestScript>().FinishThirdQuest();
                 break;
             case "HPMinusItem":
                 money += HPMinusItemMoney * temCount;

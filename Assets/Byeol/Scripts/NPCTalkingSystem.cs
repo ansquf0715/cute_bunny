@@ -14,11 +14,12 @@ public class NPCTalkingSystem : MonoBehaviour
     public GameObject backGroundTalking;
 
     public GameObject npcPortrait;
-    //public Image npcPortrait;
     Sprite npcPortraitSprite;
     Text talkText;
 
     public Sprite heartPortrait;
+
+    bool firstMeet;
 
     // Start is called before the first frame update
     void Start()
@@ -52,17 +53,42 @@ public class NPCTalkingSystem : MonoBehaviour
             if (Physics.Raycast(other.gameObject.transform.position,
                 other.gameObject.transform.forward, out hit, 1000))
             {
-                //Debug.Log("여기에 대화창 이미지 불러오기");
-
                 getNPCTextImage();
                 npcUI.SetActive(true);
+                string npcName = this.gameObject.name;
+                if(firstMeet == false) //처음 만난거면
+                {
+                    firstMeet = true;
 
-                talkText.text = "talk" +npctalking[talkingNum]["message"];
-
-                talkingNum++;
-
-                //Debug.Log("npc first talk : " + npctalking[talkingNum]["messageNum"]
-                //    + "talk " +npctalking[talkingNum]["message"]);
+                    for(int i=0; i<npctalking.Count; i++)
+                    {
+                        if(npctalking[i]["name"].ToString() == npcName)
+                        {
+                            talkText.text = " " + npctalking[0]["message"];
+                            talkingNum++;
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                } 
+                else
+                {
+                    for(int i=0; i<npctalking.Count; i++)
+                    {
+                        if(npctalking[i]["name"].ToString() == npcName)
+                        {
+                            talkText.text = " " + npctalking[talkingNum]["message"];
+                            talkingNum++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
             }
 
         }
@@ -74,12 +100,19 @@ public class NPCTalkingSystem : MonoBehaviour
         {
             if(Input.GetMouseButtonDown(0))
             {
-                Debug.Log("talking num" + talkingNum);
+                string npcName = this.gameObject.name;
 
-                talkText.text =" " + npctalking[talkingNum]["message"];
-                //Debug.Log("npc talking: " + npctalking[talkingNum]["messageNum"]
-                //    + "talk " + npctalking[talkingNum]["message"]);
-                talkingNum++;
+                if(npctalking[talkingNum]["name"].ToString() == npcName)
+                {
+                    talkText.text = " " + npctalking[talkingNum]["message"];
+                    talkingNum++;
+
+                    if(talkingNum == 9)
+                    {
+                        npcUI.SetActive(false);
+                    }
+                }
+
             }
         }
     }

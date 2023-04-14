@@ -1,5 +1,12 @@
-﻿number,name,messageNum,message
-0,heartAttack,0,Hi
-1,heartAttack,1,My name is Heart Attack
-2,heartAttack,2,please 
-3,heartAttack,,
+﻿number,name,messageNum,message,,,
+0,HeartNPC,0,Hello,,,
+1,HeartNPC,1,Are you here to help me?,,,
+2,HeartNPC,2,"I don't know where you came from,",,,
+3,HeartNPC,3,I don't think you belongs here,,,
+4,HeartNPC,4,"I still can't believe you now,",,,
+5,HeartNPC,5,but I need help very desperately,,,.
+6,HeartNPC,6,Please help me,,,
+7,HeartNPC,7,I put a few lists in your pocket,,,
+8,HeartNPC,8,Come back to me when you're done,,,
+9,HeartNPC,9,You can see it again if you press Q,,,
+,mart,0,hey,,,

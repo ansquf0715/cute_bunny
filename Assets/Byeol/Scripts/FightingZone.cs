@@ -42,8 +42,8 @@ public class FightingZone : MonoBehaviour
     public void countDeath() //Á×Àº ³ª¹« ¼ö
     {
         deathCount++;
-        if (deathCount >= 3)
-            FindObjectOfType<QuestScript>().FinishFourthQuest();
+        //if (deathCount >= 3)
+        //    FindObjectOfType<QuestScript>().FinishFourthQuest();
     }
 
     void Spawn()
