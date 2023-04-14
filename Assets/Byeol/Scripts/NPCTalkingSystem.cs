@@ -60,12 +60,16 @@ public class NPCTalkingSystem : MonoBehaviour
                 {
                     firstMeet = true;
 
+                    Debug.Log("npctalking count " + npctalking.Count);
                     for(int i=0; i<npctalking.Count; i++)
                     {
                         if(npctalking[i]["name"].ToString() == npcName)
                         {
                             talkText.text = " " + npctalking[0]["message"];
                             talkingNum++;
+
+                            //Debug.Log("talking Num" + talkingNum);
+
                             break;
                         }
                         else
@@ -76,17 +80,10 @@ public class NPCTalkingSystem : MonoBehaviour
                 } 
                 else
                 {
-                    for(int i=0; i<npctalking.Count; i++)
+                    if(npctalking[talkingNum]["name"].ToString() == npcName)
                     {
-                        if(npctalking[i]["name"].ToString() == npcName)
-                        {
-                            talkText.text = " " + npctalking[talkingNum]["message"];
-                            talkingNum++;
-                        }
-                        else
-                        {
-                            break;
-                        }
+                        talkText.text = " " + npctalking[talkingNum]["message"];
+                        talkingNum++;
                     }
                 }
             }
@@ -107,13 +104,30 @@ public class NPCTalkingSystem : MonoBehaviour
                     talkText.text = " " + npctalking[talkingNum]["message"];
                     talkingNum++;
 
-                    if(talkingNum == 9)
+                    //Debug.Log("talking Num" + talkingNum);
+
+                    if (talkingNum == 10)
                     {
                         npcUI.SetActive(false);
+                        //Debug.Log("´ëÈ­ ³¡");
+                        FindObjectOfType<QuestManager>().questPageIsOn = true;
                     }
                 }
-
             }
+            //if(talkingNum == 10)
+            //{
+            //    npcUI.SetActive(false);
+            //}
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            //Debug.Log("talking Num" + talkingNum);
+
+            npcUI.SetActive(false);
         }
     }
 }
