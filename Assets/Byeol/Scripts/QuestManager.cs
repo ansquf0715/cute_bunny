@@ -83,4 +83,9 @@ public class QuestManager : MonoBehaviour
             }
         }
     }
+
+    void checkNPC()
+    {
+        //어떤 npc quest인지 csv로 확인 가능?
+    }
 }
