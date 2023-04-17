@@ -18,8 +18,10 @@ public class NPCTalkingSystem : MonoBehaviour
     Text talkText;
 
     public Sprite heartPortrait;
+    public Sprite birdPortrait;
 
-    bool firstMeet;
+    bool firstMeet = false;
+    bool isStay = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +34,10 @@ public class NPCTalkingSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(isStay)
+        {
+            playerIsTalkingToNPC();
+        }
     }
 
     void getNPCTextImage()
@@ -42,6 +47,10 @@ public class NPCTalkingSystem : MonoBehaviour
         if (npcName == "HeartNPC")
         {
             npcPortrait.GetComponent<Image>().sprite = heartPortrait;
+        }
+        else if(npcName == "Sparrow")
+        {
+            npcPortrait.GetComponent<Image>().sprite = birdPortrait;
         }
     }
 
@@ -53,9 +62,14 @@ public class NPCTalkingSystem : MonoBehaviour
             if (Physics.Raycast(other.gameObject.transform.position,
                 other.gameObject.transform.forward, out hit, 1000))
             {
+                
+                isStay = true;
+
                 getNPCTextImage();
                 npcUI.SetActive(true);
                 string npcName = this.gameObject.name;
+
+                Debug.Log("npcName" + npcName);
                 if(firstMeet == false) //처음 만난거면
                 {
                     firstMeet = true;
@@ -91,33 +105,27 @@ public class NPCTalkingSystem : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    void playerIsTalkingToNPC()
     {
-        if(other.gameObject.tag == "Player")
+        if(Input.GetMouseButtonDown(0))
         {
-            if(Input.GetMouseButtonDown(0))
+            Debug.Log("mouse input");
+
+            string npcName = this.gameObject.name;
+
+            if(npctalking[talkingNum]["name"].ToString() == npcName)
             {
-                string npcName = this.gameObject.name;
+                talkText.text = " " + npctalking[talkingNum]["message"];
+                talkingNum++;
 
-                if(npctalking[talkingNum]["name"].ToString() == npcName)
-                {
-                    talkText.text = " " + npctalking[talkingNum]["message"];
-                    talkingNum++;
 
-                    //Debug.Log("talking Num" + talkingNum);
-
-                    if (talkingNum == 10)
-                    {
-                        npcUI.SetActive(false);
-                        //Debug.Log("대화 끝");
-                        FindObjectOfType<QuestManager>().questPageIsOn = true;
-                    }
-                }
+                //heartnpc일 때 talking num이 11  bird 일때는 또 다름
+                //if(talkingNum == 11)
+                //{
+                //    npcUI.SetActive(false);
+                //    FindObjectOfType<QuestManager>().questPageIsOn = true;
+                //}
             }
-            //if(talkingNum == 10)
-            //{
-            //    npcUI.SetActive(false);
-            //}
         }
     }
 
@@ -127,6 +135,7 @@ public class NPCTalkingSystem : MonoBehaviour
         {
             //Debug.Log("talking Num" + talkingNum);
 
+            isStay = false;
             npcUI.SetActive(false);
         }
     }
