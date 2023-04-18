@@ -35,10 +35,10 @@ public class Trees : MonoBehaviour
             //Debug.Log(pos);
             Destroy(other.gameObject);
             //FindObjectOfType<Bullet>().startParticle();
-            Debug.Log("Tree Health " + Treehealth);
+            //Debug.Log("Tree Health " + Treehealth);
 
             Treehealth -= damage;
-            Debug.Log("Tree Health Fixed " + Treehealth);
+            //Debug.Log("Tree Health Fixed " + Treehealth);
 
             if (Treehealth <= 0)
             {
@@ -93,14 +93,4 @@ public class Trees : MonoBehaviour
             Instantiate(selectItem(), RandomPosition(), Quaternion.identity);
         }
     }
-
-    //void dropFruit()
-    //{
-    //    int maxFruit = 3;
-
-    //    for (int i = 0; i < maxFruit; i++)
-    //    {
-    //        Instantiate(fruit, RandomPosition(), Quaternion.identity);
-    //    }
-    //}
 }

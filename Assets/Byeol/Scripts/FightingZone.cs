@@ -8,10 +8,7 @@ public class FightingZone : MonoBehaviour
     public Vector3 spawn;
 
     int deathCount;
-
-    //int checkTreeQuest = 0;
-
-    //BoxCollider rangeCollider;
+    bool checkTreeDeathQuest = false;
 
     // Start is called before the first frame update
     void Start()
@@ -42,8 +39,11 @@ public class FightingZone : MonoBehaviour
     public void countDeath() //Á×Àº ³ª¹« ¼ö
     {
         deathCount++;
-        //if (deathCount >= 3)
-        //    FindObjectOfType<QuestScript>().FinishFourthQuest();
+        if(deathCount >= 1f && !checkTreeDeathQuest)
+        {
+            FindObjectOfType<QuestManager>().diedTreePlus();
+            checkTreeDeathQuest = true;
+        }
     }
 
     void Spawn()

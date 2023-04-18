@@ -20,8 +20,11 @@ public class HeartNPC : MonoBehaviour
     string npcName;
     public Sprite heartPortrait;
 
-    bool firstMeet = false;
+    bool firstMeet = true;
     bool isStay = false;
+    bool showQuest = false;
+
+    public bool questIsDone = false;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +34,7 @@ public class HeartNPC : MonoBehaviour
         npcTalking = CSVReader.Read("heartTalk");
         talkText = backGroundTalking.GetComponentInChildren<Text>();
 
-        Debug.Log("talk text " + talkText);
+        //Debug.Log("11번째 talk" + npcTalking[11]["message"]);
     }
 
     // Update is called once per frame
@@ -56,9 +59,9 @@ public class HeartNPC : MonoBehaviour
                 npcPortrait.GetComponent<Image>().sprite = heartPortrait;
                 npcUI.SetActive(true);
 
-                if(firstMeet == false)
+                if(firstMeet == true)
                 {
-                    firstMeet = true;
+                    firstMeet = false;
 
                     for(int i=0; i<npcTalking.Count; i++)
                     {
@@ -73,12 +76,30 @@ public class HeartNPC : MonoBehaviour
                             break;
                     }
                 }
-                else
+                else //처음 만난게 아니면 quest page를 보여줬는지 아닌지 확인해야함
                 {
                     if(npcTalking[talkingNum]["name"].ToString() == npcName)
                     {
-                        talkText.text = " " + npcTalking[talkingNum]["message"];
-                        talkingNum++;
+                        if(showQuest) //quest를 보여줬으면
+                        {
+                            if(!questIsDone) //quest를 다 안했으면
+                            {
+                                talkText.text = " " + npcTalking[11]["message"];
+                            }
+                            else //quest를 끝냈으면
+                            {
+                                talkText.text = " " + npcTalking[12]["message"];
+                                talkingNum++;
+
+                                if (talkingNum >= 15)
+                                    talkText.text = " " + npcTalking[14]["message"];
+                            }
+                        }
+                        else //quest를 안보여줬으면
+                        {
+                            talkText.text = " " + npcTalking[talkingNum]["message"];
+                            talkingNum++;
+                        }
                     }
                 }
             }
@@ -98,6 +119,12 @@ public class HeartNPC : MonoBehaviour
                 {
                     npcUI.SetActive(false);
                     FindObjectOfType<QuestManager>().questPageIsOn = true;
+                    showQuest = true;
+                }
+
+                if(talkingNum >= 15) //새한테 가라고 했으면
+                {
+                    talkText.text = " " + npcTalking[14]["message"];
                 }
             }
         }

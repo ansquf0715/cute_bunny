@@ -1,4 +1,4 @@
-﻿number,name,messageNum,message,,,
+﻿ number,name,messageNum,message,,,
 0,HeartNPC,0,Hello,,,
 1,HeartNPC,1,Are you here to help me?,,,
 2,HeartNPC,2,"I don't know where you came from,",,,
@@ -10,3 +10,7 @@
 8,HeartNPC,8,Come back to me when you're done,,,
 9,HeartNPC,9,You can see it again if you press Q,,,
 10,HeartNPC,10,,,,
+11,HeartNPC,11,Come back to me when you're done,,,
+12,HeartNPC,12,I think everything is ready,,,
+13,HeartNPC,13,go to the bird in the forest,,,
+14,HeartNPC,14,,,,

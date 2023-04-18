@@ -35,6 +35,8 @@ public class Enemy : MonoBehaviour
     public GameObject[] items; //enemy를 처치하면 드랍할 아이템들
     BoxCollider rangeCollider; //아이템 떨어트릴 위치 지정을 위한 변수
 
+    bool changeDiedEnemyCount = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,6 +63,16 @@ public class Enemy : MonoBehaviour
 
         if (GameObject.FindWithTag("Player").GetComponent<Player>().checkDie() == true)
             Destroy(this.gameObject);
+
+        if (ECurrentHealth < 0f)
+        {
+            if (!changeDiedEnemyCount)
+            {
+                //FindObjectOfType<QuestManager>().diedEnemyCount++;
+                FindObjectOfType<QuestManager>().diedEnemyPlus();
+                changeDiedEnemyCount = true;
+            }
+        }
     }
 
     void LookPlayer()
@@ -91,7 +103,7 @@ public class Enemy : MonoBehaviour
             {
                 //died = true;
                 anim.SetBool("isDie", true);
-                //FindObjectOfType<QuestScript>().checkFirstQuest();
+
                 Destroy(gameObject, DestroyTime);
                 dropItem();
             }

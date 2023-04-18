@@ -20,19 +20,17 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
     public Image fruitImage; //과일의 이미지
     public string fruitName;
 
+    public int temType = 0; //1이면 item, 2면 fruit
+
     [SerializeField]
     private Text text_Count;
-    //[SerializeField]
-    //private GameObject CountImage;
 
     private ItemEffectDatabase itemEffectDatabase;
 
     // Start is called before the first frame update
     void Start()
     {
-        //item = null;
         baseRect = transform.parent.parent.GetComponent<RectTransform>().rect;
-        //Debug.Log("Base Rect" + baseRect);
         itemEffectDatabase = FindObjectOfType<ItemEffectDatabase>();
     }
 
@@ -46,7 +44,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            //Debug.Log(item.itemName + "을 사용");
             int type = checkItemOrFruit();
 
             if (type == 1)
@@ -63,33 +60,10 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
             }
             if (type == 0)
             {
-                Debug.Log("type은 seed");
+                //Debug.Log("type은 seed");
                 itemEffectDatabase.UseItem(fruitName);
                 ChangeCount();
             }
-
-
-            //Debug.Log("On Pointer Click");
-            //if (this.itemName != null) //item인 경우
-            //{
-            //    itemEffectDatabase.UseItem(itemName);
-            //    ChangeCount();
-
-            //}
-            //if (this.itemName == null)
-            //{
-            //    Debug.Log("fruit called");
-            //    itemEffectDatabase.UseItem(fruitName);
-            //    ChangeCount();
-
-            //}
-
-            //if (type == 0)
-            //{
-            //    itemEffectDatabase.UseItem(fruitName);
-            //    ChangeCount();
-            //}
-
         }
     }
 
@@ -100,6 +74,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
 
         if(this.itemName != null)
         {
+            //Debug.Log("item인지 확인" + this.itemName);
             DragSlot.instance.dragSlot = this;
             DragSlot.instance.DragSetImage(itemImage);
             DragSlot.instance.transform.position = eventData.position;
@@ -111,40 +86,17 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
             DragSlot.instance.DragSetImage(fruitImage);
             DragSlot.instance.transform.position = eventData.position;
         }
-
-        //if(type == 1)
-        //{
-        //    DragSlot.instance.dragSlot = this;
-        //    DragSlot.instance.DragSetImage(itemImage);
-        //    DragSlot.instance.transform.position = eventData.position;
-        //}
-        //else if(type == 2)
-        //{
-        //    DragSlot.instance.dragSlot = this;
-        //    DragSlot.instance.DragSetImage(fruitImage);
-        //    DragSlot.instance.transform.position = eventData.position;
-        //}
-
-        //Debug.Log("Begin Drag");
     }
 
     //마우스 드래그 중일 때 계속 발생하는 이벤트
     public void OnDrag(PointerEventData eventData)
     {
         DragSlot.instance.transform.position = eventData.position;
-        //Debug.Log("On Drag");afterDrop(DragSlot.instance.dragSlot.item.itemPrefab);
-        //afterDrop();
-        //Debug.Log("after drop");
     }
 
     //마우스 드래그가 끝났을 때 발생하는 이벤트
     public void OnEndDrag(PointerEventData eventData)
     {
-        //DragSlot.instance.setColorWhite();
-        //DragSlot.instance.dragSlot = null;
-
-        
-
         if (DragSlot.instance.transform.localPosition.x < baseRect.xMin
             || DragSlot.instance.transform.localPosition.x > baseRect.xMax
             || DragSlot.instance.transform.localPosition.y < baseRect.yMin
@@ -152,7 +104,12 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         {
             if(SellingBox.checkSellBox() == true)
             {
-                SellingBox.SellThings(this.fruitName, temCount);
+                Debug.Log("check item or fruit" + checkItemOrFruit());
+                if (checkItemOrFruit() == 1)
+                    SellingBox.SellThings(this.itemName, temCount);
+                if (checkItemOrFruit() == 2)
+                    SellingBox.SellThings(this.fruitName, temCount);
+                //SellingBox.SellThings(this.fruitName, temCount);
                 DragSlot.instance.dragSlot.ClearSlot();
                 DragSlot.instance.setColorWhite();
                 DragSlot.instance.dragSlot = null;
@@ -160,18 +117,11 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
             else
             {
                 DragSlot.instance.dragSlot.ClearSlot();
-                //Debug.Log("clear slot");
                 DragSlot.instance.setColorWhite();
                 DragSlot.instance.dragSlot = null;
-                //Debug.Log("drag slot null");
             }
 
         }
-
-        //DragSlot.instance.setColorWhite();
-        //DragSlot.instance.dragSlot = null;
-
-        //Debug.Log("On End Drag");
     }
 
 
@@ -182,30 +132,25 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         {
             ChangeCount();
         }
-        
-        //Debug.Log("On Drop");
-
     }
 
     private int checkItemOrFruit() // item일 경우 1을 fruit일 경우 2를 리턴
     {
-        
-        if (this == item)
+        if (temType == 1) //item
         {
-            //Debug.Log("checkm Item or fruit index returns 1");
             return 1;
         }
-        else
+        else if (temType == 2) //fruit
         {
-            if(this.fruitName == "seed")
+            if (this.fruitName == "seed")
             {
-                Debug.Log("check Item Fruit seed에 걸림");
+                Debug.Log("check Item Fruit Seed에 걸림");
                 return 0;
             }
             return 2;
         }
-            //return 2;
-
+        else
+            return -1;
     }
 
     private void setColor() //아이템 이미지의 투명도를 조정하기 위해
@@ -222,6 +167,8 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         itemImage.sprite = item.itemImage;
         itemName = _item.itemName;
         text_Count.text = temCount.ToString();
+        temType = 1; //item 이라고 저장
+        //Debug.Log("item temType" + temType);
 
         setColor();
     }
@@ -233,29 +180,22 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         fruitImage.sprite = fruit.fruitImage;
         fruitName = _fruit.fruitName;
         text_Count.text = temCount.ToString();
+        temType = 2; //fruit이라고 저장
+        //Debug.Log("fruit temType" + temType);
 
         if(fruitName == "seed") //넣는게 씨앗이면
-        //if(this.gameObject.tag == "Seed")
         {
-            //Debug.Log("이거 호출 되나?");
             GameObject.FindWithTag("Player").GetComponent<Player>().setSeedCount();
         }
-
         setColor();
     }
     
     public void SetSlotCount(int _count = 1)
     {
         temCount += _count;
-        //Debug.Log("카운트 " + temCount);
-        //temCount++;
-        //Debug.Log("템카운트 올라감");
-
-        //if(fruitName == "Seed")
         if (fruitName == "seed")
         {
             GameObject.FindWithTag("Player").GetComponent<Player>().setSeedCount();
-            //Debug.Log("이거 호출 되나?");
         }
         text_Count.text = temCount.ToString();
     }
@@ -272,7 +212,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         Color color = itemImage.color;
         color.a = 0f;
         itemImage.color = color;
-        //text_Count.text = "0";
     }
 
     public void ChangeCount()

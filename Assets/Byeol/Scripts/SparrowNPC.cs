@@ -43,37 +43,40 @@ public class SparrowNPC : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if(FindObjectOfType<HeartNPC>().questIsDone) //heart quest가 끝나야만 대화를 보여줌
         {
-            if (Physics.Raycast(other.gameObject.transform.position,
-                other.gameObject.transform.forward, out hit, 1000))
+            if (other.gameObject.tag == "Player")
             {
-                isStay = true;
-                npcPortrait.GetComponent<Image>().sprite = birdPortrait;
-                npcUI.SetActive(true);
-
-                if(firstMeet == false)
+                if (Physics.Raycast(other.gameObject.transform.position,
+                    other.gameObject.transform.forward, out hit, 1000))
                 {
-                    firstMeet = true;
+                    isStay = true;
+                    npcPortrait.GetComponent<Image>().sprite = birdPortrait;
+                    npcUI.SetActive(true);
 
-                    for(int i=0; i<npcTalking.Count; i++)
+                    if (firstMeet == false)
                     {
-                        if (npcTalking[i]["name"].ToString() == npcName)
+                        firstMeet = true;
+
+                        for (int i = 0; i < npcTalking.Count; i++)
                         {
-                            talkText.text = " " + npcTalking[0]["message"];
-                            talkingNum++;
-                            break;
+                            if (npcTalking[i]["name"].ToString() == npcName)
+                            {
+                                talkText.text = " " + npcTalking[0]["message"];
+                                talkingNum++;
+                                break;
+                            }
+                            else
+                                break;
                         }
-                        else
-                            break;
                     }
-                }
-                else
-                {
-                    if(npcTalking[talkingNum]["name"].ToString()==npcName)
+                    else
                     {
-                        talkText.text = " " + npcTalking[talkingNum]["message"];
-                        talkingNum++;
+                        if (npcTalking[talkingNum]["name"].ToString() == npcName)
+                        {
+                            talkText.text = " " + npcTalking[talkingNum]["message"];
+                            talkingNum++;
+                        }
                     }
                 }
             }

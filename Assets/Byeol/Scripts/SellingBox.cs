@@ -28,6 +28,10 @@ public class SellingBox : MonoBehaviour
     static public int HPMinusItemMoney = 40;
 
     static public int checkSellAppleCount = 0;
+    static public int checkSellHPPlusCount = 0;
+
+    static bool checkAppleQuest = false;
+    static bool checkHPPlusQuest = false;
 
     // Start is called before the first frame update
     void Start()
@@ -64,21 +68,17 @@ public class SellingBox : MonoBehaviour
 
     static public void SellThings(string itemName, int temCount)
     {
-        //if(itemName == "Apple")
-        //{
-        //    money += AppleMoney * temCount;
-        //    Debug.Log("사과 값 : " + money);
-        //}
-
         switch(itemName)
         {
             case "Apple":
                 money += AppleMoney * temCount;
                 checkSellAppleCount += temCount;
-                if (checkSellAppleCount >= 5)
+                if (checkSellAppleCount >= 1 && !checkAppleQuest ) //heart quest 2 : sell 2 apples
                 {
-                    Debug.Log("check sell apple count" + checkSellAppleCount);
-                    //FindObjectOfType<QuestScript>().FinishSecondQuest();
+                    //Debug.Log("check sell apple count" + checkSellAppleCount);
+                    //Debug.Log("이거 몇번 호출 됨?");
+                    FindObjectOfType<QuestManager>().sellApplePlus();
+                    checkAppleQuest = true;
                 }
                 break;
             case "Grape":
@@ -107,7 +107,12 @@ public class SellingBox : MonoBehaviour
                 break;
             case "HPPlusItem":
                 money += HPPlusItemMoney * temCount;
-                //FindObjectOfType<QuestScript>().FinishThirdQuest();
+                checkSellHPPlusCount += temCount;
+                if (checkSellHPPlusCount >= 1 && !checkHPPlusQuest) //heart quest 3: sell 1 hp plus item
+                {
+                    FindObjectOfType<QuestManager>().sellHPItemPlus();
+                    checkHPPlusQuest = true;
+                }
                 break;
             case "HPMinusItem":
                 money += HPMinusItemMoney * temCount;

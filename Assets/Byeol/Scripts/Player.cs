@@ -47,7 +47,9 @@ public class Player : MonoBehaviour
 
     bool playerDied = false;
 
-    //public NPCManager manager;
+    int plantedTreeCount = 0;
+    bool checkPlantTreeQuest = false; //for heart quest
+    bool checkBirdTreeQuest = false; //for bird quest
 
     // Start is called before the first frame update
     void Start()
@@ -65,12 +67,6 @@ public class Player : MonoBehaviour
         power = 2.0f;
         MaxHealth = 20.0f;
         CurrentHealth = MaxHealth;
-
-        //for(int i=0; i<30; i++)
-        //{
-        //    madeTrees[i] = null;
-        //    madeTreesPos[i] = Vector3.zero;
-        //}
     }
 
     // Update is called once per frame
@@ -265,6 +261,39 @@ public class Player : MonoBehaviour
 
     void appearTree()
     {
+        //heart Quest 5 : plant a tree
+        plantedTreeCount++;
+        //Debug.Log("planted tree count" + plantedTreeCount);
+        if (plantedTreeCount >= 1 && !checkPlantTreeQuest)
+        {
+            //Debug.Log("check plant tree quest");
+            FindObjectOfType<QuestManager>().plantedTreePlus();
+            checkPlantTreeQuest = true;
+            plantedTreeCount = 0;
+        }
+        if(plantedTreeCount >= 1 && !checkBirdTreeQuest)
+        {
+            Debug.Log("check plant bird quest");
+            FindObjectOfType<QuestManager>().plantedTreeForBird();
+            checkBirdTreeQuest = true;
+            plantedTreeCount = 0;
+        }
+
+        //if(plantedTreeCount >= 1f)
+        //{
+        //    if(!checkPlantTreeQuest)
+        //    {
+        //        FindObjectOfType<QuestManager>().plantedTreePlus();
+        //        checkPlantTreeQuest = true;
+        //        plantedTreeCount = 0;
+        //    }
+        //    if(!checkBirdTreeQuest)
+        //    {
+        //        FindObjectOfType<QuestManager>().plantedTreeForBird();
+        //        checkBirdTreeQuest = true;
+        //    }
+        //}
+
         Destroy(treeHoles[0]);
         Instantiate(madeTrees[0], madeTreePos[0], Quaternion.identity);
         madeTrees.RemoveAt(0);
