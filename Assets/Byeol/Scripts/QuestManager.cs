@@ -197,6 +197,8 @@ public class QuestManager : MonoBehaviour
         //        questTexts[i+1].fontMaterial.SetFloat("_UnderlineWidthMultiplier", 5.0f);
         //    }
         //}
+
+        //왜 커밋이 안될까?
         questTexts[questNum].fontStyle |= FontStyles.Strikethrough;
         questTexts[questNum].fontMaterial.SetFloat("_UnderlineWidthMultiplier", 5.0f);
     }
