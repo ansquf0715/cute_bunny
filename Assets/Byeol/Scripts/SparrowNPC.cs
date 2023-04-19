@@ -23,6 +23,12 @@ public class SparrowNPC : MonoBehaviour
     bool firstMeet = false;
     bool isStay = false;
 
+    public GameObject hiddenKey; //quest를 위한 key
+    GameObject clonedHiddenKey;
+
+    public bool birdQuestIsDone = false;
+    bool showBirdQuest = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +64,9 @@ public class SparrowNPC : MonoBehaviour
                     {
                         firstMeet = true;
 
+                        clonedHiddenKey = Instantiate(hiddenKey, new Vector3(17.73f, 0.3f, 69.27f),
+                            Quaternion.identity);
+
                         for (int i = 0; i < npcTalking.Count; i++)
                         {
                             if (npcTalking[i]["name"].ToString() == npcName)
@@ -70,10 +79,26 @@ public class SparrowNPC : MonoBehaviour
                                 break;
                         }
                     }
-                    else
+                    else //처음 만난게 아니면 quest page를 보여줬는지 아닌지 확인해야함
                     {
                         if (npcTalking[talkingNum]["name"].ToString() == npcName)
                         {
+                            if(showBirdQuest) //quest를 보여줬으면
+                            {
+                                if(!birdQuestIsDone) //quest를 다 안했으면
+                                {
+                                    talkText.text = " " + npcTalking[6]["message"];
+                                }
+                                else //quest를 끝냈으면
+                                {
+                                    talkText.text = " " + npcTalking[7]["message"];
+                                    talkingNum++;
+
+                                    if (talkingNum >= 13)
+                                        talkText.text = " " + npcTalking[12]["message"];
+                                }
+                            }
+
                             talkText.text = " " + npcTalking[talkingNum]["message"];
                             talkingNum++;
                         }
@@ -97,6 +122,12 @@ public class SparrowNPC : MonoBehaviour
                 {
                     npcUI.SetActive(false);
                     FindObjectOfType<QuestManager>().questPageIsOn = true;
+                    showBirdQuest = true;
+                }
+
+                if(talkingNum >= 13) //고양이한테 가라고 했으면
+                {
+                    talkText.text = " " + npcTalking[12]["message"];
                 }
             }
         }

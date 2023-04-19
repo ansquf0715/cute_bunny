@@ -21,6 +21,9 @@ public class CatNPC : MonoBehaviour
     bool firstMeet = false;
     bool isStay = false;
 
+    public GameObject leftDoor;
+    public GameObject rightDoor;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,37 +44,40 @@ public class CatNPC : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if(FindObjectOfType<SparrowNPC>().birdQuestIsDone) //bird quest가 끝나야만 대화를 보여줌
         {
-            if(Physics.Raycast(other.gameObject.transform.position,
-                other.gameObject.transform.forward, out hit, 1000))
+            if (other.gameObject.tag == "Player")
             {
-                isStay = true;
-                catPortrait.GetComponent<Image>().sprite = catPortraitSprite;
-                npcUI.SetActive(true);
-
-                if(firstMeet == false)
+                if (Physics.Raycast(other.gameObject.transform.position,
+                    other.gameObject.transform.forward, out hit, 1000))
                 {
-                    firstMeet = true;
+                    isStay = true;
+                    catPortrait.GetComponent<Image>().sprite = catPortraitSprite;
+                    npcUI.SetActive(true);
 
-                    for(int i=0; i<npcTalking.Count; i++)
+                    if (firstMeet == false)
                     {
-                        if (npcTalking[i]["name"].ToString() == npcName)
+                        firstMeet = true;
+
+                        for (int i = 0; i < npcTalking.Count; i++)
                         {
-                            talkText.text = " " + npcTalking[0]["message"];
-                            talkingNum++;
-                            break;
+                            if (npcTalking[i]["name"].ToString() == npcName)
+                            {
+                                talkText.text = " " + npcTalking[0]["message"];
+                                talkingNum++;
+                                break;
+                            }
+                            else
+                                break;
                         }
-                        else
-                            break;
                     }
-                }
-                else
-                {
-                    if(npcTalking[talkingNum]["name"].ToString() == npcName)
+                    else
                     {
-                        talkText.text = " " + npcTalking[talkingNum]["message"];
-                        talkingNum++;
+                        if (npcTalking[talkingNum]["name"].ToString() == npcName)
+                        {
+                            talkText.text = " " + npcTalking[talkingNum]["message"];
+                            talkingNum++;
+                        }
                     }
                 }
             }
@@ -90,7 +96,7 @@ public class CatNPC : MonoBehaviour
                 if(talkingNum == 6)
                 {
                     npcUI.SetActive(false);
-                    FindObjectOfType<QuestManager>().questPageIsOn = true;
+                    //FindObjectOfType<QuestManager>().questPageIsOn = true;
                 }
             }
         }

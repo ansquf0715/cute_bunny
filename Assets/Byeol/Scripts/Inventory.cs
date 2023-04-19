@@ -18,6 +18,8 @@ public class Inventory : MonoBehaviour
     private bool[] CheckSlotFull = new bool[10]; //slot이 비었는지 확인하는 배열
     private int[] SetButton = new int[10];
 
+    //int unknownPotionCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,8 @@ public class Inventory : MonoBehaviour
     void Update()
     {
         TryOpenInventory();
+
+        checkItemForBirdQuest();
     }
 
     private void TryOpenInventory() //tab 누르면 inventory 화면 띄우기
@@ -185,26 +189,38 @@ public class Inventory : MonoBehaviour
         //return 0; //씨앗이 없을 때
     }
 
-    //public int ChangedSeedCount()
-    //{
-    //    for(int i=0; i<slots.Length; i++)
-    //    {
-    //        if(slots[i].fruitName == "seed")
-    //        {
-    //            return slots[i].temCount;
-    //        }
-    //    }
-    //    return 0;
-    //}
-
     public void setSeedCount()
     {
-        Debug.Log("Set Seed Count 호출됨");
+        //Debug.Log("Set Seed Count 호출됨");
         for(int i=0; i<slots.Length; i++)
         {
             if(slots[i].fruitName == "seed")
             {
                 slots[i].ChangeCount();
+            }
+        }
+    }
+
+    void checkItemForBirdQuest()
+    {
+        //bird quest 진행중인지 확인
+        if(QuestManager.doingBirdQ == true)
+        {
+            int unknownPotionCount = 0;
+
+            foreach(Slot slot in slots)
+            {
+                if(slot.itemName == "DamageMinusItem"
+                    || slot.itemName == "HPMinusItem") //check item name
+                {
+                    unknownPotionCount += slot.temCount;
+                }
+            }
+
+            if(unknownPotionCount >= 2)
+            {
+                FindObjectOfType<QuestManager>().gotUnknownItemForBird();
+                unknownPotionCount = 0;
             }
         }
     }

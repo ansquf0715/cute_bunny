@@ -16,7 +16,9 @@ public class QuestManager : MonoBehaviour
 
     public bool questPageIsOn = false;
 
-    bool changeToBirdQuest = false;
+    //slot에서 불러와서 birdQ인지 확인함
+    public bool changeToBirdQuest = false;
+    public static bool doingBirdQ = false;
 
     bool[] checkHeartQ = new bool[5]; //heartQuest 됐는지 확인
     bool[] checkBirdQ = new bool[4]; //birdQuest했는지 확인
@@ -30,6 +32,10 @@ public class QuestManager : MonoBehaviour
 
     //to check bird quest
     public static int plantedBirdTreesCount;
+    public static int gotUnknownPotionCount;
+    public static int foundKey;
+
+    bool allQuestIsDone = false;
 
     // Start is called before the first frame update
     void Start()
@@ -70,9 +76,17 @@ public class QuestManager : MonoBehaviour
             {
                 changeContents();
                 changeToBirdQuest = true;
+                doingBirdQ = true;
+                Debug.Log("doing birdQ" + doingBirdQ);
             }
 
             checkBirdQuestFinished();
+
+            if(checkAllBirdQuestIsDone() && !allQuestIsDone) //bird quest를 다 했으면
+            {
+                FindObjectOfType<SparrowNPC>().birdQuestIsDone = true;
+                allQuestIsDone = false;
+            }
         }
     }
 
@@ -86,9 +100,19 @@ public class QuestManager : MonoBehaviour
         return true;
     }
 
+    bool checkAllBirdQuestIsDone()
+    {
+        for(int i=0; i<checkBirdQ.Length; i++)
+        {
+            if (checkBirdQ[i] == false)
+                return false;
+        }
+        return true;
+    }
+
     void showContents()
     {
-        Debug.Log("csv count" + questCSV.Count);
+        //Debug.Log("csv count" + questCSV.Count);
         for(int i=0; i<5; i++)
         {
             questTexts[i].text = " " + questCSV[i]["Quest"];
@@ -175,6 +199,19 @@ public class QuestManager : MonoBehaviour
         plantedBirdTreesCount++;
     }
 
+    public void gotUnknownItemForBird()
+    {
+        Debug.Log("got unknown item for bird");
+        gotUnknownPotionCount++;
+        //gotUnknownPotionCount += temCount;
+        //Debug.Log(" got unknown potion count" + gotUnknownPotionCount);
+    }
+
+    public void foundKeyForBird()
+    {
+        foundKey++;
+    }
+
     void changeFinishedQuestUI(int questNum)
     {
         for(int i=0; i<checkHeartQ.Length; i++)
@@ -197,8 +234,6 @@ public class QuestManager : MonoBehaviour
         //        questTexts[i+1].fontMaterial.SetFloat("_UnderlineWidthMultiplier", 5.0f);
         //    }
         //}
-
-        //왜 커밋이 안될까?
         questTexts[questNum].fontStyle |= FontStyles.Strikethrough;
         questTexts[questNum].fontMaterial.SetFloat("_UnderlineWidthMultiplier", 5.0f);
     }
@@ -246,5 +281,21 @@ public class QuestManager : MonoBehaviour
             //0번은 비어있어서
             changeFinishQuestUIForBird(1);
         }
+        //Sell 2 unknown potions
+        if(gotUnknownPotionCount == 1)
+        {
+            Debug.Log("여긴 왜 안걸리니?");
+            doingBirdQ = false;
+            checkBirdQ[1] = true;
+            changeFinishQuestUIForBird(2);
+        }
+
+        //Find the key
+        if(foundKey == 1)
+        {
+            checkBirdQ[2] = true;
+            changeFinishQuestUIForBird(3);
+        }
     }
+
 }

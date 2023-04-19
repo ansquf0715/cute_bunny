@@ -37,7 +37,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void OnPointerClick(PointerEventData eventData)
