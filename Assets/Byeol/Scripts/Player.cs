@@ -6,6 +6,8 @@ using System;
 
 public class Player : MonoBehaviour
 {
+    static public Vector3 playerPos;
+
     private Text seedInfo;
 
     Inventory inventory;
@@ -72,6 +74,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerPos = this.transform.position;
+
         if(playerDied == false)
         {
             PlayerMove();

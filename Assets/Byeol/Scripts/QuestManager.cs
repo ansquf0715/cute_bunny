@@ -201,7 +201,7 @@ public class QuestManager : MonoBehaviour
 
     public void gotUnknownItemForBird()
     {
-        Debug.Log("got unknown item for bird");
+        //Debug.Log("got unknown item for bird");
         gotUnknownPotionCount++;
         //gotUnknownPotionCount += temCount;
         //Debug.Log(" got unknown potion count" + gotUnknownPotionCount);
@@ -284,7 +284,7 @@ public class QuestManager : MonoBehaviour
         //Sell 2 unknown potions
         if(gotUnknownPotionCount == 1)
         {
-            Debug.Log("여긴 왜 안걸리니?");
+            //Debug.Log("여긴 왜 안걸리니?");
             doingBirdQ = false;
             checkBirdQ[1] = true;
             changeFinishQuestUIForBird(2);

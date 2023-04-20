@@ -24,6 +24,14 @@ public class CatNPC : MonoBehaviour
     public GameObject leftDoor;
     public GameObject rightDoor;
 
+    float moveAmount = 3.0f;
+    float moveDuration = 5.0f;
+
+    bool isMoving = false; //door moving
+    float moveTimer = 0.0f;
+    Vector3 leftDoorTargetPos;
+    Vector3 rightDoorTargetPos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +47,21 @@ public class CatNPC : MonoBehaviour
         if(isStay)
         {
             playerIsTalkingToNPC();
+        }
+
+        if(isMoving)
+        {
+            moveTimer += Time.deltaTime;
+
+            float progress = Mathf.Clamp01(moveTimer / moveDuration);
+
+            leftDoor.transform.position = Vector3.Lerp(leftDoor.transform.position,
+                leftDoorTargetPos, progress);
+            rightDoor.transform.position = Vector3.Lerp(rightDoor.transform.position,
+                rightDoorTargetPos, progress);
+
+            if (progress >= 1.0f)
+                isMoving = false;
         }
     }
 
@@ -97,6 +120,15 @@ public class CatNPC : MonoBehaviour
                 {
                     npcUI.SetActive(false);
                     //FindObjectOfType<QuestManager>().questPageIsOn = true;
+
+                    leftDoorTargetPos = leftDoor.transform.position
+                        + new Vector3(0.0f, 0.0f, moveAmount);
+                    rightDoorTargetPos = rightDoor.transform.position
+                        + new Vector3(0.0f, 0.0f, -moveAmount);
+
+                    //start the door movement
+                    isMoving = true;
+                    moveTimer = 0.0f;
                 }
             }
         }
