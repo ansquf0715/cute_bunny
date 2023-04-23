@@ -32,6 +32,7 @@ public class Trees : MonoBehaviour
 
         if (other.gameObject.tag == "Bullet")
         {
+            Debug.Log("bullet collision");
             //Debug.Log(pos);
             Destroy(other.gameObject);
             //FindObjectOfType<Bullet>().startParticle();

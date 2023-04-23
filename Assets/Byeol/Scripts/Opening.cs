@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Opening : MonoBehaviour
 {
@@ -14,7 +15,16 @@ public class Opening : MonoBehaviour
     float typingSpeed = 0.3f;
     bool istyping = false;
 
+    public GameObject blackBack;
     public GameObject whiteBack;
+    public Image gameBack;
+
+    float animDuration = 2f;
+    float delayDuration = 0.5f;
+
+    int repeatCount = 0;
+
+    public static bool sceneIsChanged = false;
 
     // Start is called before the first frame update
     void Start()
@@ -64,63 +74,95 @@ public class Opening : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(1f);
-            showEye();
+            //StartCoroutine(ShrinkText());
+            StartCoroutine(HideText());
         }
+    }
+
+    IEnumerator HideText()
+    {
+        float time = 0f;
+        Color color = text.color;
+        while(time < animDuration)
+        {
+            time += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, time / animDuration);
+            color.a = alpha;
+            text.color = color;
+            yield return null;
+        }
+
+        text.gameObject.SetActive(false);
+        showEye();
+    }
+
+    IEnumerator ShrinkText()
+    {
+        float time = 0f;
+        while(time<2f)
+        {
+            time += Time.deltaTime;
+            float fontSize = Mathf.Lerp(65f, 0f, time / 2f);
+            text.fontSize = fontSize;
+            yield return null;
+        }
+
+        text.enabled = false;
+        showEye();
     }
 
     void showEye()
     {
+        StartCoroutine(Blinking());
+    }
+
+    private IEnumerator Blinking()
+    {
+        blackBack.SetActive(false);
         whiteBack.SetActive(true);
 
-        StartCoroutine(ExpandWhiteBack());
-    }
-
-    IEnumerator ExpandWhiteBack()
-    {
-        float duration = 1f;
-        float startWidth = 144f;
-        float targetWidth = 1920f;
-        float startTime = Time.time;
-        float progress;
-
-        while (Time.time - startTime <= duration)
+        Debug.Log("blinking");
+        repeatCount = 0; 
+        while (repeatCount < 2) 
         {
-            progress = (Time.time - startTime) / duration;
-            float currentWidth = Mathf.Lerp(startWidth, targetWidth, progress);
+            float time = 0f;
+            while (time < animDuration)
+            {
+                time += Time.deltaTime;
+                float alpha = Mathf.Lerp(0f, 255f, time / animDuration);
+                Color color = gameBack.color;
+                color.a = alpha / 255f;
+                gameBack.color = color;
+                yield return null;
+            }
 
-            RectTransform rt = whiteBack.GetComponent<RectTransform>();
-            rt.sizeDelta = new Vector2(currentWidth, rt.sizeDelta.y);
+            yield return new WaitForSeconds(delayDuration);
 
-            yield return null;
+            time = 0f;
+            while (time < animDuration)
+            {
+                time += Time.deltaTime;
+                float alpha = Mathf.Lerp(255f, 0f, time / animDuration);
+                Color color = gameBack.color;
+                color.a = alpha / 255f;
+                gameBack.color = color;
+                yield return null;
+            }
+            repeatCount++; // repeatCount Áõ°¡
         }
 
-        RectTransform rtFinal = whiteBack.GetComponent<RectTransform>();
-        rtFinal.sizeDelta = new Vector2(targetWidth, rtFinal.sizeDelta.y);
+        whiteBack.SetActive(false);
+        blackBack.SetActive(true);
 
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(ExapndWhiteBackHeight());
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(goToNextScene());
     }
 
-    IEnumerator ExapndWhiteBackHeight()
+    IEnumerator goToNextScene()
     {
-        float duration = 1f;
-        float startHeight = 13f;
-        float targetHeight = 1080f;
-        float startTime = Time.time;
-        float progress;
-
-        while(Time.time - startTime <= duration)
-        {
-            progress = (Time.time - startTime) / duration;
-            float currentHeight = Mathf.Lerp(startHeight, targetHeight, progress);
-
-            RectTransform rt = whiteBack.GetComponent<RectTransform>();
-            rt.sizeDelta = new Vector2(rt.sizeDelta.x, currentHeight);
-
-            yield return null;
-        }
-
-        RectTransform rtFinal = whiteBack.GetComponent<RectTransform>();
-        rtFinal.sizeDelta = new Vector2(rtFinal.sizeDelta.x, targetHeight);
+        yield return new WaitForSeconds(1f);
+        sceneIsChanged = true;
+        Debug.Log("scene fchange" + sceneIsChanged);
+        SceneManager.LoadScene("Playing");
     }
 }

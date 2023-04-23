@@ -33,6 +33,9 @@ public class SellingBox : MonoBehaviour
     static bool checkAppleQuest = false;
     static bool checkHPPlusQuest = false;
 
+    public static bool moneyToEscape = false;
+    bool moneyToEscapeIsChanged = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +51,25 @@ public class SellingBox : MonoBehaviour
     void Update()
     {
         SetMoneyText();
+
+        if(!moneyToEscapeIsChanged)
+        {
+            if (checkMoney()) //돈이 있으면
+            {
+                Debug.Log("check money true");
+                moneyToEscape = true;
+                moneyToEscapeIsChanged = true;
+            }
+        }
+    }
+
+    bool checkMoney() //돈 있는지 확인
+    {
+        if(money >= 100)
+        {
+            return true;
+        }
+        return false;
     }
 
     static public bool checkSellBox()

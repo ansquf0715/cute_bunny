@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
 
     public float speed = 5; //총알속도
-    public float DestroyTime = 2.0f; //사라지는 시간
+    public float DestroyTime = 1.0f; //사라지는 시간
     public Player player;
 
     public ParticleSystem particle; 
@@ -35,7 +35,7 @@ public class Bullet : MonoBehaviour
 
     public void Shoot()
     {
-        GetComponent<Rigidbody>().isKinematic = false;
+        //GetComponent<Rigidbody>().isKinematic = false;
         transform.position += player.GetMoveVec() * speed * Time.deltaTime
             + new Vector3(0, 0.0001f, 0.0001f);
     }
