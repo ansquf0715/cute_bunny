@@ -116,6 +116,9 @@ public class Opening : MonoBehaviour
         StartCoroutine(Blinking());
     }
 
+    //배경음 페이드인
+    
+
     private IEnumerator Blinking()
     {
         blackBack.SetActive(false);
