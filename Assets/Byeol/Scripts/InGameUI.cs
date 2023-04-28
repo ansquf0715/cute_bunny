@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class InGameUI : MonoBehaviour
 {
@@ -26,6 +27,32 @@ public class InGameUI : MonoBehaviour
     public GameObject audio;
     AudioSource audioSource;
 
+    List<int> randomNumbers = new List<int>();
+    List<bool> bossIsShownDay = new List<bool>();
+    //bool bossIsShown = false;
+
+    public static List<int> GenerateRandomNumbers(int count)
+    {
+        //1부터 28까지의 숫자를 리스트에 저장
+        //List<int> numbers = Enumerable.Range(1, 28).ToList();
+        List<int> numbers = Enumerable.Range(1, 7).ToList();
+        List<int> result = new List<int>();
+
+        //count개의 랜덤한 숫자를 고르기 위해 반복
+        for(int i=0; i<count; i++)
+        {
+            //아직 랜덤한 숫자를 고르지 않은 숫자들 중에서 랜덤한 숫자 하나를 선택
+            int index = Random.Range(0, numbers.Count);
+            int number = numbers[index];
+
+            // 선택한 숫자를 결과 리스트에 추가하고, 숫자 리스트에서 제거
+            result.Add(number);
+            numbers.RemoveAt(index);
+        }
+
+        return result;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,8 +61,15 @@ public class InGameUI : MonoBehaviour
         month = 1;
         day = 1;
 
-        audio = GameObject.Find("AudioManager");
-        audioSource = audio.GetComponent<AudioSource>();
+        //audio = GameObject.Find("AudioManager");
+        //audioSource = audio.GetComponent<AudioSource>();
+
+        selectBossDay();
+
+        for(int i=0; i<randomNumbers.Count; i++)
+        {
+            bossIsShownDay.Add(false);
+        }
     }
 
     // Update is called once per frame
@@ -46,6 +80,10 @@ public class InGameUI : MonoBehaviour
         YearUpdate();
         SetCountText();
 
+        showBoss();
+
+
+
         checkInput();
         menuPageInput();
     }
@@ -53,7 +91,8 @@ public class InGameUI : MonoBehaviour
     void DayUpdate() //날짜 업데이트
     {
         dTime += Time.deltaTime;
-        if (dTime >= 300f) //5분이 지나면 하루가 지나도록 설정
+        //if (dTime >= 300f) //5분이 지나면 하루가 지나도록 설정
+        if (dTime >= 10f) //5분이 지나면 하루가 지나도록 설정
         {
             day++;
             dTime = 0;
@@ -83,6 +122,32 @@ public class InGameUI : MonoBehaviour
         GameDay.text = year.ToString() + "Year " + month.ToString() + "Month " 
             + day.ToString() + "Day ";
     }
+
+    void selectBossDay() //boss 등장하는 날 선택
+    {
+        randomNumbers = GenerateRandomNumbers(6);
+        foreach (int a in randomNumbers)
+            Debug.Log("random numbers" + a);
+    }
+
+    void showBoss()
+    {
+        for(int i=0; i<randomNumbers.Count; i++)
+        {
+            //day가 randomNumbers와 같아지면
+            if(day == randomNumbers[i])
+            {
+                //boss가 아직 안생성됐으면
+                if(!bossIsShownDay[i])
+                {
+                    //Debug.Log("boss is shown" + i);
+                    BossControl.toCreateBoss = true;
+                    bossIsShownDay[i] = true;
+                }
+            }
+        }
+    }
+
 
     void menuPageInput()
     {
