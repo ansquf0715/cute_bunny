@@ -92,7 +92,7 @@ public class InGameUI : MonoBehaviour
     {
         dTime += Time.deltaTime;
         //if (dTime >= 300f) //5분이 지나면 하루가 지나도록 설정
-        if (dTime >= 10f) //5분이 지나면 하루가 지나도록 설정
+        if (dTime >= 500f) //5분이 지나면 하루가 지나도록 설정
         {
             day++;
             dTime = 0;

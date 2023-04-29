@@ -92,20 +92,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: b4f0e46a9f630054c925d3d92d45584e, type: 3}
---- !u!114 &-6704079566484286609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2829330396083560201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83954957355e7684e88b023e1c88fcce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Treehealth: 10
-  items: []
 --- !u!208 &5879289568143155494
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -122,3 +108,17 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.757, y: 2.7600002, z: 0.365}
   m_TimeToStationary: 0.5
+--- !u!114 &-6704079566484286609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2829330396083560201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83954957355e7684e88b023e1c88fcce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Treehealth: 10
+  items: []
