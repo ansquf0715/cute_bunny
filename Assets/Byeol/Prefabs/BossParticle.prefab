@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 108504, guid: d18380a6098943a4a879b5a0f3826c9d, type: 3}
       propertyPath: m_Name
-      value: Spiral_01.2 Tornado tall
+      value: BossParticle
       objectReference: {fileID: 0}
     - target: {fileID: 458636, guid: d18380a6098943a4a879b5a0f3826c9d, type: 3}
       propertyPath: m_RootOrder
@@ -53,6 +53,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 458636, guid: d18380a6098943a4a879b5a0f3826c9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19806176, guid: d18380a6098943a4a879b5a0f3826c9d, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19807740, guid: d18380a6098943a4a879b5a0f3826c9d, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19836752, guid: d18380a6098943a4a879b5a0f3826c9d, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19836752, guid: d18380a6098943a4a879b5a0f3826c9d, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19885320, guid: d18380a6098943a4a879b5a0f3826c9d, type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19942818, guid: d18380a6098943a4a879b5a0f3826c9d, type: 3}

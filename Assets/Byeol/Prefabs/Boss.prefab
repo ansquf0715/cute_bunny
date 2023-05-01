@@ -169,6 +169,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  particle: {fileID: 3873254573453174992, guid: c9b9556086b3ef2438bff2c6eab55d71, type: 3}
+  moveParticle: {fileID: 3873254573453174992, guid: c9b9556086b3ef2438bff2c6eab55d71, type: 3}
   playerIsInFightingZone: 0
   obstacleDetectionRadius: 1
 --- !u!195 &8430930677759594876
