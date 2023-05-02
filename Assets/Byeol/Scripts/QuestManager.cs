@@ -151,15 +151,18 @@ public class QuestManager : MonoBehaviour
 
     void checkInput()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if(!Boss.bossIsFighting)
         {
-            if(questPageIsOn)
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                questPageIsOn = false;
-            }
-            else
-            {
-                questPageIsOn = true;
+                if (questPageIsOn)
+                {
+                    questPageIsOn = false;
+                }
+                else
+                {
+                    questPageIsOn = true;
+                }
             }
         }
     }

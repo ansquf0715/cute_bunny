@@ -37,14 +37,18 @@ public class Inventory : MonoBehaviour
 
     private void TryOpenInventory() //tab 누르면 inventory 화면 띄우기
     {
-        if(Input.GetKeyDown(KeyCode.Tab))
+        //if(!Boss.bossIsFighting)
+        if(!Boss.bossIsFighting)
         {
-            inventoryActivated = !inventoryActivated;
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                inventoryActivated = !inventoryActivated;
 
-            if (inventoryActivated)
-                OpenInventory();
-            else
-                CloseInventory();
+                if (inventoryActivated)
+                    OpenInventory();
+                else
+                    CloseInventory();
+            }
         }
     }
 

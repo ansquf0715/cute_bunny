@@ -40,9 +40,22 @@ public class Boss : MonoBehaviour
     Slider bossHealthSlider;
     int randomAnimNumber;
 
+    bool isRunning = false;
+    static public bool bossIsFighting = false;
+
+    public Player player;
+
+    //public float maxHealth = 100;
+    public float maxHealth = 10;
+    public float health;
+
+    string previousAnim;
+
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+
         agent = GetComponent<NavMeshAgent>();
         rigid = GetComponent<Rigidbody>();
 
@@ -64,8 +77,14 @@ public class Boss : MonoBehaviour
         bossPlane = GameObject.Find("BossPlane");
 
         bossHealthSlider = canv.transform.Find("BossBar").GetComponent<Slider>();
+        //Debug.Log("max health" + maxHealth);
+        bossHealthSlider.value = maxHealth;
+        //Debug.Log("boss health slider value" + bossHealthSlider.value);
+
 
         agent.SetDestination(setRandomPos());
+
+        health = maxHealth;
     }
 
     // Update is called once per frame
@@ -75,37 +94,64 @@ public class Boss : MonoBehaviour
         checkBossWalking();
         if (bossIsInBossZone)
         {
+            checkBossWalking();
             MoveToPlayer();
         }
+
+        controlHealth();
     }
 
     void checkBossWalking()
     {
         float distanceToPlayer = Vector3.Distance(this.transform.position, Player.playerPos);
 
-        //player와 boss 사이의 거리가 20이하이면 run
-        if(distanceToPlayer <= 20f)
-        {
-            anim.SetBool("bossRun", true);
-            anim.SetBool("bossWalking", false);
-        }
-        else
-        {
-            anim.SetBool("bossWalking", true);
-            anim.SetBool("bossRun", false);
-        }
-
         //boss가 걸어가고 있을 때
         if (agent.velocity.magnitude > 0f)
         {
             anim.SetBool("bossWalking", true);
+
+            //player와 boss 사이의 거리가 20이하이면 run
+            if (distanceToPlayer <= 20f)
+            {
+                isRunning = true;
+                anim.SetBool("bossRun", true);
+                anim.SetBool("bossWalking", false);
+            }
+            else
+            {
+                anim.SetBool("bossWalking", true);
+                isRunning = false;
+                anim.SetBool("bossRun", false);
+            }
         }
         else //boss가 멈춰있을 때
         {
             anim.SetBool("bossWalking", false);
+
+            //player와 boss 사이의 거리가 20이하이면 run
+            if (distanceToPlayer <= 20f)
+            {
+                isRunning = true;
+                anim.SetBool("bossRun", true);
+                anim.SetBool("bossWalking", false);
+            }
+            else
+            {
+                anim.SetBool("bossWalking", true);
+                isRunning = false;
+                anim.SetBool("bossRun", false);
+            }
+        }
+
+        if(isRunning) //뛰고있으면
+        {
+            agent.speed = 7f;
+        }
+        else
+        {
+            agent.speed = 3.5f;
         }
     }
-
     private void FixedUpdate()
     {
         if(!fightingZoneCollider.bounds.Contains(Player.playerPos))
@@ -175,6 +221,7 @@ public class Boss : MonoBehaviour
             useBlackImage.color.g, useBlackImage.color.b, 1f);
 
         bossIsMoved = true;
+        bossIsFighting = true;
         agent.enabled = false;
         this.transform.position = new Vector3(
             -164f, 0, 61f);
@@ -186,12 +233,75 @@ public class Boss : MonoBehaviour
         bossHealthSlider.gameObject.SetActive(true);
 
         anim.SetBool("meetPlayer", false);
+        //anim.SetBool("bossWalking", true);
+        checkBossWalking();
 
         Bounds bossPlaneBounds = bossPlane.GetComponent<Collider>().bounds;
         if (bossPlaneBounds.Contains(this.transform.position))
             bossIsInBossZone = true;
 
         yield return new WaitForSeconds(0.5f);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        //float damage = GameObject.FindWithTag("Player").GetComponent<Player>().getPower();
+        //Debug.Log("damage" + damage);
+
+        if(collision.gameObject.tag == "Player")
+        {
+            //player 현재 full 체력 20
+            //player.setHealth(-5);
+
+            if(anim.GetCurrentAnimatorStateInfo(0).IsName("Attack01")
+                || anim.GetCurrentAnimatorStateInfo(0).IsName("Attack02")
+                || anim.GetCurrentAnimatorStateInfo(0).IsName("Attack03"))
+            {
+                player.setHealth(-1);
+            }
+        }
+
+        if(collision.gameObject.tag == "Bullet")
+        {
+            Destroy(collision.gameObject); //총알 삭제
+
+            //previousAnim = anim.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+            //anim.SetBool(previousAnim, false);
+            anim.SetBool("bossGetHit", true);
+
+            float dam = GameObject.FindWithTag("Player").GetComponent<Player>().getPower();
+            health -= dam;
+
+            StartCoroutine(WaitForAnimation());
+        }
+    }
+
+    //string previousAnimClipName()
+    //{
+    //    string previous = anim.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+    //    switch(previous)
+    //    {
+    //        case ""
+    //    }
+    //}
+
+    IEnumerator WaitForAnimation()
+    {
+        while(anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
+            yield return null;
+        }
+
+        anim.SetBool("bossGetHit", false);
+
+        anim.Play(previousAnim);
+    }
+
+
+    void controlHealth()
+    {
+        bossHealthSlider.value = health;
+        //Debug.Log("boss health slider" + bossHealthSlider.value);
     }
 
     private void OnTriggerStay(Collider other)
@@ -280,50 +390,43 @@ public class Boss : MonoBehaviour
     void ControlFightingAnim()
     {
         float distanceToPlayer = Vector3.Distance(this.transform.position, Player.playerPos);
-        //player와 boss 사이의 거리가 10이하이면 attack
         int randomNumber = Random.Range(0, 3);
-        Debug.Log("random Number" + randomNumber);
+        Debug.Log("random Number " + randomNumber);
+
+        //player와 boss 사이의 거리가 10이하이면 attack
         if (distanceToPlayer <= 10f)
         {
-            setRandomAttackMotion(randomNumber);
+            string animName = getRandomNumMotion(randomNumber);
+            StartCoroutine(PlayAnimationAndWaitForCompletion(animName));
         }
         else
         {
-            exitAttackMotion(randomNumber);
+            //distance to player가 10보다 큰 경우에 대한 처리
         }
     }
 
-
-    void setRandomAttackMotion(int randomNum)
+    string getRandomNumMotion(int randomNum)
     {
-        switch (randomNum)
+        switch(randomNum)
         {
             case 0:
-                anim.SetBool("bossAttack1", true);
-                break;
+                return "bossAttack1";
             case 1:
-                anim.SetBool("bossAttack2", true);
-                break;
+                return "bossAttack2";
             case 2:
-                anim.SetBool("bossAttack3", true);
-                break;
+                return "bossAttack3";
+            default:
+                return null;
         }
     }
 
-    void exitAttackMotion(int randomNum)
+    IEnumerator PlayAnimationAndWaitForCompletion(string animationName)
     {
-        switch (randomNum)
-        {
-            case 0:
-                anim.SetBool("bossAttack1", false);
-                break;
-            case 1:
-                anim.SetBool("bossAttack2", false);
-                break;
-            case 2:
-                anim.SetBool("bossAttack3", false);
-                break;
-        }
+        anim.SetBool(animationName, true);
+        AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+        float animationEndTime = Time.time + stateInfo.length;
+        while (Time.time < animationEndTime)
+            yield return null;
+        anim.SetBool(animationName, false);
     }
-
 }
