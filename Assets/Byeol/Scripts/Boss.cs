@@ -46,10 +46,12 @@ public class Boss : MonoBehaviour
     public Player player;
 
     //public float maxHealth = 100;
-    public float maxHealth = 10;
+    public float maxHealth = 5;
     public float health;
 
     string previousAnim;
+
+    Vector3 meetPlayerPos;
 
     // Start is called before the first frame update
     void Start()
@@ -166,6 +168,8 @@ public class Boss : MonoBehaviour
         {
             if (other.gameObject.tag.Equals("Player"))
             {
+                meetPlayerPos = Player.playerPos;
+
                 agent.isStopped = true;
                 anim.SetBool("meetPlayer", true);
 
@@ -273,17 +277,22 @@ public class Boss : MonoBehaviour
             health -= dam;
 
             StartCoroutine(WaitForAnimation());
+
+            if(health < 0)
+            {
+                anim.SetBool("bossDied", true);
+                Invoke("movePlayer", 2f);
+
+                bossHealthSlider.gameObject.SetActive(false);
+                Destroy(this.gameObject, 3f);
+            }
         }
     }
 
-    //string previousAnimClipName()
-    //{
-    //    string previous = anim.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-    //    switch(previous)
-    //    {
-    //        case ""
-    //    }
-    //}
+    void movePlayer()
+    {
+        GameObject.FindWithTag("Player").transform.position = meetPlayerPos;
+    }
 
     IEnumerator WaitForAnimation()
     {
