@@ -29,6 +29,7 @@ TagManager:
   - TalkImage
   - QuestImage
   - QuestUI
+  - floor
   layers:
   - Default
   - TransparentFX
@@ -37,7 +38,7 @@ TagManager:
   - Water
   - UI
   - LayerObstacle
-  - 
+  - Floor
   - 
   - 
   - 

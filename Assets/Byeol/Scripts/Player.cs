@@ -122,17 +122,37 @@ public class Player : MonoBehaviour
 
     void Fire()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) //스페이스바를 입력하면
+        if(Input.GetKeyDown(KeyCode.Space))
         {
             anim.SetBool("isAttacking", true);
-            StartCoroutine(CarrotDelay());
-            GameObject bullet = Instantiate(bulletFactory); // 총알 공장에서 총알을 만들고
-            bullet.transform.position = firePosition.transform.position; // 총알을 발사한다
-            StartCoroutine(AttackingDelay());
+            Vector3 spawnPos = transform.position;
+            spawnPos.x = transform.position.x + 1f;
+            spawnPos.y = transform.position.y + 3f;
+            GameObject carrot = Instantiate(bulletFactory,
+                spawnPos, Quaternion.identity);
+            Rigidbody carrotRb = carrot.GetComponent<Rigidbody>();
+            carrotRb.useGravity = true;
+            float carrotSpeed = 10f;
+            carrotRb.AddForce(transform.forward * carrotSpeed,
+                ForceMode.Impulse);
 
-            //manager.ShowText(manager.scanObject);
+            StartCoroutine(AttackingDelay());
         }
     }
+
+    //void Fire()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space)) //스페이스바를 입력하면
+    //    {
+    //        anim.SetBool("isAttacking", true);
+    //        StartCoroutine(CarrotDelay());
+    //        GameObject bullet = Instantiate(bulletFactory); // 총알 공장에서 총알을 만들고
+    //        bullet.transform.position = firePosition.transform.position; // 총알을 발사한다
+    //        StartCoroutine(AttackingDelay());
+
+    //        //manager.ShowText(manager.scanObject);
+    //    }
+    //}
 
     IEnumerator AttackingDelay()
     {

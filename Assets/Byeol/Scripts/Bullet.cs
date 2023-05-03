@@ -6,7 +6,8 @@ public class Bullet : MonoBehaviour
 {
 
     public float speed = 5; //총알속도
-    public float DestroyTime = 1.0f; //사라지는 시간
+    //public float DestroyTime = 1.0f; //사라지는 시간
+    public float DestroyTime = 10.0f; //사라지는 시간
     public Player player;
 
     public ParticleSystem particle; 
@@ -25,7 +26,7 @@ public class Bullet : MonoBehaviour
     void Update()
     {
         //Shoot();
-        transform.position += player.GetMoveVec() * speed * Time.deltaTime;
+        //transform.position += player.GetMoveVec() * speed * Time.deltaTime;
     }
 
     public void startParticle()
@@ -33,11 +34,20 @@ public class Bullet : MonoBehaviour
         particle.Play();
     }
 
-    public void Shoot()
+    private void OnCollisionEnter(Collision collision)
     {
-        //GetComponent<Rigidbody>().isKinematic = false;
-        transform.position += player.GetMoveVec() * speed * Time.deltaTime
-            + new Vector3(0, 0.0001f, 0.0001f);
+        if(collision.gameObject.CompareTag("floor")
+            || collision.gameObject.CompareTag("FightingZonePlane"))
+        {
+            Destroy(this.gameObject, 0.3f);
+        }
     }
+
+    //public void Shoot()
+    //{
+    //    //GetComponent<Rigidbody>().isKinematic = false;
+    //    transform.position += player.GetMoveVec() * speed * Time.deltaTime
+    //        + new Vector3(0, 0.0001f, 0.0001f);
+    //}
 
 }

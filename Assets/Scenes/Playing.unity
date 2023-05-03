@@ -10616,7 +10616,7 @@ GameObject:
   - component: {fileID: 870014096}
   - component: {fileID: 870014095}
   - component: {fileID: 870014099}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FightingZonePlane
   m_TagString: FightingZonePlane
   m_Icon: {fileID: 0}
@@ -16324,7 +16324,7 @@ GameObject:
   - component: {fileID: 1257342370}
   m_Layer: 0
   m_Name: BossPlane
-  m_TagString: Untagged
+  m_TagString: floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21851,9 +21851,9 @@ GameObject:
   - component: {fileID: 1850044356}
   - component: {fileID: 1850044355}
   - component: {fileID: 1850044359}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MainPlane
-  m_TagString: Untagged
+  m_TagString: floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24261,7 +24261,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1999350973}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5423a57fc3300b14188146faa5b0cdbe, type: 3}
   m_Name: 
