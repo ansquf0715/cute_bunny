@@ -2,38 +2,79 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossControl : MonoBehaviour
+namespace StatePattern
 {
-    static public bool toCreateBoss = false;
 
-    public GameObject boss;
-    GameObject clonedBoss;
-
-    // Start is called before the first frame update
-    void Start()
+    public class BossControl : MonoBehaviour
     {
-        
-    }
+        static public bool toCreateBoss = false;
+        static public bool playerIsInFightingZone = false;
 
-    // Update is called once per frame
-    void Update()
-    {
-        createBoss();
-    }
+        Bounds fightingZoneBound;
 
-    void createBoss()
-    {
-        if(toCreateBoss == true)
+        public GameObject boss;
+        GameObject clonedBoss;
+
+        GameObject player;
+
+        Boss bossObj;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            toCreateBoss = false;
+            player = GameObject.FindWithTag("Player");
 
-            //clonedBoss =
-            //    Instantiate(boss, new Vector3(-3.82f, 33.8f, 56.5f),
-            //    Quaternion.Euler(0f, 180f, 0));
-
-            clonedBoss =
-                Instantiate(boss, new Vector3(-3.82f, 15f, 56.5f),
-                Quaternion.Euler(0f, 180f, 0));
+            GameObject fightingZone = GameObject.Find("FightingZonePlane");
+            Collider fightingZoneCollider = fightingZone.GetComponent<BoxCollider>();
+            fightingZoneBound = fightingZoneCollider.bounds;
         }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if(clonedBoss == null && toCreateBoss == true)
+            {
+                toCreateBoss = false;
+
+                clonedBoss =
+                    Instantiate(boss, new Vector3(-3.82f, 15f, 56.5f),
+                    Quaternion.Euler(0f, 180f, 0));
+                Debug.Log("cloned boss" + clonedBoss);
+
+                bossObj = new Boss(clonedBoss.transform, player.transform);
+            }
+
+            if(bossObj != null)
+            {
+                bossObj.HandleInput(player.transform);
+                bossObj.UpdateEnemy(player.transform);
+            }
+
+            checkPlayerInFightingZone();
+        }
+
+        void checkPlayerInFightingZone()
+        {
+            if (fightingZoneBound.Contains(player.transform.position))
+            {
+                playerIsInFightingZone = true;
+            }
+            else
+            {
+                playerIsInFightingZone = false;
+            }
+        }
+
+        //void createBoss()
+        //{
+        //    if (toCreateBoss == true)
+        //    {
+        //        toCreateBoss = false;
+
+        //        clonedBoss =
+        //            Instantiate(boss, new Vector3(-3.82f, 15f, 56.5f),
+        //            Quaternion.Euler(0f, 180f, 0));
+        //    }
+        //}
     }
 }
