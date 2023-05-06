@@ -9,6 +9,7 @@ namespace StatePattern
     {
         static public bool toCreateBoss = false;
         static public bool playerIsInFightingZone = false;
+        static public bool playerIsMoved = false;
 
         Bounds fightingZoneBound;
 
@@ -16,8 +17,9 @@ namespace StatePattern
         GameObject clonedBoss;
 
         GameObject player;
-
         Boss bossObj;
+
+        public GameObject stormParticle;
 
         // Start is called before the first frame update
         void Start()

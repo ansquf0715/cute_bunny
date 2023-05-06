@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace StatePattern
 {
-    public class Boss
+    public class Boss 
     {
         public Transform transform;
         BossState state;
@@ -17,10 +17,19 @@ namespace StatePattern
         Animator animator;
         public Animator GetAnimator()
         {
+            if (animator == null)
+            {
+                animator = transform.GetComponent<Animator>();
+            }
             return animator;
         }
 
         public float Hp { get; set; }
+
+        public bool bossIsMoved;
+        static public Vector3 meetPlayerPos;
+
+        public bool firstMeetPlayer { get; set; }
 
         public Boss(Transform boss, Transform player)
         {
@@ -33,6 +42,9 @@ namespace StatePattern
             animator = boss.GetComponent<Animator>();
 
             Hp = 10f;
+            firstMeetPlayer = false;
+
+            bossIsMoved = false;
         }
 
         public void HandleInput(Transform player)
@@ -50,5 +62,7 @@ namespace StatePattern
         {
             state.update(this, player);
         }
+
     }
+
 }

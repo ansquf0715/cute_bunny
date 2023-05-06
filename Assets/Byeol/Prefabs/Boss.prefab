@@ -153,7 +153,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.4542193, y: 0.2282875, z: 3.6223302}
   m_Center: {x: -0.1041256, y: 0.019993974, z: 1.3111647}
---- !u!114 &-1041735089784402399
+--- !u!114 &6428819210107983378
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,17 +162,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6604595669822358904}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c5c15d6fb993fd44b502c01246bf0e5, type: 3}
+  m_Script: {fileID: 11500000, guid: f0c4b561da13c534483363759b2366ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cols:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  particle: {fileID: 3873254573453174992, guid: c9b9556086b3ef2438bff2c6eab55d71, type: 3}
-  moveParticle: {fileID: 3873254573453174992, guid: c9b9556086b3ef2438bff2c6eab55d71, type: 3}
-  playerIsInFightingZone: 0
-  obstacleDetectionRadius: 1
 --- !u!195 &8430930677759594876
 NavMeshAgent:
   m_ObjectHideFlags: 0

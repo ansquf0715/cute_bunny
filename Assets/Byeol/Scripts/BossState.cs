@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace StatePattern
 {
@@ -27,13 +28,13 @@ namespace StatePattern
             cols = bossPlane.GetComponentsInChildren<Collider>();
             playerIsInFightingZone = false;
 
-            boss.GetAnimator().Play("WalkFWD");
+            boss.GetAnimator().SetBool("bossWalking", true);
         }
 
         public override BossState handleInput(Boss boss, Transform player)
         {
             playerIsInFightingZone = BossControl.playerIsInFightingZone;
-            if(playerIsInFightingZone)
+            if (playerIsInFightingZone)
             {
                 return new WalkState();
             }
@@ -42,6 +43,7 @@ namespace StatePattern
 
         public override void update(Boss boss, Transform player)
         {
+            boss.GetAnimator().Play("WalkFWD");
             if (!boss.NavMeshAgent.pathPending && boss.NavMeshAgent.remainingDistance < 0.5f)
             {
                 Debug.Log("stroll update");
@@ -94,10 +96,10 @@ namespace StatePattern
 
         public override void start(Boss boss, Transform player)
         {
-            Debug.Log("walk state start");
-            //boss.transform.rotation = Quaternion.LookRotation(player.position);
             destPos = boss.transform.position;
             lastPlayerPos = player.position;
+
+            boss.GetAnimator().SetBool("bossWalking", true);
         }
 
         public override BossState handleInput(Boss boss, Transform player)
@@ -121,28 +123,69 @@ namespace StatePattern
         }
     }
 
-    public class RunState:BossState
+    public class RunState : BossState
     {
         float distance;
         Vector3 destPos;
         Vector3 lastPlayerPos;
+
+        bool isReadyToMove;
+        float startTime;
+        float moveStartTime;
+
+        GameObject stormParticle;
+        GameObject clonedStormParticle;
+
+        Image blackImage;
+        Slider HealthSlider;
+
+        bool isChangingHeight;
+        float changeHeightStartTime;
+        float changeHeightDuration;
+        float startHeight;
+        float targetHeight;
 
         public override void start(Boss boss, Transform player)
         {
             Debug.Log("run state start");
             destPos = boss.transform.position;
             lastPlayerPos = player.position;
+            startTime = Time.time;
+            stormParticle = Resources.Load<GameObject>("BossParticle");
+
+            Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+            blackImage = canvas.transform.Find("coverBlack").GetComponent<Image>();
+            HealthSlider = canvas.transform.Find("BossBar").GetComponent<Slider>();
+
+            startHeight = blackImage.rectTransform.sizeDelta.y;
+
+            boss.GetAnimator().SetBool("bossRun", true);
         }
 
         public override BossState handleInput(Boss boss, Transform player)
         {
             distance = Vector3.Distance(player.position, boss.transform.position);
-            if (distance < 20f)
-            {
 
+            if(boss.bossIsMoved)
+            {
+                if (distance < 10f)
+                {
+                    return new AttackState();
+                }
             }
             if (distance >= 20f)
             {
+                return new WalkState();
+            }
+
+            if (isReadyToMove)
+            {
+                blackImage.gameObject.SetActive(false);
+                HealthSlider.gameObject.SetActive(true);
+                Vector3 newPos = new Vector3(-164f, 0, 61f);
+                boss.NavMeshAgent.Warp(newPos);
+                player.transform.position = new Vector3(-166f, 0, 35f);
+                boss.bossIsMoved = true;
                 return new WalkState();
             }
             return null;
@@ -150,7 +193,7 @@ namespace StatePattern
 
         public override void update(Boss boss, Transform player)
         {
-            if(player.position != lastPlayerPos)
+            if (player.position != lastPlayerPos)
             {
                 destPos = player.position;
                 lastPlayerPos = player.position;
@@ -158,36 +201,162 @@ namespace StatePattern
 
             boss.NavMeshAgent.SetDestination(destPos);
             boss.NavMeshAgent.speed = 7f;
+
+            if (!boss.firstMeetPlayer) //player를 처음 만났을 때
+            {
+                if (checkPlayerPosToMove(boss, player) && Time.time - startTime > 3f)
+                {
+                    boss.firstMeetPlayer = true;
+                    StartChangingImageHeight();
+                }
+            }
+
+            if(isChangingHeight)
+            {
+                float elapseTime = Time.time - changeHeightStartTime;
+                float ratio = elapseTime / changeHeightDuration;
+
+                float newHeight = Mathf.Lerp(startHeight, targetHeight, ratio);
+                blackImage.rectTransform.sizeDelta = new Vector2(
+                    blackImage.rectTransform.sizeDelta.x, newHeight);
+
+                float newAlpha = Mathf.Lerp(0f, 1f, ratio);
+                blackImage.color = new Color(blackImage.color.r,
+                    blackImage.color.g, blackImage.color.b, newAlpha);
+
+                if(ratio >= 1f)
+                {
+                    isChangingHeight = false;
+                    isReadyToMove = true;
+                }
+            }
+        }
+
+        void StartChangingImageHeight()
+        {
+            isChangingHeight = true;
+            changeHeightStartTime = Time.time;
+            startHeight = blackImage.rectTransform.sizeDelta.y;
+            targetHeight = 1200f;
+            changeHeightDuration = 1f;
+            blackImage.gameObject.SetActive(true);
+        }
+
+        bool checkPlayerPosToMove(Boss boss, Transform player)
+        {
+            float dist = Vector3.Distance(player.position, boss.transform.position);
+            if (dist <= 10f) //거리가 2보다 작으면
+            {
+                boss.NavMeshAgent.isStopped = true;
+                boss.GetAnimator().SetBool("meetPlayer", true);
+
+                if (clonedStormParticle == null)
+                {
+                    clonedStormParticle = GameObject.Instantiate(stormParticle,
+                        boss.transform.position, Quaternion.identity);
+                }
+
+                ParticleSystem stormSystem = clonedStormParticle.GetComponent<ParticleSystem>();
+                if (!stormSystem.isPlaying)
+                    stormSystem.Play();
+
+                return true;
+            }
+            return false;
+        }
+
+        public override void end(Boss boss, Transform player)
+        {
+            boss.GetAnimator().SetBool("meetPlayer", false);
         }
     }
 
     public class AttackState:BossState
     {
         float distance;
+        int randomMotionNumber;
+        bool isAttacking;
+        bool changeState;
+
+        string randomMotionName;
 
         public override void start(Boss boss, Transform player)
         {
             Debug.Log("attack state start");
+            changeState = false;
+            isAttacking = false;
+
+            randomMotionName = getRandomMotionName();
         }
 
         public override BossState handleInput(Boss boss, Transform player)
         {
-            distance = Vector3.Distance(player.position, boss.transform.position);
-            if(distance >= 5f)
-            {
-                return new RunState();
-            }
+            //distance = Vector3.Distance(player.position, boss.transform.position);
+            //if(distance >= 5f)
+            //{
+            //    return new RunState();
+            //}
 
             if(boss.Hp <= 3f)
             {
                 return new FleeState();
             }
+
+            if(changeState)
+            {
+                boss.GetAnimator().SetBool(randomMotionName, false);
+                return new RunState();
+            }
+
             return null;
         }
 
         public override void update(Boss boss, Transform player)
         {
+            if (!isAttacking)
+            {
+                //play animation
+                boss.GetAnimator().SetBool(randomMotionName, true);
+                isAttacking = true;
+            }
+            else
+            {
+                Debug.Log("is playing animation" + IsPlayingAnimation(boss));
+                if (!IsPlayingAnimation(boss))
+                {
+                    isAttacking = false;
+                    changeState = true;
+                }
+            }
+        }
 
+        public bool IsPlayingAnimation(Boss boss)
+        {
+            AnimatorStateInfo stateInfo = boss.GetAnimator().GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsName(randomMotionName))
+                return true;
+            return false;
+        }
+
+        void getRandomMotionNum()
+        {
+            randomMotionNumber = Random.Range(0, 3);
+        }
+
+        string getRandomMotionName()
+        {
+            getRandomMotionNum();
+            switch (randomMotionNumber)
+            {
+                case 0:
+                    return "bossAttack1";
+                case 1:
+                    return "bossAttack2";
+                case 2:
+                    return "bossAttack3";
+                default:
+                    return null;
+            }
         }
     }
 
@@ -224,4 +393,5 @@ namespace StatePattern
             }
         }
     }
+
 }
