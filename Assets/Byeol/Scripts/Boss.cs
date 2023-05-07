@@ -8,6 +8,22 @@ namespace StatePattern
 {
     public class Boss 
     {
+        private static Boss instance;
+        public static Boss GetInstance(Transform bossTransform = null,
+            Transform playerTransform = null)
+        {
+            if (instance == null)
+            {
+                instance = new Boss(bossTransform, playerTransform);
+            }
+
+            if(bossTransform == null && playerTransform == null)
+            {
+                return instance;
+            }
+            return instance;
+        }
+
         public Transform transform;
         BossState state;
 
@@ -26,10 +42,12 @@ namespace StatePattern
 
         public float Hp { get; set; }
 
-        public bool bossIsMoved;
+        static public bool bossIsMoved;
         static public Vector3 meetPlayerPos;
 
         public bool firstMeetPlayer { get; set; }
+
+        Slider healthSlider;
 
         public Boss(Transform boss, Transform player)
         {
@@ -45,6 +63,12 @@ namespace StatePattern
             firstMeetPlayer = false;
 
             bossIsMoved = false;
+
+            Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+            healthSlider = canvas.transform.Find("BossBar").GetComponent<Slider>();
+            //healthSlider.value = 1f;
+            healthSlider.maxValue = Hp;
+            healthSlider.value = Hp;
         }
 
         public void HandleInput(Transform player)
@@ -61,6 +85,26 @@ namespace StatePattern
         public void UpdateEnemy(Transform player)
         {
             state.update(this, player);
+            //Debug.Log("boss hp" + Hp);
+        }
+
+        public void TakeDamage(float damage)
+        {
+            Hp -= damage;
+            //if(Hp <= 0f)
+            //{
+            //    Debug.Log("Die");
+            //}
+
+            if(healthSlider != null)
+            {
+                healthSlider.value = Hp;
+            }
+        }
+
+        public BossState GetCurrentState()
+        {
+            return state;
         }
 
     }

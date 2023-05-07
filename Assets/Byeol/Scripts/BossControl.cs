@@ -43,7 +43,8 @@ namespace StatePattern
                     Quaternion.Euler(0f, 180f, 0));
                 Debug.Log("cloned boss" + clonedBoss);
 
-                bossObj = new Boss(clonedBoss.transform, player.transform);
+                //bossObj = new Boss(clonedBoss.transform, player.transform);
+                bossObj = Boss.GetInstance(clonedBoss.transform, player.transform);
             }
 
             if(bossObj != null)

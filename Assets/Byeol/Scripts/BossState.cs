@@ -166,7 +166,7 @@ namespace StatePattern
         {
             distance = Vector3.Distance(player.position, boss.transform.position);
 
-            if(boss.bossIsMoved)
+            if(Boss.bossIsMoved)
             {
                 if (distance < 10f)
                 {
@@ -185,7 +185,8 @@ namespace StatePattern
                 Vector3 newPos = new Vector3(-164f, 0, 61f);
                 boss.NavMeshAgent.Warp(newPos);
                 player.transform.position = new Vector3(-166f, 0, 35f);
-                boss.bossIsMoved = true;
+                //boss.bossIsMoved = true;
+                Boss.bossIsMoved = true;
                 return new WalkState();
             }
             return null;
@@ -268,6 +269,8 @@ namespace StatePattern
         public override void end(Boss boss, Transform player)
         {
             boss.GetAnimator().SetBool("meetPlayer", false);
+            if (clonedStormParticle != null)
+                GameObject.Destroy(clonedStormParticle, 1f);
         }
     }
 
@@ -280,6 +283,12 @@ namespace StatePattern
 
         string randomMotionName;
 
+        bool hasCollided;
+        bool isDustParticleCreated;
+
+        GameObject dustParticle;
+        GameObject clonedDustParticle;
+
         public override void start(Boss boss, Transform player)
         {
             Debug.Log("attack state start");
@@ -287,17 +296,23 @@ namespace StatePattern
             isAttacking = false;
 
             randomMotionName = getRandomMotionName();
+
+            hasCollided = false;
+            isDustParticleCreated = false;
+
+            dustParticle = Resources.Load<GameObject>("smoke");
         }
 
         public override BossState handleInput(Boss boss, Transform player)
         {
-            //distance = Vector3.Distance(player.position, boss.transform.position);
-            //if(distance >= 5f)
-            //{
-            //    return new RunState();
-            //}
+            distance = Vector3.Distance(player.position, boss.transform.position);
+            if (distance >= 5f)
+            {
+                boss.GetAnimator().SetBool(randomMotionName, false);
+                return new RunState();
+            }
 
-            if(boss.Hp <= 3f)
+            if (boss.Hp <= 3f)
             {
                 return new FleeState();
             }
@@ -307,7 +322,6 @@ namespace StatePattern
                 boss.GetAnimator().SetBool(randomMotionName, false);
                 return new RunState();
             }
-
             return null;
         }
 
@@ -321,21 +335,52 @@ namespace StatePattern
             }
             else
             {
-                Debug.Log("is playing animation" + IsPlayingAnimation(boss));
                 if (!IsPlayingAnimation(boss))
                 {
+                    GameObject.Destroy(clonedDustParticle, 1f);
+
                     isAttacking = false;
                     changeState = true;
+                }
+            }
+
+            if (IsPlayingAnimation(boss))
+            {
+                MeshCollider[] colliders = boss.transform.GetComponentsInChildren<MeshCollider>();
+                foreach (MeshCollider collider in colliders)
+                {
+                    if (player.GetComponent<Collider>().bounds.Intersects(collider.bounds))
+                    {
+                        if (!hasCollided)
+                        {
+                            if (clonedDustParticle == null)
+                            {
+                                Vector3 newPos = boss.transform.position;
+                                newPos.x = boss.transform.position.x + 3;
+                                newPos.z = boss.transform.position.z + 3;
+                                clonedDustParticle = GameObject.Instantiate(dustParticle, newPos, Quaternion.identity);
+                            }
+                            else
+                            {
+                                // 이전 프레임에서 생성된 파티클 객체가 있는 경우, 파티클 위치를 업데이트합니다.
+                                clonedDustParticle.transform.position = boss.transform.position + new Vector3(3, 0, 3);
+                            }
+
+                            ParticleSystem dustSystem = clonedDustParticle.GetComponent<ParticleSystem>();
+                            if (!dustSystem.isPlaying)
+                                dustSystem.Play();
+
+                            //player.GetComponent<Player>().setHealth(-2);
+                            //hasCollided = true;
+                        }
+                    }
                 }
             }
         }
 
         public bool IsPlayingAnimation(Boss boss)
         {
-            AnimatorStateInfo stateInfo = boss.GetAnimator().GetCurrentAnimatorStateInfo(0);
-            if (stateInfo.IsName(randomMotionName))
-                return true;
-            return false;
+            return boss.GetAnimator().GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f;
         }
 
         void getRandomMotionNum()
@@ -366,7 +411,7 @@ namespace StatePattern
 
         public override void start(Boss boss, Transform player)
         {
-
+            Debug.Log("Flee state start");
         }
 
         public override BossState handleInput(Boss boss, Transform player)
@@ -380,17 +425,17 @@ namespace StatePattern
 
         public override void update(Boss boss, Transform player)
         {
-            Vector3 dir = boss.transform.position - player.position;
-            Vector3 destPos = boss.transform.position + dir.normalized * 10f;
-            boss.NavMeshAgent.SetDestination(destPos);
+            //Vector3 dir = boss.transform.position - player.position;
+            //Vector3 destPos = boss.transform.position + dir.normalized * 10f;
+            //boss.NavMeshAgent.SetDestination(destPos);
 
-            if(boss.NavMeshAgent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
-            {
-                Vector2 randomCircle = Random.insideUnitCircle * 10f;
-                Vector3 randomDest = boss.transform.position
-                    + new Vector3(randomCircle.x, 0f, randomCircle.y);
-                boss.NavMeshAgent.SetDestination(randomDest);
-            }
+            //if(boss.NavMeshAgent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
+            //{
+            //    Vector2 randomCircle = Random.insideUnitCircle * 10f;
+            //    Vector3 randomDest = boss.transform.position
+            //        + new Vector3(randomCircle.x, 0f, randomCircle.y);
+            //    boss.NavMeshAgent.SetDestination(randomDest);
+            //}
         }
     }
 
