@@ -83,8 +83,6 @@ public class InGameUI : MonoBehaviour
 
         showBoss();
 
-
-
         checkInput();
         menuPageInput();
     }

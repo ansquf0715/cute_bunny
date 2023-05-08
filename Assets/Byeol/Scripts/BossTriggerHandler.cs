@@ -27,19 +27,16 @@ public class BossTriggerHandler : MonoBehaviour
 
         if (other.gameObject.tag.Equals("Player"))
         {
-            if(!alreadySavedFirstMeetPos)
-            {
-                alreadySavedFirstMeetPos = true;
-                Boss.meetPlayerPos = other.transform.position;
-            }
 
-            //BossState currentState = existingBoss.GetCurrentState();
-            //if (currentState.GetType() == typeof(AttackState))
-            //{
-            //    GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(-2);
-            //    Debug.Log("get health" + 
-            //        GameObject.FindWithTag("Player").GetComponent<Player>().getHealth());
-            //}
+            if (BossControl.playerIsInFightingZone)
+            {
+                if (!alreadySavedFirstMeetPos)
+                {
+                    BossControl.firstMetPos = other.transform.position;
+                    Debug.Log("first met pos" + BossControl.firstMetPos);
+                    alreadySavedFirstMeetPos = true;
+                }
+            }
         }
 
         //boss랑 player가 싸움터로 이동하고 나서만
@@ -49,6 +46,8 @@ public class BossTriggerHandler : MonoBehaviour
             {
                 Destroy(other.gameObject);
 
+                //existingBoss.GetAnimator().SetBool("bossGetHit", true);
+
                 float damage = 
                     GameObject.FindWithTag("Player").GetComponent<Player>().getPower();
                 existingBoss.TakeDamage(damage);
@@ -56,20 +55,4 @@ public class BossTriggerHandler : MonoBehaviour
             }
         }
     }
-
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    Boss existingBoss = Boss.GetInstance();
-
-    //    if (other.gameObject.tag.Equals("Player"))
-    //    {
-    //        Debug.Log("boss & player");
-    //        //boss가 현재 공격중이면
-    //        BossState currentState = existingBoss.GetCurrentState();
-    //        if (currentState.GetType() == typeof(AttackState))
-    //        {
-    //            GameObject.FindWithTag("Player").GetComponent<Player>().setHealth(-2);
-    //        }
-    //    }
-    //}
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 namespace StatePattern
 {
@@ -99,6 +100,8 @@ namespace StatePattern
             destPos = boss.transform.position;
             lastPlayerPos = player.position;
 
+            boss.NavMeshAgent.speed = 7f;
+
             boss.GetAnimator().SetBool("bossWalking", true);
         }
 
@@ -160,6 +163,7 @@ namespace StatePattern
             startHeight = blackImage.rectTransform.sizeDelta.y;
 
             boss.GetAnimator().SetBool("bossRun", true);
+            boss.NavMeshAgent.speed = 30f;
         }
 
         public override BossState handleInput(Boss boss, Transform player)
@@ -201,7 +205,6 @@ namespace StatePattern
             }
 
             boss.NavMeshAgent.SetDestination(destPos);
-            boss.NavMeshAgent.speed = 7f;
 
             if (!boss.firstMeetPlayer) //player를 처음 만났을 때
             {
@@ -286,8 +289,8 @@ namespace StatePattern
         bool hasCollided;
         bool isDustParticleCreated;
 
-        GameObject dustParticle;
-        GameObject clonedDustParticle;
+        //GameObject dustParticle;
+        //GameObject clonedDustParticle;
 
         public override void start(Boss boss, Transform player)
         {
@@ -300,27 +303,34 @@ namespace StatePattern
             hasCollided = false;
             isDustParticleCreated = false;
 
-            dustParticle = Resources.Load<GameObject>("smoke");
+            //dustParticle = Resources.Load<GameObject>("smoke");
         }
 
         public override BossState handleInput(Boss boss, Transform player)
         {
             distance = Vector3.Distance(player.position, boss.transform.position);
-            if (distance >= 5f)
+
+            if(boss.Hp >= 3f)
+            {
+                if (distance >= 3f)
+                {
+                    boss.GetAnimator().SetBool(randomMotionName, false);
+                    boss.attackAnimIsPlaying = false;
+
+                    return new RunState();
+                }
+
+                if (changeState)
+                {
+                    boss.GetAnimator().SetBool(randomMotionName, false);
+                    return new RunState();
+                }
+            }
+            else if(boss.Hp <3f)
             {
                 boss.GetAnimator().SetBool(randomMotionName, false);
-                return new RunState();
-            }
-
-            if (boss.Hp <= 3f)
-            {
+                boss.GetAnimator().SetBool("flee", true);
                 return new FleeState();
-            }
-
-            if(changeState)
-            {
-                boss.GetAnimator().SetBool(randomMotionName, false);
-                return new RunState();
             }
             return null;
         }
@@ -332,48 +342,16 @@ namespace StatePattern
                 //play animation
                 boss.GetAnimator().SetBool(randomMotionName, true);
                 isAttacking = true;
+                boss.attackAnimIsPlaying = true;
+
             }
             else
             {
                 if (!IsPlayingAnimation(boss))
                 {
-                    GameObject.Destroy(clonedDustParticle, 1f);
-
+                    //GameObject.Destroy(clonedDustParticle, 1f);
                     isAttacking = false;
                     changeState = true;
-                }
-            }
-
-            if (IsPlayingAnimation(boss))
-            {
-                MeshCollider[] colliders = boss.transform.GetComponentsInChildren<MeshCollider>();
-                foreach (MeshCollider collider in colliders)
-                {
-                    if (player.GetComponent<Collider>().bounds.Intersects(collider.bounds))
-                    {
-                        if (!hasCollided)
-                        {
-                            if (clonedDustParticle == null)
-                            {
-                                Vector3 newPos = boss.transform.position;
-                                newPos.x = boss.transform.position.x + 3;
-                                newPos.z = boss.transform.position.z + 3;
-                                clonedDustParticle = GameObject.Instantiate(dustParticle, newPos, Quaternion.identity);
-                            }
-                            else
-                            {
-                                // 이전 프레임에서 생성된 파티클 객체가 있는 경우, 파티클 위치를 업데이트합니다.
-                                clonedDustParticle.transform.position = boss.transform.position + new Vector3(3, 0, 3);
-                            }
-
-                            ParticleSystem dustSystem = clonedDustParticle.GetComponent<ParticleSystem>();
-                            if (!dustSystem.isPlaying)
-                                dustSystem.Play();
-
-                            //player.GetComponent<Player>().setHealth(-2);
-                            //hasCollided = true;
-                        }
-                    }
                 }
             }
         }
@@ -405,18 +383,33 @@ namespace StatePattern
         }
     }
 
-    public class FleeState:BossState
+    public class FleeState : BossState
     {
         float step;
+        Vector3 directionToPlayer;
+
+        float hpIncreaseRate = 0.5f; //1초당 Hp 증가량
+        float hpIncreaseTimer = 1f; //1초당 Hp 증가 타이머
 
         public override void start(Boss boss, Transform player)
         {
             Debug.Log("Flee state start");
+            boss.GetAnimator().SetBool("bossWalking", true);
+
+            //boss가 player의 반대 방향을 바라보도록 설정
+            Vector3 bossPos = boss.transform.position;
+            Vector3 playerPos = player.position;
+
+            directionToPlayer = playerPos - bossPos;
+            directionToPlayer.y = 0f;
+
+            Quaternion targetRot = Quaternion.LookRotation(-directionToPlayer);
+            boss.transform.rotation = targetRot;
         }
 
         public override BossState handleInput(Boss boss, Transform player)
         {
-            if(boss.Hp >= 6)
+            if (boss.Hp >= 4)
             {
                 return new WalkState();
             }
@@ -425,17 +418,21 @@ namespace StatePattern
 
         public override void update(Boss boss, Transform player)
         {
-            //Vector3 dir = boss.transform.position - player.position;
-            //Vector3 destPos = boss.transform.position + dir.normalized * 10f;
-            //boss.NavMeshAgent.SetDestination(destPos);
+            hpIncreaseTimer -= Time.deltaTime;
 
-            //if(boss.NavMeshAgent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathInvalid)
-            //{
-            //    Vector2 randomCircle = Random.insideUnitCircle * 10f;
-            //    Vector3 randomDest = boss.transform.position
-            //        + new Vector3(randomCircle.x, 0f, randomCircle.y);
-            //    boss.NavMeshAgent.SetDestination(randomDest);
-            //}
+            if(hpIncreaseTimer <= 0f)
+            {
+                boss.IncreaseHP(hpIncreaseRate);
+                hpIncreaseTimer = 1f;
+            }
+
+            boss.GetAnimator().SetBool("flee", false);
+
+            Vector3 fleeDirection = (boss.transform.position - player.position).normalized;
+            Vector3 fleePos = boss.transform.position + fleeDirection;
+            boss.NavMeshAgent.SetDestination(fleePos);
+            boss.NavMeshAgent.speed = 10f;
+            Debug.Log("fleePos" + fleePos);
         }
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace StatePattern
 {
@@ -10,6 +11,9 @@ namespace StatePattern
         static public bool toCreateBoss = false;
         static public bool playerIsInFightingZone = false;
         static public bool playerIsMoved = false;
+        static public bool bossIsDied = false;
+
+        static public Vector3 firstMetPos;
 
         Bounds fightingZoneBound;
 
@@ -21,6 +25,10 @@ namespace StatePattern
 
         public GameObject stormParticle;
 
+        bool bossDieChecked = false;
+
+        Image blackImage;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -29,6 +37,9 @@ namespace StatePattern
             GameObject fightingZone = GameObject.Find("FightingZonePlane");
             Collider fightingZoneCollider = fightingZone.GetComponent<BoxCollider>();
             fightingZoneBound = fightingZoneCollider.bounds;
+
+            Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+            blackImage = canvas.transform.Find("coverBlack").GetComponent<Image>();
         }
 
         // Update is called once per frame
@@ -47,13 +58,29 @@ namespace StatePattern
                 bossObj = Boss.GetInstance(clonedBoss.transform, player.transform);
             }
 
-            if(bossObj != null)
+            if(!bossIsDied)
             {
-                bossObj.HandleInput(player.transform);
-                bossObj.UpdateEnemy(player.transform);
+                if (bossObj != null)
+                {
+                    bossObj.HandleInput(player.transform);
+                    bossObj.UpdateEnemy(player.transform);
+                }
             }
 
             checkPlayerInFightingZone();
+
+            if (bossIsDied)
+            {
+                if(!bossDieChecked)
+                {
+                    Debug.Log(" boss is died");
+                    bossDieChecked = true;
+
+                    Animator bossAnim = clonedBoss.GetComponent<Animator>();
+                    bossAnim.SetTrigger("Died");
+                    Invoke("movePlayerToOriginalPos", 2f);
+                }
+            }
         }
 
         void checkPlayerInFightingZone()
@@ -68,16 +95,44 @@ namespace StatePattern
             }
         }
 
-        //void createBoss()
-        //{
-        //    if (toCreateBoss == true)
-        //    {
-        //        toCreateBoss = false;
+        void movePlayerToOriginalPos()
+        {
+            //Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+            StartCoroutine(ChangeHeightCoroutine());
 
-        //        clonedBoss =
-        //            Instantiate(boss, new Vector3(-3.82f, 15f, 56.5f),
-        //            Quaternion.Euler(0f, 180f, 0));
-        //    }
-        //}
+            
+        }
+
+        IEnumerator ChangeHeightCoroutine()
+        {
+            Debug.Log("change height coroutine");
+            blackImage.gameObject.SetActive(true);
+
+            float elapseTime = 0f;
+            float changeHeightDuration = 1f;
+            float startHeight = blackImage.rectTransform.sizeDelta.y;
+            float targetHeight = 1200f;
+
+            while (elapseTime < changeHeightDuration)
+            {
+                elapseTime += Time.deltaTime;
+                float ratio = elapseTime / changeHeightDuration;
+
+                float newHeight = Mathf.Lerp(startHeight, targetHeight, ratio);
+                blackImage.rectTransform.sizeDelta = new Vector2(
+                    blackImage.rectTransform.sizeDelta.x, newHeight);
+
+                float newAlpha = Mathf.Lerp(0f, 1f, ratio);
+                blackImage.color = new Color(blackImage.color.r,
+                    blackImage.color.g, blackImage.color.b, newAlpha);
+
+                yield return null;
+            }
+
+            GameObject.FindWithTag("Player").transform.position
+                = firstMetPos;
+            SellingBox.money += 300;
+            blackImage.gameObject.SetActive(false);
+        }
     }
 }
