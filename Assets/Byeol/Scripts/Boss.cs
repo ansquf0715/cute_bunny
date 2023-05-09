@@ -166,7 +166,7 @@ namespace StatePattern
                             ParticleSystem dustSystem = clonedDustParticle.GetComponent<ParticleSystem>();
                             if (!dustSystem.isPlaying)
                                 dustSystem.Play();
-                            player.GetComponent<Player>().setHealth(-2);
+                            player.GetComponent<Player>().setHealth(-4);
                         }
                         alreadyChecked = true;
                         GameObject.Destroy(clonedDustParticle, 1f);

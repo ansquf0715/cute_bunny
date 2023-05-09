@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using StatePattern;
 
 public class QuestManager : MonoBehaviour
 {
@@ -61,7 +62,7 @@ public class QuestManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //checkInput();
+        checkInput();
         showQuestPage();
 
         if(!checkAllHeartQuestIsDone())
@@ -149,23 +150,19 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    //void checkInput()
-    //{
-    //    if(!Boss.bossIsFighting)
-    //    {
-    //        if (Input.GetKeyDown(KeyCode.Q))
-    //        {
-    //            if (questPageIsOn)
-    //            {
-    //                questPageIsOn = false;
-    //            }
-    //            else
-    //            {
-    //                questPageIsOn = true;
-    //            }
-    //        }
-    //    }
-    //}
+    void checkInput()
+    {
+        if(!Boss.bossIsMoved)
+        {
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                if (questPageIsOn)
+                    questPageIsOn = false;
+                else
+                    questPageIsOn = true;
+            }
+        }
+    }
 
     public void diedEnemyPlus()
     {

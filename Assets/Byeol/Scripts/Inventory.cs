@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using StatePattern;
 public class Inventory : MonoBehaviour
 {
     public static bool inventoryActivated = false;
@@ -30,27 +30,26 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //TryOpenInventory();
+        TryOpenInventory();
 
         checkItemForBirdQuest();
     }
 
-    //private void TryOpenInventory() //tab 누르면 inventory 화면 띄우기
-    //{
-    //    //if(!Boss.bossIsFighting)
-    //    if(!Boss.bossIsFighting)
-    //    {
-    //        if (Input.GetKeyDown(KeyCode.Tab))
-    //        {
-    //            inventoryActivated = !inventoryActivated;
+    private void TryOpenInventory() //tab 누르면 inventory 화면 띄우기
+    {
+        if(!Boss.bossIsMoved)
+        {
+            if(Input.GetKeyDown(KeyCode.Tab))
+            {
+                inventoryActivated = !inventoryActivated;
 
-    //            if (inventoryActivated)
-    //                OpenInventory();
-    //            else
-    //                CloseInventory();
-    //        }
-    //    }
-    //}
+                if (inventoryActivated)
+                    OpenInventory();
+                else
+                    CloseInventory();
+            }
+        }
+    }
 
     private void OpenInventory() //인벤토리 열기
     {
