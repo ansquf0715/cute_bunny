@@ -76,6 +76,7 @@ namespace StatePattern
                     Debug.Log(" boss is died");
                     bossDieChecked = true;
 
+                    Debug.Log("ee");
                     Animator bossAnim = clonedBoss.GetComponent<Animator>();
                     bossAnim.SetTrigger("Died");
                     Invoke("movePlayerToOriginalPos", 2f);
