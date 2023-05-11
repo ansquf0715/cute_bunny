@@ -26,7 +26,8 @@ public class Player : MonoBehaviour
 
     public float power; //player 공격력
     public float MaxHealth; //최대 체력
-    private float CurrentHealth; //현재 체력
+    static public float CurrentHealth; //현재 체력
+    
 
     Vector3 moveVec;
     Animator anim;
@@ -197,9 +198,10 @@ public class Player : MonoBehaviour
 
     public void setHealth(float newHealth) //temp 사용 -> 고쳐야될듯
     {
+        anim.SetTrigger("isHit");
+
         CurrentHealth += newHealth;
         FindObjectOfType<HPBarControl>().isChange();
-        Debug.Log("setHealth 불려짐");
     }
 
     public void checkPlayerHP() //체력을 확인하고 0되면 애니메이션 나오게하기
@@ -207,14 +209,24 @@ public class Player : MonoBehaviour
         anim.SetBool("isDie", true);
         playerDied = true;
         StartCoroutine(Die());
-        StartCoroutine(rebirth()); //5초가 지나고
-        setHealth(20);
+        //StartCoroutine(rebirth()); //5초가 지나고
+        //setHealth(20);
+        //Invoke("resetHealth", 2f);
         StartCoroutine(DelayMove());
     }
 
+    //void resetHealth()
+    //{
+    //    setHealth(20);
+    //}
+
     IEnumerator DelayMove()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
+        anim.SetBool("isDie", false);
+        playerDied = false;
+        CurrentHealth = MaxHealth;
+        FindObjectOfType<HPBarControl>().isChange();
         this.gameObject.transform.position = new Vector3(0, 0, 0);
     }
 

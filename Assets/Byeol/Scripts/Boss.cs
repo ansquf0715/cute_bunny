@@ -40,6 +40,9 @@ namespace StatePattern
             return animator;
         }
 
+        public Rigidbody Rigidbody { get { return rigidbody; } }
+        Rigidbody rigidbody;
+
         public float Hp { get; set; }
 
         static public bool bossIsMoved;
@@ -66,8 +69,9 @@ namespace StatePattern
 
             agent = boss.GetComponent<NavMeshAgent>();
             animator = boss.GetComponent<Animator>();
+            rigidbody = boss.GetComponent<Rigidbody>();
 
-            Hp = 10f;
+            Hp = 4f;
             firstMeetPlayer = false;
 
             bossIsMoved = false;
@@ -87,12 +91,21 @@ namespace StatePattern
         {
             if(!isDead)
             {
-                BossState state = this.state.handleInput(this, player);
-                if (state != null)
+                if (player.GetComponent<Player>().getHealth() <= 0)
                 {
                     this.state.end(this, player);
-                    this.state = state;
+                    this.state = new IdleState();
                     this.state.start(this, player);
+                }
+                else
+                {
+                    BossState state = this.state.handleInput(this, player);
+                    if (state != null)
+                    {
+                        this.state.end(this, player);
+                        this.state = state;
+                        this.state.start(this, player);
+                    }
                 }
             }
         }
@@ -101,8 +114,15 @@ namespace StatePattern
         {
             if(!isDead)
             {
-                state.update(this, player);
-                checkDuringFighting(player);
+                if(player.GetComponent<Player>().getHealth() <= 0)
+                {
+                    state.update(this, player);
+                }
+                else
+                {
+                    state.update(this, player);
+                    checkDuringFighting(player);
+                }
             }
         }
 
@@ -166,7 +186,13 @@ namespace StatePattern
                             ParticleSystem dustSystem = clonedDustParticle.GetComponent<ParticleSystem>();
                             if (!dustSystem.isPlaying)
                                 dustSystem.Play();
-                            player.GetComponent<Player>().setHealth(-4);
+                            player.GetComponent<Player>().setHealth(-2);
+                            //player died
+                            if(player.GetComponent<Player>().getHealth() <=0)
+                            {
+                                BossControl.firstMetPos = new Vector3(0, 0, 0);
+                                healthSlider.gameObject.SetActive(false);
+                            }
                         }
                         alreadyChecked = true;
                         GameObject.Destroy(clonedDustParticle, 1f);

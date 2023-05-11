@@ -55,18 +55,21 @@ public class HPBarControl : MonoBehaviour
         currentFill = player.getHealth();
     }
 
-    void SetHPUI()
+    public void SetHPUI()
     {
-        currentFill = 
-            GameObject.FindWithTag("Player").GetComponent<Player>().getHealth() 
-            / maxFill;
-        Debug.Log("SetHPUI ºÒ·¯Áü CurrentFill" + currentFill);
+        //currentFill = 
+        //    GameObject.FindWithTag("Player").GetComponent<Player>().getHealth() 
+        //    / maxFill;
+
+        currentFill = Player.CurrentHealth / maxFill;
+        //Debug.Log("SetHPUI ºÒ·¯Áü CurrentFill" + currentFill);
 
         //Debug.Log("Set HP UI ");
+
+        content.fillAmount = currentFill;
+
         //content.fillAmount = Mathf.Lerp(content.fillAmount, currentFill,
-        //    Time.deltaTime * lerpSpeed);
-        content.fillAmount = Mathf.Lerp(content.fillAmount, currentFill,
-            lerpSpeed);
+        //    lerpSpeed);
         //sprite.bounds.size.y = currentFill / maxFill;
     }
 

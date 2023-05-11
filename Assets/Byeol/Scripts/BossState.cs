@@ -14,6 +14,26 @@ namespace StatePattern
         virtual public void end(Boss boss, Transform player) { }
     }
 
+    public class IdleState:BossState
+    {
+        public override void start(Boss boss, Transform player)
+        {
+            Debug.Log("idle state start");
+            boss.GetAnimator().SetTrigger("idle");
+            boss.Rigidbody.velocity = Vector3.zero;
+
+            Vector3 lookDirection = player.position - boss.transform.position;
+            lookDirection.y = 0f;
+            Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+            boss.transform.rotation = targetRotation;
+        }
+
+        public override void update(Boss boss, Transform player)
+        {
+            Debug.Log("idle state update");
+        }
+    }
+
     public class StrollState:BossState
     {
         GameObject bossPlane;

@@ -29,6 +29,9 @@ namespace StatePattern
 
         Image blackImage;
 
+        public GameObject victory;
+        public GameObject victoryParticle;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -76,9 +79,11 @@ namespace StatePattern
                     Debug.Log(" boss is died");
                     bossDieChecked = true;
 
-                    Debug.Log("ee");
                     Animator bossAnim = clonedBoss.GetComponent<Animator>();
                     bossAnim.SetTrigger("Died");
+
+
+
                     Invoke("movePlayerToOriginalPos", 2f);
                 }
             }
@@ -100,13 +105,30 @@ namespace StatePattern
         {
             //Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
             StartCoroutine(ChangeHeightCoroutine());
-
-            
         }
 
         IEnumerator ChangeHeightCoroutine()
         {
             Debug.Log("change height coroutine");
+
+            Vector3 newPos = player.transform.position;
+            newPos.y += 3;
+
+            GameObject panpare = Instantiate(victoryParticle, newPos, Quaternion.identity);
+            yield return new WaitForSeconds(0.8f);
+
+            RectTransform canvasTransform = GameObject.Find("Canvas").GetComponent<RectTransform>();
+            Vector2 canvasCenter = new Vector2(
+                canvasTransform.rect.width * 0.5f, canvasTransform.rect.height * 0.5f);
+
+            GameObject vic = Instantiate(victory, canvasCenter, Quaternion.identity,
+                GameObject.Find("Canvas").transform);
+
+            Destroy(vic, 1f);
+            Destroy(panpare, 1f);
+
+            yield return new WaitForSeconds(1f);
+
             blackImage.gameObject.SetActive(true);
 
             float elapseTime = 0f;
