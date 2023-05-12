@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using TMPro;
 
 namespace StatePattern
 {
@@ -51,6 +52,7 @@ namespace StatePattern
         public bool firstMeetPlayer { get; set; }
 
         Slider healthSlider;
+        TMP_Text playerDamage;
 
         public bool attackAnimIsPlaying;
 
@@ -71,7 +73,7 @@ namespace StatePattern
             animator = boss.GetComponent<Animator>();
             rigidbody = boss.GetComponent<Rigidbody>();
 
-            Hp = 4f;
+            Hp = 20f;
             firstMeetPlayer = false;
 
             bossIsMoved = false;
@@ -80,6 +82,8 @@ namespace StatePattern
             healthSlider = canvas.transform.Find("BossBar").GetComponent<Slider>();
             healthSlider.maxValue = Hp;
             healthSlider.value = Hp;
+
+            playerDamage = canvas.transform.Find("Dam").GetComponent<TMP_Text>();
 
             attackAnimIsPlaying = false;
             alreadyChecked = false;
@@ -128,6 +132,29 @@ namespace StatePattern
 
         public void TakeDamage(float damage)
         {
+            animator.SetTrigger("hit");
+
+            Vector3 newPos = this.transform.position;
+            newPos.y += 10f;
+            Vector3 relativePosition = Camera.main.WorldToViewportPoint(newPos);
+            Vector3 canvasPosition = new Vector3(
+                relativePosition.x * Camera.main.pixelWidth,
+                relativePosition.y * Camera.main.pixelHeight, 0f);
+
+            //playerDamage.rectTransform.position = canvasPosition;
+
+            GameObject textPrefab = Resources.Load<GameObject>("Dam");
+            GameObject damageText = GameObject.Instantiate(textPrefab, canvasPosition, Quaternion.identity,
+                GameObject.Find("Canvas").transform);
+            TMP_Text text = damageText.GetComponent<TMP_Text>();
+            Color randomColor = new Color(Random.value, Random.value, Random.value);
+            text.color = randomColor;
+            text.text = 
+                (-1 * GameObject.FindWithTag("Player").GetComponent<Player>().getPower()).ToString();
+            GameObject.Destroy(damageText, 1f);
+            text.outlineColor = Color.white;
+            text.outlineWidth = 0.1f;
+
             Hp -= damage;
             if (Hp <= 0f)
             {
@@ -135,6 +162,7 @@ namespace StatePattern
                 {
                     isDead = true;
                     BossControl.bossIsDied = true;
+                    bossIsMoved = false;
 
                     Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
                     Slider healthSlider = canvas.transform.Find("BossBar").GetComponent<Slider>();

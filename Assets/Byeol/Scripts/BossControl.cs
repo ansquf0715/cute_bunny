@@ -82,8 +82,6 @@ namespace StatePattern
                     Animator bossAnim = clonedBoss.GetComponent<Animator>();
                     bossAnim.SetTrigger("Died");
 
-
-
                     Invoke("movePlayerToOriginalPos", 2f);
                 }
             }
@@ -128,6 +126,8 @@ namespace StatePattern
             Destroy(panpare, 1f);
 
             yield return new WaitForSeconds(1f);
+
+            Destroy(clonedBoss, 1f);
 
             blackImage.gameObject.SetActive(true);
 
