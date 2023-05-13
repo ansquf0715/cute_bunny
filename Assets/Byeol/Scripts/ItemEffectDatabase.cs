@@ -126,8 +126,8 @@ public class ItemEffectDatabase : MonoBehaviour
     //}
     public void AppleEffect()
     {
-        player.setHealth(AppleHealth);
         Debug.Log("Apple Effect");
+        player.setHealth(AppleHealth);
     }
 
     public void GrapeEffect()
@@ -167,13 +167,13 @@ public class ItemEffectDatabase : MonoBehaviour
     public void HPPlus()
     {
         player.setHealth(2f);
-        Debug.Log("HP Plus Item");
-
+        //Debug.Log("HP Plus Item");
     }
 
     public void HPMinus()
     {
-        player.setHealth(-2f);
+        player.minusPlayerHealth(2f);
+        //Debug.Log("hp minus item");
     }
 
     public void DamagePlus()

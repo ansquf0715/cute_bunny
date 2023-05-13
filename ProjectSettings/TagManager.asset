@@ -31,6 +31,8 @@ TagManager:
   - QuestUI
   - floor
   - FxTemporaire
+  - treasure
+  - empty
   layers:
   - Default
   - TransparentFX

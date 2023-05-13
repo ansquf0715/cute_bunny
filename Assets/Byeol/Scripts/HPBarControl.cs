@@ -36,7 +36,7 @@ public class HPBarControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isChanged == true)
+        if (isChanged == true)
         {
             SetHPUI();
             isChanged = false;
@@ -46,7 +46,7 @@ public class HPBarControl : MonoBehaviour
     public void isChange()
     {
         isChanged = true;
-        Debug.Log("is CHange ºÒ·¯Áü");
+        //Debug.Log("is CHange ºÒ·¯Áü");
     }
 
     void setPlayer()
@@ -57,20 +57,8 @@ public class HPBarControl : MonoBehaviour
 
     public void SetHPUI()
     {
-        //currentFill = 
-        //    GameObject.FindWithTag("Player").GetComponent<Player>().getHealth() 
-        //    / maxFill;
-
         currentFill = Player.CurrentHealth / maxFill;
-        //Debug.Log("SetHPUI ºÒ·¯Áü CurrentFill" + currentFill);
-
-        //Debug.Log("Set HP UI ");
-
         content.fillAmount = currentFill;
-
-        //content.fillAmount = Mathf.Lerp(content.fillAmount, currentFill,
-        //    lerpSpeed);
-        //sprite.bounds.size.y = currentFill / maxFill;
     }
 
 }

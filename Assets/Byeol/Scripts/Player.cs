@@ -141,20 +141,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    //void Fire()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space)) //스페이스바를 입력하면
-    //    {
-    //        anim.SetBool("isAttacking", true);
-    //        StartCoroutine(CarrotDelay());
-    //        GameObject bullet = Instantiate(bulletFactory); // 총알 공장에서 총알을 만들고
-    //        bullet.transform.position = firePosition.transform.position; // 총알을 발사한다
-    //        StartCoroutine(AttackingDelay());
-
-    //        //manager.ShowText(manager.scanObject);
-    //    }
-    //}
-
     IEnumerator AttackingDelay()
     {
         float delayTime = 0.5f;
@@ -198,9 +184,19 @@ public class Player : MonoBehaviour
 
     public void setHealth(float newHealth) //temp 사용 -> 고쳐야될듯
     {
-        anim.SetTrigger("isHit");
-
+        if (newHealth <= 0)
+        {
+            anim.SetTrigger("isHit");
+        }
         CurrentHealth += newHealth;
+        Debug.Log("current health" + CurrentHealth);
+        FindObjectOfType<HPBarControl>().isChange();
+    }
+
+    public void minusPlayerHealth(float newHealth)
+    {
+        CurrentHealth -= newHealth;
+        Debug.Log("current health" + CurrentHealth);
         FindObjectOfType<HPBarControl>().isChange();
     }
 
@@ -209,16 +205,8 @@ public class Player : MonoBehaviour
         anim.SetBool("isDie", true);
         playerDied = true;
         StartCoroutine(Die());
-        //StartCoroutine(rebirth()); //5초가 지나고
-        //setHealth(20);
-        //Invoke("resetHealth", 2f);
         StartCoroutine(DelayMove());
     }
-
-    //void resetHealth()
-    //{
-    //    setHealth(20);
-    //}
 
     IEnumerator DelayMove()
     {
@@ -314,21 +302,6 @@ public class Player : MonoBehaviour
             checkBirdTreeQuest = true;
             plantedTreeCount = 0;
         }
-
-        //if(plantedTreeCount >= 1f)
-        //{
-        //    if(!checkPlantTreeQuest)
-        //    {
-        //        FindObjectOfType<QuestManager>().plantedTreePlus();
-        //        checkPlantTreeQuest = true;
-        //        plantedTreeCount = 0;
-        //    }
-        //    if(!checkBirdTreeQuest)
-        //    {
-        //        FindObjectOfType<QuestManager>().plantedTreeForBird();
-        //        checkBirdTreeQuest = true;
-        //    }
-        //}
 
         Destroy(treeHoles[0]);
         Instantiate(madeTrees[0], madeTreePos[0], Quaternion.identity);

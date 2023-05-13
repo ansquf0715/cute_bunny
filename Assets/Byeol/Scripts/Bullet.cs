@@ -10,7 +10,9 @@ public class Bullet : MonoBehaviour
     public float DestroyTime = 10.0f; //사라지는 시간
     public Player player;
 
-    public ParticleSystem particle; 
+    public ParticleSystem particle;
+
+    Dictionary<GameObject, int> emptyObjectCounts = new Dictionary<GameObject, int>();
 
     // Start is called before the first frame update
     void Start()
@@ -18,15 +20,12 @@ public class Bullet : MonoBehaviour
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
         Destroy(gameObject, DestroyTime);
         particle.Play();
-
-        //GetComponent<Rigidbody>().isKinematic = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Shoot();
-        //transform.position += player.GetMoveVec() * speed * Time.deltaTime;
+
     }
 
     public void startParticle()
@@ -36,18 +35,24 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("floor")
+        if (collision.gameObject.CompareTag("floor")
             || collision.gameObject.CompareTag("FightingZonePlane"))
         {
             Destroy(this.gameObject, 0.3f);
         }
+
+        if (collision.gameObject.CompareTag("empty"))
+        {
+            Destroy(this.gameObject);
+            GameObject emptyObject = collision.gameObject;
+            FindObjectOfType<healPack>().bulletHitsEmptyObjects(collision.gameObject, collision.gameObject.transform.position);
+        }
+
+        if(collision.gameObject.CompareTag("treasure"))
+        {
+            Destroy(this.gameObject);
+            GameObject healObject = collision.gameObject;
+            FindObjectOfType<healPack>().bulletHitsHealObjects(collision.gameObject, collision.gameObject.transform.position);
+        }
     }
-
-    //public void Shoot()
-    //{
-    //    //GetComponent<Rigidbody>().isKinematic = false;
-    //    transform.position += player.GetMoveVec() * speed * Time.deltaTime
-    //        + new Vector3(0, 0.0001f, 0.0001f);
-    //}
-
 }
