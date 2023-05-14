@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour
         }
 
         if (GameObject.FindWithTag("Player").GetComponent<Player>().checkDie() == true)
-            Destroy(this.gameObject);
+            Destroy(this.gameObject, 1f);
 
         if (ECurrentHealth < 0f)
         {
@@ -152,17 +152,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if (other.gameObject.tag == "Player")
-    //    {
-    //        //InvokeRepeating("Fire", 0, 3);
-    //        //Invoke("Fire", 3);
-    //        //Fire();
-    //        //StartCoroutine(AttackDelay());
-    //    }
-    //}
-
     private void OnTriggerExit(Collider other)
     {
         if(other.gameObject.tag == "Player")
@@ -180,21 +169,20 @@ public class Enemy : MonoBehaviour
         anim.SetBool("isAttacked", hitted);
     }
 
-    //IEnumerator AttackDelay()
-    //{
-    //    //Debug.Log("attack delay 호출");
-    //    float delayTime = 5f;
-    //    yield return new WaitForSeconds(delayTime);
-    //}
-
     void Fire()
     {
-        //Debug.Log("Fire 불러짐");
         GameObject weapon = Instantiate(weaponFactory);
-        //Thread.Sleep(2000);
-        //StartCoroutine(AttackDelay());
-
         weapon.transform.position = weaponPosition.transform.position;
+
+        Vector3 enemyDirection = this.transform.position - weaponPosition.transform.position;
+        enemyDirection.Normalize();
+
+        //Quaternion rotation = Quaternion.LookRotation(enemyDirection);
+        //weapon.transform.rotation = rotation;
+
+        Rigidbody weaponRigid = weapon.AddComponent<Rigidbody>();
+        weaponRigid.velocity = weapon.transform.forward * 5f;
+        weaponRigid.AddForce(Vector3.up * 3f, ForceMode.Impulse);
     }
 
     public Vector3 GetToPlayer()
@@ -206,13 +194,6 @@ public class Enemy : MonoBehaviour
     {
         return this.gameObject.transform.position;
     }
-
-    //int RandomItemCount() //몇 개를 떨어트릴 지 갯수 정하기
-    //{
-    //    int randomItemCount = Random.Range(0, 3);
-    //    Debug.Log("random Item Count" + randomItemCount);
-    //    return randomItemCount;
-    //}
 
     GameObject selectItem() //랜덤으로 떨어트릴 아이템 정하기
     {

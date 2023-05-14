@@ -41,6 +41,11 @@ public class EnemyWeapon : MonoBehaviour
             player.setHealth(-Epower);
             Destroy(this.gameObject);
         }
+
+        if(other.gameObject.tag == "floor")
+        {
+            Destroy(this.gameObject, 0.5f);
+        }
     }
 
     //private void OnTriggerEnter(Collider other)

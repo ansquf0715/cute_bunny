@@ -194,7 +194,15 @@ namespace StatePattern
             {
                 if (distance < 10f)
                 {
-                    return new AttackState();
+                    if (boss.Hp <= (boss.maxHp / 2))
+                    {
+                        //Debug.Log("boss max hp / 2");
+                        return new BulletAttackState();
+                    }
+                    else
+                    {
+                        return new AttackState();
+                    }
                 }
             }
             if (distance >= 20f)
@@ -400,6 +408,99 @@ namespace StatePattern
                 default:
                     return null;
             }
+        }
+    }
+
+    public class BulletAttackState:BossState
+    {
+        float distance;
+        bool changeState;
+
+        GameObject pineapple;
+        GameObject clonedPineapple;
+        float throwForce;
+        float pineappleRadius;
+
+        bool alreadyAttacked;
+        float attackTimer;
+
+        bool isThrowing;
+
+        public override void start(Boss boss, Transform player)
+        {
+            Debug.Log("bullet attack state start");
+            pineapple = Resources.Load<GameObject>("Pineapple");
+            throwForce = 7f;
+            alreadyAttacked = false;
+            attackTimer = 0f;
+            changeState = false;
+            pineappleRadius = 0.5f;
+            isThrowing = false;
+        }
+
+        public override BossState handleInput(Boss boss, Transform player)
+        {
+            distance = Vector3.Distance(player.position, boss.transform.position);
+
+            if(boss.Hp>=3f)
+            {
+                if(distance >= 3f && attackTimer >= 3f)
+                {
+                    //boss.GetAnimator().SetBool("throw", false);
+                    return new RunState();
+                }
+            }
+            else if(boss.Hp < 3f)
+            {
+                //boss.GetAnimator().SetBool("throw", false);
+                return new FleeState();
+            }
+            return null;
+        }
+
+        public override void update(Boss boss, Transform player)
+        {
+            if(!alreadyAttacked)
+            {
+                throwPineapple(boss, player);
+                alreadyAttacked = true;
+            }
+            if(isThrowing && boss.GetAnimator().GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+            {
+                boss.GetAnimator().SetBool("throw", false);
+                isThrowing = false;
+            }
+
+            attackTimer += Time.deltaTime;
+        }
+
+        void throwPineapple(Boss boss, Transform player)
+        {
+            Debug.Log("throw pineapple");
+
+            //boss.GetAnimator().SetBool("throw", true);
+            boss.GetAnimator().SetTrigger("Throw");
+            isThrowing = true;
+
+            Vector3 newPos = boss.transform.position;
+            newPos += boss.transform.right * 3f;
+            newPos.y += 4f;
+
+            clonedPineapple = GameObject.Instantiate(
+                pineapple, newPos, Quaternion.identity);
+            Rigidbody pineappleRB = clonedPineapple.AddComponent<Rigidbody>();
+
+
+            //Vector3 direction = (player.position - boss.transform.position).normalized;
+            Vector3 direction = boss.transform.forward;
+            Vector3 throwVelocity = direction * 10f;
+
+            pineappleRB.velocity = throwVelocity;
+
+            //pineappleRB.AddForce(Vector3.up * throwForce, ForceMode.Impulse);
+            pineappleRB.AddForce(Vector3.up * 3f, ForceMode.Impulse);
+            pineappleRB.AddForce(direction * throwForce, ForceMode.Impulse);
+            //pineappleRB.AddForce(direction, ForceMode.Impulse);
         }
     }
 

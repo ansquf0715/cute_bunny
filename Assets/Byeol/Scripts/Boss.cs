@@ -45,6 +45,9 @@ namespace StatePattern
         Rigidbody rigidbody;
 
         public float Hp { get; set; }
+        public float maxHp;
+
+        float bossDamage;
 
         static public bool bossIsMoved;
         //static public Vector3 meetPlayerPos;
@@ -60,6 +63,11 @@ namespace StatePattern
         GameObject dustParticle;
         GameObject clonedDustParticle;
 
+        bool reachedOneThirdHP;
+        bool reachedTwoThirdHP;
+        GameObject lightEffect;
+        GameObject clonedLightEffect;
+
         bool isDead;
 
         public Boss(Transform boss, Transform player)
@@ -73,9 +81,12 @@ namespace StatePattern
             animator = boss.GetComponent<Animator>();
             rigidbody = boss.GetComponent<Rigidbody>();
 
-            Hp = 20f;
+            maxHp = 20f;
+            //Hp = 20f;
+            Hp = maxHp;
             firstMeetPlayer = false;
 
+            bossDamage = -2f;
             bossIsMoved = false;
 
             Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
@@ -88,6 +99,12 @@ namespace StatePattern
             attackAnimIsPlaying = false;
             alreadyChecked = false;
             dustParticle = Resources.Load<GameObject>("smoke");
+
+            reachedOneThirdHP = false;
+            reachedTwoThirdHP = false;
+            lightEffect = Resources.Load<GameObject>("BossLight");
+            clonedLightEffect = null;
+
             isDead = false;
         }
 
@@ -126,6 +143,27 @@ namespace StatePattern
                 {
                     state.update(this, player);
                     checkDuringFighting(player);
+                }
+            }
+
+            if (clonedLightEffect != null)
+            {
+                clonedLightEffect.transform.position -= new Vector3(0f, 6f, 0f) * Time.deltaTime;
+                if (clonedLightEffect.transform.position.y <= 0f)
+                {
+                    GameObject.Destroy(clonedLightEffect);
+                    clonedLightEffect = null;
+                }
+                else
+                {
+                    Vector3 playerPositoin = Player.playerPos;
+                    float distance = Vector3.Distance(playerPositoin, clonedLightEffect.transform.position);
+                    if(distance <= 3f)
+                    {
+                        GameObject.Destroy(clonedLightEffect);
+                        clonedLightEffect = null;
+                        player.GetComponent<Player>().setHealth(-10f);
+                    }
                 }
             }
         }
@@ -170,10 +208,42 @@ namespace StatePattern
                     healthSlider.gameObject.SetActive(false);
                 }
             }
+            else
+            {
+                float maxHP = 20f;
+                float oneThirdHp = maxHP / 3f;
+                float twoThirdHp = (maxHP / 3f) * 2f;
+
+                if (Hp <= oneThirdHp && !reachedOneThirdHP)
+                {
+                    reachedOneThirdHP = true;
+                    GenerateLightEffect();
+                    bossDamage = -4f;
+                }
+                else if (Hp <= twoThirdHp && !reachedTwoThirdHP)
+                {
+                    reachedTwoThirdHP = true;
+                    GenerateLightEffect();
+                    bossDamage = -6f;
+                }
+            }
 
             if (healthSlider != null)
             {
                 healthSlider.value = Hp;
+            }
+        }
+
+        void GenerateLightEffect()
+        {
+            Debug.Log("generate light effect");
+            if (clonedLightEffect == null)
+            {
+                Vector3 newPos = Player.playerPos;
+                newPos.y += 20;
+
+                clonedLightEffect = GameObject.Instantiate(
+                    lightEffect, newPos, Quaternion.identity);
             }
         }
 
@@ -214,7 +284,7 @@ namespace StatePattern
                             ParticleSystem dustSystem = clonedDustParticle.GetComponent<ParticleSystem>();
                             if (!dustSystem.isPlaying)
                                 dustSystem.Play();
-                            player.GetComponent<Player>().setHealth(-2);
+                            player.GetComponent<Player>().setHealth(bossDamage);
                             //player died
                             if(player.GetComponent<Player>().getHealth() <=0)
                             {

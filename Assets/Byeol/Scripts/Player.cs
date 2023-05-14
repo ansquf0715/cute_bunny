@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using StatePattern;
 
 public class Player : MonoBehaviour
 {
@@ -184,11 +185,16 @@ public class Player : MonoBehaviour
 
     public void setHealth(float newHealth) //temp 사용 -> 고쳐야될듯
     {
+        CurrentHealth += newHealth;
+
+        if (CurrentHealth >= MaxHealth)
+        {
+            CurrentHealth = MaxHealth;
+        }
         if (newHealth <= 0)
         {
             anim.SetTrigger("isHit");
         }
-        CurrentHealth += newHealth;
         Debug.Log("current health" + CurrentHealth);
         FindObjectOfType<HPBarControl>().isChange();
     }

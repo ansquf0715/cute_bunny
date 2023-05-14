@@ -32,6 +32,13 @@ namespace StatePattern
         public GameObject victory;
         public GameObject victoryParticle;
 
+        bool reachedOneThirdHP;
+        bool showFirstLight;
+        bool reachedTwoThirdHP;
+        bool showSecondLight;
+        GameObject lightEffect;
+        GameObject clonedLightEffect;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -43,6 +50,13 @@ namespace StatePattern
 
             Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
             blackImage = canvas.transform.Find("coverBlack").GetComponent<Image>();
+
+            reachedOneThirdHP = false;
+            showFirstLight = false;
+            reachedTwoThirdHP = false;
+            showSecondLight = false;
+            lightEffect = Resources.Load<GameObject>("BossLight");
+            clonedLightEffect = null;
         }
 
         // Update is called once per frame
@@ -84,6 +98,49 @@ namespace StatePattern
 
                     Invoke("movePlayerToOriginalPos", 2f);
                 }
+            }
+
+            //createLight();
+        }
+
+        void createLight()
+        {
+            float maxHP = 20f;
+            float oneThirdHp = maxHP / 3f;
+            float twoThirdHp = (maxHP / 3f) * 2f;
+
+            if(bossObj.Hp <= oneThirdHp && !reachedOneThirdHP)
+            {
+                reachedOneThirdHP = true;
+                GenerateLightEffect();
+            }
+            else if(bossObj.Hp <= twoThirdHp && !reachedTwoThirdHP)
+            {
+                reachedTwoThirdHP = true;
+                GenerateLightEffect();
+            }
+
+            if(clonedLightEffect != null)
+            {
+                clonedLightEffect.transform.position -= new Vector3(0f, 3f, 0f) * Time.deltaTime;
+                Debug.Log("light effect position" + clonedLightEffect.transform.position);
+                if(clonedLightEffect.transform.position.y <= 0f)
+                {
+                    Destroy(clonedLightEffect);
+                    clonedLightEffect = null;
+                }
+            }
+        }
+
+        void GenerateLightEffect()
+        {
+            if(clonedLightEffect == null)
+            {
+                Vector3 newPos = Player.playerPos;
+                newPos.y += 20;
+
+                clonedLightEffect = Instantiate(
+                    lightEffect, newPos, Quaternion.identity);
             }
         }
 
