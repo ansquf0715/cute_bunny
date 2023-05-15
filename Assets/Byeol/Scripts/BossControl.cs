@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 namespace StatePattern
 {
@@ -38,6 +39,8 @@ namespace StatePattern
         bool showSecondLight;
         GameObject lightEffect;
         GameObject clonedLightEffect;
+
+        static public int diedBabyBoss;
 
         // Start is called before the first frame update
         void Start()
@@ -96,11 +99,35 @@ namespace StatePattern
                     Animator bossAnim = clonedBoss.GetComponent<Animator>();
                     bossAnim.SetTrigger("Died");
 
-                    Invoke("movePlayerToOriginalPos", 2f);
+                    Invoke("createBabyBoss", 1f);
                 }
             }
 
-            //createLight();
+            if(diedBabyBoss >= 2)
+            {
+                diedBabyBoss = 0;
+                Invoke("movePlayerToOriginalPos", 2f);
+            }
+        }
+
+        void createBabyBoss()
+        {
+            GameObject babyBoss1 = Resources.Load<GameObject>("babyBoss1");
+            GameObject babyBoss2 = Resources.Load<GameObject>("babyBoss2");
+
+            Vector3 babyBoss1Pos = clonedBoss.transform.position;
+            babyBoss1Pos.x += 5;
+
+            Vector3 babyBoss2Pos = clonedBoss.transform.position;
+            babyBoss2Pos.x -= 5;
+
+            GameObject clonedBabyBoss1 = Instantiate(
+                babyBoss1, babyBoss1Pos, Quaternion.identity);
+            clonedBabyBoss1.GetComponent<NavMeshAgent>().speed = 10f;
+
+            GameObject clonedBabyBoss2 = Instantiate(
+                babyBoss2, babyBoss2Pos, Quaternion.identity);
+            clonedBabyBoss2.GetComponent<NavMeshAgent>().speed = 7f;
         }
 
         void createLight()

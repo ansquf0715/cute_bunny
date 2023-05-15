@@ -177,9 +177,6 @@ public class Enemy : MonoBehaviour
         Vector3 enemyDirection = this.transform.position - weaponPosition.transform.position;
         enemyDirection.Normalize();
 
-        //Quaternion rotation = Quaternion.LookRotation(enemyDirection);
-        //weapon.transform.rotation = rotation;
-
         Rigidbody weaponRigid = weapon.AddComponent<Rigidbody>();
         weaponRigid.velocity = weapon.transform.forward * 5f;
         weaponRigid.AddForce(Vector3.up * 3f, ForceMode.Impulse);

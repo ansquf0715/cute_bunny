@@ -66,7 +66,7 @@ namespace StatePattern
         bool reachedOneThirdHP;
         bool reachedTwoThirdHP;
         GameObject lightEffect;
-        GameObject clonedLightEffect;
+        public GameObject clonedLightEffect;
 
         bool isDead;
 
@@ -200,7 +200,13 @@ namespace StatePattern
                 {
                     isDead = true;
                     BossControl.bossIsDied = true;
+                    NavMeshAgent.isStopped = true;
                     bossIsMoved = false;
+
+                    if(clonedLightEffect != null)
+                    {
+                        GameObject.Destroy(clonedLightEffect);
+                    }
 
                     Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
                     Slider healthSlider = canvas.transform.Find("BossBar").GetComponent<Slider>();
