@@ -42,6 +42,8 @@ namespace StatePattern
 
         static public int diedBabyBoss;
 
+        bool blackImageActive = false;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -187,11 +189,21 @@ namespace StatePattern
         {
             //Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
             StartCoroutine(ChangeHeightCoroutine());
+            if(blackImageActive)
+            {
+                GameObject backAudio = GameObject.Find("AudioManager");
+                AudioSource backSource = backAudio.GetComponent<AudioSource>();
+                backSource.volume = 1f;
+            }
         }
 
         IEnumerator ChangeHeightCoroutine()
         {
             Debug.Log("change height coroutine");
+
+            GameObject audioObject = GameObject.Find("BossSound");
+            AudioSource audioSource = audioObject.GetComponent<AudioSource>();
+            audioSource.Stop();
 
             Vector3 newPos = player.transform.position;
             newPos.y += 3;
@@ -240,6 +252,7 @@ namespace StatePattern
                 = firstMetPos;
             SellingBox.money += 300;
             blackImage.gameObject.SetActive(false);
+            blackImageActive = true;
         }
     }
 }

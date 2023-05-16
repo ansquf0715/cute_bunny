@@ -32,7 +32,7 @@ public class pineapple : MonoBehaviour
         }
         else if(other.gameObject.CompareTag("floor"))
         {
-            GameObject pineappleWater = Resources.Load<GameObject>("pineappleWater");
+            GameObject pineappleWater = Resources.Load<GameObject>("pineappleFloor");
             GameObject clonedPineappleWater = Instantiate(
                 pineappleWater, this.gameObject.transform.position, Quaternion.identity);
 

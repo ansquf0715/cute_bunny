@@ -219,6 +219,15 @@ namespace StatePattern
                 player.transform.position = new Vector3(-166f, 0, 35f);
                 //boss.bossIsMoved = true;
                 Boss.bossIsMoved = true;
+
+                GameObject backAudio = GameObject.Find("AudioManager");
+                AudioSource backSource = backAudio.GetComponent<AudioSource>();
+                backSource.volume = 0f;
+
+                GameObject audioObject = GameObject.Find("BossSound");
+                AudioSource audioSource = audioObject.GetComponent<AudioSource>();
+                audioSource.Play();
+                
                 return new WalkState();
             }
             return null;
@@ -372,6 +381,9 @@ namespace StatePattern
                 isAttacking = true;
                 boss.attackAnimIsPlaying = true;
 
+                AudioClip punchSound = Resources.Load<AudioClip>("bosspunch");
+                boss.AudioSource.clip = punchSound;
+                boss.AudioSource.Play();
             }
             else
             {
@@ -489,7 +501,9 @@ namespace StatePattern
             clonedPineapple = GameObject.Instantiate(
                 pineapple, newPos, Quaternion.identity);
             Rigidbody pineappleRB = clonedPineapple.AddComponent<Rigidbody>();
-
+            AudioClip pineappleSound = Resources.Load<AudioClip>("bosspineapple");
+            boss.AudioSource.clip = pineappleSound;
+            boss.AudioSource.Play();
 
             //Vector3 direction = (player.position - boss.transform.position).normalized;
             Vector3 direction = boss.transform.forward;

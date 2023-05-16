@@ -27,9 +27,11 @@ namespace StatePattern
 
         public Transform transform;
         BossState state;
-
         public NavMeshAgent NavMeshAgent { get { return agent; } }
         NavMeshAgent agent;
+
+        public AudioSource AudioSource { get { return audio; } }
+        AudioSource audio;
 
         Animator animator;
         public Animator GetAnimator()
@@ -80,6 +82,7 @@ namespace StatePattern
             agent = boss.GetComponent<NavMeshAgent>();
             animator = boss.GetComponent<Animator>();
             rigidbody = boss.GetComponent<Rigidbody>();
+            audio = boss.GetComponent<AudioSource>();
 
             maxHp = 20f;
             //Hp = 20f;
@@ -98,7 +101,8 @@ namespace StatePattern
 
             attackAnimIsPlaying = false;
             alreadyChecked = false;
-            dustParticle = Resources.Load<GameObject>("smoke");
+            //dustParticle = Resources.Load<GameObject>("smoke");
+            dustParticle = Resources.Load<GameObject>("bossDust");
 
             reachedOneThirdHP = false;
             reachedTwoThirdHP = false;
@@ -286,6 +290,13 @@ namespace StatePattern
                             newPos.z = this.transform.position.z + 3;
                             clonedDustParticle = GameObject.Instantiate(
                                 dustParticle, newPos, Quaternion.identity);
+
+                            Vector3 collisionPoint = 
+                                player.GetComponent<Collider>().ClosestPoint(player.transform.position);
+                            GameObject punchParticle = Resources.Load<GameObject>("bossPunch");
+                            GameObject clonedPunchParticle = GameObject.Instantiate(
+                                punchParticle, collisionPoint, Quaternion.identity);
+                            GameObject.Destroy(clonedPunchParticle, 1f);
 
                             ParticleSystem dustSystem = clonedDustParticle.GetComponent<ParticleSystem>();
                             if (!dustSystem.isPlaying)

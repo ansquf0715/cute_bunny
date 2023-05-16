@@ -55,6 +55,8 @@ public class Player : MonoBehaviour
     bool checkPlantTreeQuest = false; //for heart quest
     bool checkBirdTreeQuest = false; //for bird quest
 
+    AudioSource audio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -71,6 +73,8 @@ public class Player : MonoBehaviour
         power = 2.0f;
         MaxHealth = 20.0f;
         CurrentHealth = MaxHealth;
+
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -137,6 +141,8 @@ public class Player : MonoBehaviour
             float carrotSpeed = 10f;
             carrotRb.AddForce(transform.forward * carrotSpeed,
                 ForceMode.Impulse);
+
+            audio.Play();
 
             StartCoroutine(AttackingDelay());
         }
