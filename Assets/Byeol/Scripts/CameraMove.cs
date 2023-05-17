@@ -18,7 +18,7 @@ public class CameraMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        //Debug.unityLogger.logEnabled = true;
     }
 
     // Update is called once per frame
@@ -43,7 +43,6 @@ public class CameraMove : MonoBehaviour
 
     void changeTreeBlocksScreen()
     {
-        //originalTreeColors.Clear();
 
         // Calculate the difference between originalTreeColors and oldTreeColors
         Dictionary<GameObject, Color> missingColors = new Dictionary<GameObject, Color>();

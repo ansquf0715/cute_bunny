@@ -62,8 +62,8 @@ public class InGameUI : MonoBehaviour
         month = 1;
         day = 1;
 
-        //audio = GameObject.Find("AudioManager");
-        //audioSource = audio.GetComponent<AudioSource>();
+        audio = GameObject.Find("AudioManager");
+        audioSource = audio.GetComponent<AudioSource>();
 
         selectBossDay();
 
