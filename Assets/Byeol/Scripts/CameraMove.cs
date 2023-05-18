@@ -59,15 +59,12 @@ public class CameraMove : MonoBehaviour
 
         RaycastHit[] hits = Physics.RaycastAll(Camera.main.transform.position, direction, distance);
 
-        //RaycastHit[] hits = Physics.RaycastAll(Camera.main.transform.position,
-        //    Camera.main.transform.forward,  Mathf.Infinity);
-
         // Update originalTreeColors
         foreach (RaycastHit hit in hits)
         {
             if (hit.collider.CompareTag("Tree"))
             {
-                Debug.Log(" compare tag tree");
+                //Debug.Log(" compare tag tree");
                 Renderer renderer = hit.collider.GetComponent<MeshRenderer>();
 
                 if (renderer != null)

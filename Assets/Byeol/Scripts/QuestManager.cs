@@ -53,8 +53,8 @@ public class QuestManager : MonoBehaviour
 
         diedEnemyCount = 0;
         for (int i = 0; i < checkHeartQ.Length; i++)
-            //checkHeartQ[i] = false;
-            checkHeartQ[i] = true;
+            checkHeartQ[i] = false;
+        //checkHeartQ[i] = true;
 
         showContents();
     }

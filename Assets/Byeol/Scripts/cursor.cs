@@ -10,6 +10,11 @@ public class cursor : MonoBehaviour
     Vector2 hotSpot;
     public float cursorSizeMultiplier = 0.7f;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
