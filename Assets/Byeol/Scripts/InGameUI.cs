@@ -35,8 +35,8 @@ public class InGameUI : MonoBehaviour
     public static List<int> GenerateRandomNumbers(int count)
     {
         //1부터 28까지의 숫자를 리스트에 저장
-        //List<int> numbers = Enumerable.Range(1, 28).ToList();
-        List<int> numbers = Enumerable.Range(1, 7).ToList();
+        List<int> numbers = Enumerable.Range(1, 28).ToList();
+        //List<int> numbers = Enumerable.Range(1, 7).ToList();
         List<int> result = new List<int>();
 
         //count개의 랜덤한 숫자를 고르기 위해 반복
@@ -60,7 +60,7 @@ public class InGameUI : MonoBehaviour
         GameDay = GameObject.Find("DayText").GetComponent<Text>();
         year = 1;
         month = 1;
-        day = 1;
+        day = 3;
 
         audio = GameObject.Find("AudioManager");
         audioSource = audio.GetComponent<AudioSource>();
@@ -125,8 +125,8 @@ public class InGameUI : MonoBehaviour
     void selectBossDay() //boss 등장하는 날 선택
     {
         randomNumbers = GenerateRandomNumbers(6);
-        foreach (int a in randomNumbers)
-            Debug.Log("random numbers" + a);
+        //foreach (int a in randomNumbers)
+        //    Debug.Log("random numbers" + a);
     }
 
     void showBoss()

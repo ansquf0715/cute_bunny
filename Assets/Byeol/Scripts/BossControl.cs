@@ -74,7 +74,7 @@ namespace StatePattern
                 clonedBoss =
                     Instantiate(boss, new Vector3(-3.82f, 15f, 56.5f),
                     Quaternion.Euler(0f, 180f, 0));
-                Debug.Log("cloned boss" + clonedBoss);
+                //Debug.Log("cloned boss" + clonedBoss);
 
                 //bossObj = new Boss(clonedBoss.transform, player.transform);
                 bossObj = Boss.GetInstance(clonedBoss.transform, player.transform);

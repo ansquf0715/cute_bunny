@@ -12,7 +12,7 @@ public class cursor : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(this.gameObject);
     }
 
     // Start is called before the first frame update
