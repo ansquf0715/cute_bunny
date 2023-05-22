@@ -440,7 +440,7 @@ namespace StatePattern
 
         public override void start(Boss boss, Transform player)
         {
-            //Debug.Log("bullet attack state start");
+            Debug.Log("bullet attack state start");
             pineapple = Resources.Load<GameObject>("Pineapple");
             throwForce = 7f;
             alreadyAttacked = false;
@@ -488,7 +488,7 @@ namespace StatePattern
 
         void throwPineapple(Boss boss, Transform player)
         {
-            //Debug.Log("throw pineapple");
+            Debug.Log("throw pineapple");
 
             //boss.GetAnimator().SetBool("throw", true);
             boss.GetAnimator().SetTrigger("Throw");
@@ -528,7 +528,7 @@ namespace StatePattern
 
         public override void start(Boss boss, Transform player)
         {
-            //Debug.Log("Flee state start");
+            Debug.Log("Flee state start");
             boss.GetAnimator().SetBool("bossWalking", true);
 
             //boss가 player의 반대 방향을 바라보도록 설정
@@ -567,7 +567,7 @@ namespace StatePattern
             Vector3 fleePos = boss.transform.position + fleeDirection;
             boss.NavMeshAgent.SetDestination(fleePos);
             boss.NavMeshAgent.speed = 10f;
-            //Debug.Log("fleePos" + fleePos);
+            Debug.Log("fleePos" + fleePos);
         }
     }
 
