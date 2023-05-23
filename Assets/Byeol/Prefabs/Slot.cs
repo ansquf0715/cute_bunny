@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IPointerClickHandler,
-    IBeginDragHandler, 
+    IBeginDragHandler,
     IEndDragHandler, IDropHandler , IDragHandler
 {
     private Rect baseRect; // Inventory_Base 이미지의 Rect 정보 받아 옴.
