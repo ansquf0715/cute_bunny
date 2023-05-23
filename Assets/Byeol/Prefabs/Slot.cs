@@ -48,7 +48,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
 
             if (type == 1)
             {
-                Debug.Log("type 1");
+                //Debug.Log("type 1");
                 itemEffectDatabase.UseItem(itemName);
                 ChangeCount();
 
@@ -144,7 +144,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         {
             if (this.fruitName == "seed")
             {
-                Debug.Log("check Item Fruit Seed에 걸림");
+                //Debug.Log("check Item Fruit Seed에 걸림");
                 return 0;
             }
             return 2;
@@ -221,36 +221,5 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         else if (temCount == 1)
             ClearSlot();
     }
-
-    //private void ChangeSlot()
-    //{
-    //    Items _tempItem = item;
-    //    int _tempItemCount = temCount;
-    //    //string _tempItemName = itemName;
-
-    //    AddItem(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.temCount);
-
-    //    if (_tempItem != null)
-    //        DragSlot.instance.dragSlot.AddItem(_tempItem, _tempItemCount);
-    //    else
-    //        //ClearSlot??????
-    //        DragSlot.instance.dragSlot.ClearSlot();
-    //}
-
-    //void afterDrop()
-    //{
-    //    Instantiate(DragSlot.instance.dragSlot.item.itemPrefab,
-    //        GameObject.FindWithTag("Player").GetComponent<Player>().getPos(),
-    //        Quaternion.identity
-    //        );
-    //    //Instantiate(_prefab,
-    //    //    GameObject.FindWithTag("Player").GetComponent<Player>().getPos(),
-    //    //    Quaternion.identity
-    //    //    );
-    //    DragSlot.instance.dragSlot.SetSlotCount(-1);
-    //    Debug.Log("SetSlotCount 불려지나?");
-
-    //    DragSlot.instance.dragSlot = null;
-    //}
 
 }
