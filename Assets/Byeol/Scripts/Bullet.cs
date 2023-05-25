@@ -6,7 +6,6 @@ public class Bullet : MonoBehaviour
 {
 
     public float speed = 5; //총알속도
-    //public float DestroyTime = 1.0f; //사라지는 시간
     public float DestroyTime = 10.0f; //사라지는 시간
     public Player player;
 

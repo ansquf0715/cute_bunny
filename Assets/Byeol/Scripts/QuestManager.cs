@@ -11,9 +11,7 @@ public class QuestManager : MonoBehaviour
 
     public GameObject QuestImage;
 
-    //List<Text> questTexts = new List<Text>(); //quest 출력
     List<TextMeshProUGUI> questTexts = new List<TextMeshProUGUI>();
-    //List<string> questContents = new List<string>(); //quest 내용
 
     public bool questPageIsOn = false;
 
@@ -44,7 +42,6 @@ public class QuestManager : MonoBehaviour
         questCSV = CSVReader.Read("Quest");
         QuestImage.SetActive(false);
 
-        //Text[] texts = QuestImage.GetComponentsInChildren<Text>();
         TextMeshProUGUI[] texts = QuestImage.GetComponentsInChildren<TextMeshProUGUI>();
         for(int i=0; i<texts.Length; i++)
         {
@@ -78,7 +75,6 @@ public class QuestManager : MonoBehaviour
                 changeContents();
                 changeToBirdQuest = true;
                 doingBirdQ = true;
-                Debug.Log("doing birdQ" + doingBirdQ);
             }
 
             checkBirdQuestFinished();
@@ -113,7 +109,6 @@ public class QuestManager : MonoBehaviour
 
     void showContents()
     {
-        //Debug.Log("csv count" + questCSV.Count);
         for(int i=0; i<5; i++)
         {
             questTexts[i].text = " " + questCSV[i]["Quest"];
@@ -124,9 +119,7 @@ public class QuestManager : MonoBehaviour
     {
         for(int i=0; i<questTexts.Count; i++)
         {
-            //questTexts[i].fontStyle = FontStyles.Normal;
             questTexts[i].fontStyle &= ~FontStyles.Strikethrough;
-            //Debug.Log("여기 되냐고");
         }
 
         questTexts[0].text = " ";
@@ -167,16 +160,11 @@ public class QuestManager : MonoBehaviour
     public void diedEnemyPlus()
     {
         diedEnemyCount++;
-        //checkHeartQ[0] = true;
-        //changeFinishedQuestUI(0);
     }
 
     public void sellApplePlus()
     {
         sellAppleCount++;
-
-        //checkHeartQ[1] = true;
-        //changeFinishedQuestUI(1);
     }
 
     public void sellHPItemPlus()
@@ -201,10 +189,7 @@ public class QuestManager : MonoBehaviour
 
     public void gotUnknownItemForBird()
     {
-        //Debug.Log("got unknown item for bird");
         gotUnknownPotionCount++;
-        //gotUnknownPotionCount += temCount;
-        //Debug.Log(" got unknown potion count" + gotUnknownPotionCount);
     }
 
     public void foundKeyForBird()
@@ -226,14 +211,6 @@ public class QuestManager : MonoBehaviour
 
     void changeFinishQuestUIForBird(int questNum)
     {
-        //for(int i=0; i<checkBirdQ.Length; i++)
-        //{
-        //    if(checkBirdQ[i]==true)
-        //    {
-        //        questTexts[i+1].fontStyle |= FontStyles.Strikethrough;
-        //        questTexts[i+1].fontMaterial.SetFloat("_UnderlineWidthMultiplier", 5.0f);
-        //    }
-        //}
         questTexts[questNum].fontStyle |= FontStyles.Strikethrough;
         questTexts[questNum].fontMaterial.SetFloat("_UnderlineWidthMultiplier", 5.0f);
     }
@@ -284,7 +261,6 @@ public class QuestManager : MonoBehaviour
         //Sell 2 unknown potions
         if(gotUnknownPotionCount == 1)
         {
-            //Debug.Log("여긴 왜 안걸리니?");
             doingBirdQ = false;
             checkBirdQ[1] = true;
             changeFinishQuestUIForBird(2);
