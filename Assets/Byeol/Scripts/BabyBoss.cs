@@ -39,7 +39,6 @@ public class BabyBoss : MonoBehaviour
         healthBar.value = maxHealth;
 
         speed = agent.speed;
-        //Debug.Log("speed" + speed);
 
         audio = GetComponent<AudioSource>();
         if (this.gameObject.tag.Equals("babyBoss1"))
@@ -92,8 +91,6 @@ public class BabyBoss : MonoBehaviour
         }
         else if (distance <= 15f)
         {
-            //Debug.Log("run");
-            //animator.SetBool("walk", false);
             animator.SetBool("run", true);
             agent.speed *= 2;
             agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
@@ -107,7 +104,6 @@ public class BabyBoss : MonoBehaviour
 
         if(distance < 8f)
         {
-            //Debug.Log("player is close to me");
             animator.SetBool("attack", true);
         }
     }
@@ -148,7 +144,6 @@ public class BabyBoss : MonoBehaviour
                     GameObject attack2 = Resources.Load<GameObject>("babyBossAttack2");
                     GameObject clonedAttack2 = Instantiate(
                         attack2, collisionPoint, Quaternion.identity);
-                    Debug.Log("attack2 " + clonedAttack2);
                     Destroy(clonedAttack2, 1f);
                     
                     audio.Play();               }
@@ -157,7 +152,6 @@ public class BabyBoss : MonoBehaviour
 
         if(collision.gameObject.CompareTag("Bullet"))
         {
-            //Debug.Log("ÃÑ¸Â¾Ò´Ù À¸¾Ç");
             animator.SetTrigger("getHit");
             currentHealth -= player.GetComponent<Player>().getPower();
 
@@ -165,9 +159,7 @@ public class BabyBoss : MonoBehaviour
             {
                 agent.isStopped = true;
                 animator.SetTrigger("die");
-                //FindObjectOfType<BossControl>().diedBabyBoss++;
                 BossControl.diedBabyBoss++;
-                Debug.Log("died baby boss count" + BossControl.diedBabyBoss);
 
                 Destroy(this.gameObject, 3f);
 
