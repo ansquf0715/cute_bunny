@@ -18,7 +18,6 @@ public class Inventory : MonoBehaviour
     private bool[] CheckSlotFull = new bool[10]; //slot이 비었는지 확인하는 배열
     private int[] SetButton = new int[10];
 
-    //int unknownPotionCount = 0;
 
     // Start is called before the first frame update
     void Start()

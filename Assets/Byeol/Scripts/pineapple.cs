@@ -20,7 +20,6 @@ public class pineapple : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            //Debug.Log("player collision");
             other.gameObject.GetComponent<Player>().setHealth(-8f);
 
             GameObject pineapplePlayer = Resources.Load<GameObject>("pineapplePlayer");
