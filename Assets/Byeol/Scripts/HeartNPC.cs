@@ -33,8 +33,6 @@ public class HeartNPC : MonoBehaviour
 
         npcTalking = CSVReader.Read("heartTalk");
         talkText = backGroundTalking.GetComponentInChildren<Text>();
-
-        //Debug.Log("11¹øÂ° talk" + npcTalking[11]["message"]);
     }
 
     // Update is called once per frame
@@ -55,7 +53,6 @@ public class HeartNPC : MonoBehaviour
             {
                 isStay = true;
 
-                //getNPCTextImage();
                 npcPortrait.GetComponent<Image>().sprite = heartPortrait;
                 npcUI.SetActive(true);
 

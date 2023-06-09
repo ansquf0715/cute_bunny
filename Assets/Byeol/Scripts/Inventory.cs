@@ -91,11 +91,9 @@ public class Inventory : MonoBehaviour
             //Debug.Log("포문 도는 중");
             if (slots[i].itemName == _item.itemName)
             {
-               // Debug.Log("i나옴");
                 return i;
             }
         }
-        //Debug.Log("는 -1");
         return -1;
     }
 
