@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using StatePattern;
+using TMPro;
 
 public class InGameUI : MonoBehaviour
 {
@@ -24,6 +25,10 @@ public class InGameUI : MonoBehaviour
     public Sprite musicOnSprite;
     public Sprite musicOffSprite;
     public Slider musicSlider;
+    public Button forward;
+    public Button back;
+    public Button left;
+    public Button right;
 
     public GameObject audio;
     AudioSource audioSource;
@@ -32,11 +37,20 @@ public class InGameUI : MonoBehaviour
     List<bool> bossIsShownDay = new List<bool>();
     //bool bossIsShown = false;
 
+    bool forwardButtonToChange = false;
+    bool backButtonToChange = false;
+    bool leftButtonToChange = false;
+    bool rightButtonToChange = false;
+
+    PlayerMove move;
+
+    KeyCode forwardKey, backKey, leftKey, rightKey;
+
     public static List<int> GenerateRandomNumbers(int count)
     {
         //1부터 28까지의 숫자를 리스트에 저장
-        List<int> numbers = Enumerable.Range(1, 28).ToList();
-        //List<int> numbers = Enumerable.Range(1, 7).ToList();
+        //List<int> numbers = Enumerable.Range(1, 28).ToList();
+        List<int> numbers = Enumerable.Range(1, 7).ToList();
         List<int> result = new List<int>();
 
         //count개의 랜덤한 숫자를 고르기 위해 반복
@@ -71,6 +85,21 @@ public class InGameUI : MonoBehaviour
         {
             bossIsShownDay.Add(false);
         }
+
+        move = FindObjectOfType<PlayerMove>();
+        forwardKey = move.vAxisPositiveKey;
+        backKey = move.vAxisNegativeKey;
+        leftKey = move.hAxisNegativeKey;
+        rightKey = move.hAxisPositiveKey;
+
+        Text forwardText = forward.GetComponentInChildren<Text>();
+        forwardText.text = forwardKey.ToString();
+        Text backText = back.GetComponentInChildren<Text>();
+        backText.text = backKey.ToString();
+        Text leftText = left.GetComponentInChildren<Text>();
+        leftText.text = leftKey.ToString();
+        Text rightText = right.GetComponentInChildren<Text>();
+        rightText.text = rightKey.ToString();
     }
 
     // Update is called once per frame
@@ -217,5 +246,144 @@ public class InGameUI : MonoBehaviour
     public void BackVolume(float volume)
     {
         audioSource.volume = musicSlider.value;
+    }
+
+    public void Forward()
+    {
+        if(!forwardButtonToChange)
+        {
+            forwardButtonToChange = true;
+            StartCoroutine(WaitForKeyInput(MoveDirection.Forward));
+        }
+    }
+
+    public void Left()
+    {
+        if(!leftButtonToChange)
+        {
+            leftButtonToChange = true;
+            StartCoroutine(WaitForKeyInput(MoveDirection.Left));
+        }
+    }
+
+    public void Right()
+    {
+        if(!rightButtonToChange)
+        {
+            rightButtonToChange = true;
+            StartCoroutine(WaitForKeyInput(MoveDirection.Right));
+        }
+    }
+
+    public void Back()
+    {
+        if(!backButtonToChange)
+        {
+            backButtonToChange = true;
+            StartCoroutine(WaitForKeyInput(MoveDirection.Back));
+        }
+    }
+
+    IEnumerator WaitForKeyInput(MoveDirection direction)
+    {
+        Text controlText = GetControlTextComponent(direction);
+        controlText.text = "";
+
+        while (IsButtonToChangeActive(direction))
+        {
+            if (Input.anyKeyDown)
+            {
+                KeyCode pressedKey = GetPressedKey();
+                if (pressedKey != KeyCode.None)
+                {
+                    PlayerMove pmScript = FindObjectOfType<PlayerMove>();
+                    if (pmScript != null)
+                    {
+                        pmScript.SetDirectionKey(pressedKey, direction);
+
+                        if (controlText != null)
+                            controlText.text = pressedKey.ToString();
+                    }
+                }
+                SetButtonToChangeActive(direction, false);
+            }
+            yield return null;
+        }
+    }
+
+    KeyCode GetPressedKey()
+    {
+        foreach(KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKey(key))
+                return key;
+        }
+        return KeyCode.None;
+    }
+
+    bool IsButtonToChangeActive(MoveDirection direction)
+    {
+        switch(direction)
+        {
+            case MoveDirection.Forward:
+                return forwardButtonToChange;
+            case MoveDirection.Back:
+                return backButtonToChange;
+            case MoveDirection.Left:
+                return leftButtonToChange;
+            case MoveDirection.Right:
+                return rightButtonToChange;
+            default:
+                return false;
+        }
+    }
+
+    void SetButtonToChangeActive(MoveDirection direction, bool isActive)
+    {
+        switch(direction)
+        {
+            case MoveDirection.Forward:
+                forwardButtonToChange = isActive;
+                break;
+            case MoveDirection.Back:
+                backButtonToChange = isActive;
+                break;
+            case MoveDirection.Left:
+                leftButtonToChange = isActive;
+                break;
+            case MoveDirection.Right:
+                rightButtonToChange = isActive;
+                break;
+            default:
+                break;
+        }
+    }
+
+    Text GetControlTextComponent(MoveDirection direction)
+    {
+        Button button = GetControlButton(direction);
+        if(button != null)
+        {
+            Text controlText = button.GetComponentInChildren<Text>();
+            return controlText;
+        }
+        return null;
+    }
+
+    Button GetControlButton(MoveDirection direction)
+    {
+        switch(direction)
+        {
+            case MoveDirection.Forward:
+                return forward;
+            case MoveDirection.Back:
+                return back;
+            case MoveDirection.Left:
+                return left;
+            case MoveDirection.Right:
+                return right;
+            default:
+                return null;
+        }
     }
 }

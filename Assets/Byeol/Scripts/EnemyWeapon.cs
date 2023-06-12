@@ -25,13 +25,6 @@ public class EnemyWeapon : MonoBehaviour
     {
         Vector3 dir = Enemy.GetComponent<Enemy>().GetToPlayer();
         transform.position += dir * speed * Time.deltaTime;
-
-        //Vector3 player_pos = GameObject.FindWithTag("Player").GetComponent<Player>().getPos() +
-        //    Enemy.GetComponent<Enemy>().GetEnemyPos();
-        //this.transform.position = Vector3.MoveTowards(this.transform.position,
-        //    player_pos, speed * Time.deltaTime);
-        //Vector3 toPlayer = player_pos - transform.position;
-        //transform.rotation = Quaternion.LookRotation(toPlayer).normalized;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -47,16 +40,5 @@ public class EnemyWeapon : MonoBehaviour
             Destroy(this.gameObject, 0.5f);
         }
     }
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.tag == "Player")
-    //        player.setHealth(-Epower);
-    //}
-
-    //IEnumerator attackDelay()
-    //{
-    //    yield return new WaitForSeconds(1);
-    //}
 
 }

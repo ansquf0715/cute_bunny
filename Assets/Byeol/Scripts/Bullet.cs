@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public bulletPool bullets;
 
     public float speed = 5; //총알속도
     public float DestroyTime = 10.0f; //사라지는 시간
@@ -11,13 +12,14 @@ public class Bullet : MonoBehaviour
 
     public ParticleSystem particle;
 
-    Dictionary<GameObject, int> emptyObjectCounts = new Dictionary<GameObject, int>();
-
     // Start is called before the first frame update
     void Start()
     {
+        bullets = GameObject.Find("GameObject").GetComponent<bulletPool>();
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        Destroy(gameObject, DestroyTime);
+        //Destroy(gameObject, DestroyTime);
+        Invoke("returnObject", DestroyTime);
+
         particle.Play();
     }
 
@@ -25,6 +27,11 @@ public class Bullet : MonoBehaviour
     void Update()
     {
 
+    }
+
+    void returnObject()
+    {
+        bullets.ReturnBullet(this.gameObject);
     }
 
     public void startParticle()
@@ -37,19 +44,22 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.CompareTag("floor")
             || collision.gameObject.CompareTag("FightingZonePlane"))
         {
-            Destroy(this.gameObject, 0.3f);
+            //Destroy(this.gameObject, 0.3f);
+            Invoke("returnObject", 0.3f);
         }
 
         if (collision.gameObject.CompareTag("empty"))
         {
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
+            returnObject();
             GameObject emptyObject = collision.gameObject;
             FindObjectOfType<healPack>().bulletHitsEmptyObjects(collision.gameObject, collision.gameObject.transform.position);
         }
 
         if(collision.gameObject.CompareTag("treasure"))
         {
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
+            returnObject();
             GameObject healObject = collision.gameObject;
             FindObjectOfType<healPack>().bulletHitsHealObjects(collision.gameObject, collision.gameObject.transform.position);
         }

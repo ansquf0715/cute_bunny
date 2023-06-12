@@ -93,11 +93,11 @@ public class Enemy : MonoBehaviour
 
         if (other.gameObject.tag == "Bullet")
         {
-            Destroy(other.gameObject); //총알 삭제
+            //Destroy(other.gameObject); //총알 삭제
+            FindObjectOfType<bulletPool>().ReturnBullet(other.gameObject);
+
             //CurrentHealth -= damage;// 총알 한대에 1만큼 체력이 닳음
             ECurrentHealth = ECurrentHealth - damage;
-
-            //Debug.Log("Current Health " + ECurrentHealth);
 
             if (ECurrentHealth < 0) //체력이 0이 되면 적 삭제
             {
@@ -127,12 +127,6 @@ public class Enemy : MonoBehaviour
         {
             anim.SetBool("isDance", true);
             anim.SetBool("isCloser", true);
-
-            //if (keepAttacking == true)
-            //{
-            //    Debug.Log("Invoke ");
-            //    InvokeRepeating("Fire", 0, 1);
-            //}
 
             checkInside = true;
             if(checkInside == true)

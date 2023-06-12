@@ -32,14 +32,10 @@ public class Trees : MonoBehaviour
 
         if (other.gameObject.tag == "Bullet")
         {
-            Debug.Log("bullet collision");
-            //Debug.Log(pos);
-            Destroy(other.gameObject);
-            //FindObjectOfType<Bullet>().startParticle();
-            //Debug.Log("Tree Health " + Treehealth);
+            //Destroy(other.gameObject);
+            FindObjectOfType<bulletPool>().ReturnBullet(other.gameObject);
 
             Treehealth -= damage;
-            //Debug.Log("Tree Health Fixed " + Treehealth);
 
             if (Treehealth <= 0)
             {

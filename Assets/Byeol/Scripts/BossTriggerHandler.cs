@@ -44,7 +44,8 @@ public class BossTriggerHandler : MonoBehaviour
         {
             if (other.gameObject.tag.Equals("Bullet"))
             {
-                Destroy(other.gameObject);
+                //Destroy(other.gameObject);
+                FindObjectOfType<bulletPool>().ReturnBullet(other.gameObject);
 
                 //existingBoss.GetAnimator().SetBool("bossGetHit", true);
 

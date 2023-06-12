@@ -7,6 +7,8 @@ using StatePattern;
 
 public class Player : MonoBehaviour
 {
+    public bulletPool bullets;
+
     static public Vector3 playerPos;
 
     private Text seedInfo;
@@ -60,6 +62,9 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        bullets = GameObject.Find("GameObject").GetComponent<bulletPool>();
+
+
         seedInfo = GameObject.Find("SeedInfo").GetComponent<Text>();
 
         inventory = FindObjectOfType<Inventory>();
@@ -84,7 +89,7 @@ public class Player : MonoBehaviour
 
         if(playerDied == false)
         {
-            PlayerMove();
+            //PlayerMove();
             Fire();
             rigid.velocity = Vector3.zero;
             
@@ -104,27 +109,27 @@ public class Player : MonoBehaviour
         return playerDied;
     }
 
-    void PlayerMove()
-    {
-        hAxis = Input.GetAxisRaw("Horizontal");
-        vAxis = Input.GetAxisRaw("Vertical");
-        runDown = Input.GetButton("isRun");
+    //void PlayerMove()
+    //{
+    //    hAxis = Input.GetAxisRaw("Horizontal");
+    //    vAxis = Input.GetAxisRaw("Vertical");
+    //    runDown = Input.GetButton("isRun");
 
-        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+    //    moveVec = new Vector3(hAxis, 0, vAxis).normalized;
 
-        anim.SetBool("isWalk", moveVec != Vector3.zero);
-        anim.SetBool("isRun", runDown);
+    //    anim.SetBool("isWalk", moveVec != Vector3.zero);
+    //    anim.SetBool("isRun", runDown);
       
-        if (!(hAxis == 0 && vAxis == 0))
-        {
-            transform.position += moveVec * speed * Time.deltaTime;
-            if (runDown == true) //¶Û ¶§
-            {
-                transform.position += moveVec * runSpeed * Time.deltaTime;
-            }
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(moveVec), Time.deltaTime * rotateSpeed);
-        }
-    }
+    //    if (!(hAxis == 0 && vAxis == 0))
+    //    {
+    //        transform.position += moveVec * speed * Time.deltaTime;
+    //        if (runDown == true) //¶Û ¶§
+    //        {
+    //            transform.position += moveVec * runSpeed * Time.deltaTime;
+    //        }
+    //        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(moveVec), Time.deltaTime * rotateSpeed);
+    //    }
+    //}
 
     void Fire()
     {
@@ -132,11 +137,11 @@ public class Player : MonoBehaviour
         {
             anim.SetBool("isAttacking", true);
             Vector3 spawnPos = transform.position;
-            spawnPos.x = transform.position.x + 1f;
-            spawnPos.y = transform.position.y + 3f;
-            GameObject carrot = Instantiate(bulletFactory,
-                spawnPos, Quaternion.identity);
-            Rigidbody carrotRb = carrot.GetComponent<Rigidbody>();
+            spawnPos.x = this.transform.position.x + 1f;
+            spawnPos.y = this.transform.position.y + 3f;
+            GameObject bullet = bullets.GetBullet();
+            bullet.transform.position = spawnPos;
+            Rigidbody carrotRb = bullet.GetComponent<Rigidbody>();
             carrotRb.useGravity = true;
             float carrotSpeed = 10f;
             carrotRb.AddForce(transform.forward * carrotSpeed,
@@ -150,6 +155,7 @@ public class Player : MonoBehaviour
 
     IEnumerator AttackingDelay()
     {
+        Debug.Log("attacking delay");
         float delayTime = 0.5f;
         yield return new WaitForSeconds(delayTime);
         anim.SetBool("isAttacking", false);
