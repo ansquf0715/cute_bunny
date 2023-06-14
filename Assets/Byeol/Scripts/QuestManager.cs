@@ -7,6 +7,27 @@ using StatePattern;
 
 public class QuestManager : MonoBehaviour
 {
+    private static QuestManager instance;
+
+    public static QuestManager Instance
+    {
+        get
+        {
+            if(instance == null)
+            {
+                instance = FindObjectOfType<QuestManager>();
+
+                if(instance == null)
+                {
+                    GameObject questObject = new GameObject("QuestManager");
+                    instance = questObject.AddComponent<QuestManager>();
+                }
+            }
+
+            return instance;
+        }
+    }
+
     List<Dictionary<string, object>> questCSV;
 
     public GameObject QuestImage;
@@ -36,6 +57,17 @@ public class QuestManager : MonoBehaviour
 
     bool allQuestIsDone = false;
 
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +75,7 @@ public class QuestManager : MonoBehaviour
         QuestImage.SetActive(false);
 
         TextMeshProUGUI[] texts = QuestImage.GetComponentsInChildren<TextMeshProUGUI>();
-        for(int i=0; i<texts.Length; i++)
+        for (int i = 0; i < texts.Length; i++)
         {
             questTexts.Add(texts[i]);
         }

@@ -23264,6 +23264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1828385135}
   - component: {fileID: 1828385136}
+  - component: {fileID: 1828385137}
   m_Layer: 0
   m_Name: InGameUI
   m_TagString: Untagged
@@ -23309,6 +23310,20 @@ MonoBehaviour:
   left: {fileID: 981692112}
   right: {fileID: 1132219262}
   audio: {fileID: 0}
+--- !u!114 &1828385137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828385134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efb8ccb159bed14ca5b8a58cd5b0286, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  QuestImage: {fileID: 744908728}
+  questPageIsOn: 0
 --- !u!4 &1833880895 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9201230708737890448, guid: 35fe3d1004751154e85ae90bc5969401, type: 3}
