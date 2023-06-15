@@ -27,7 +27,6 @@ public class HiddenKey : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            //FindObjectOfType<QuestManager>().foundKeyForBird();
             quest.CompleteQuest("Find the key");
             Destroy(this.gameObject, 1f);
         }
