@@ -26,6 +26,8 @@ public class HeartNPC : MonoBehaviour
 
     public bool questIsDone = false;
 
+    public static bool heartCommunicationOver = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +44,9 @@ public class HeartNPC : MonoBehaviour
         {
             playerIsTalkingToNPC();
         }
+
+        //if (talkingNum >= 12)
+        //    heartCommunicationOver = true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -115,11 +120,13 @@ public class HeartNPC : MonoBehaviour
                 if(talkingNum == 11)
                 {
                     npcUI.SetActive(false);
-                    FindObjectOfType<QuestManager>().questPageIsOn = true;
+                    //FindObjectOfType<QuestManager>().questPageIsOn = true;
                     showQuest = true;
                 }
 
-                if(talkingNum >= 15) //새한테 가라고 했으면
+
+
+                if (talkingNum >= 15) //새한테 가라고 했으면
                 {
                     talkText.text = " " + npcTalking[14]["message"];
                 }

@@ -121,7 +121,7 @@ public class SparrowNPC : MonoBehaviour
                 if(talkingNum == 6)
                 {
                     npcUI.SetActive(false);
-                    FindObjectOfType<QuestManager>().questPageIsOn = true;
+                    //FindObjectOfType<QuestManager>().questPageIsOn = true;
                     showBirdQuest = true;
                 }
 

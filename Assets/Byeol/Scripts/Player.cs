@@ -7,6 +7,13 @@ using StatePattern;
 
 public class Player : MonoBehaviour
 {
+    static Quest quest;
+
+    public void SetQuest(Quest questInstance)
+    {
+        quest = questInstance;
+    }
+
     public bulletPool bullets;
 
     static public Vector3 playerPos;
@@ -305,18 +312,20 @@ public class Player : MonoBehaviour
     {
         //heart Quest 5 : plant a tree
         plantedTreeCount++;
-        //Debug.Log("planted tree count" + plantedTreeCount);
         if (plantedTreeCount >= 1 && !checkPlantTreeQuest)
+        //if(plantedTreeCount >= 1)
         {
-            //Debug.Log("check plant tree quest");
-            FindObjectOfType<QuestManager>().plantedTreePlus();
+            Debug.Log("planted tree count quest");
+            quest.CompleteQuest("Plant a tree");
             checkPlantTreeQuest = true;
             plantedTreeCount = 0;
         }
-        if(plantedTreeCount >= 1 && !checkBirdTreeQuest)
+        if (plantedTreeCount >= 1 && !checkBirdTreeQuest)
+        //if(plantedTreeCount >= 1)
         {
             Debug.Log("check plant bird quest");
-            FindObjectOfType<QuestManager>().plantedTreeForBird();
+            //FindObjectOfType<QuestManager>().plantedTreeForBird();
+            quest.CompleteQuest("Plant 3 trees");
             checkBirdTreeQuest = true;
             plantedTreeCount = 0;
         }

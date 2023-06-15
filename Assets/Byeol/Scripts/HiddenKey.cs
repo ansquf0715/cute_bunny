@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class HiddenKey : MonoBehaviour
 {
+    static Quest quest;
+
+    public void SetQuest(Quest questInstance)
+    {
+        quest = questInstance;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +27,8 @@ public class HiddenKey : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            FindObjectOfType<QuestManager>().foundKeyForBird();
+            //FindObjectOfType<QuestManager>().foundKeyForBird();
+            quest.CompleteQuest("Find the key");
             Destroy(this.gameObject, 1f);
         }
     }

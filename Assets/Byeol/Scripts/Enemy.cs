@@ -6,6 +6,11 @@ using System.Threading;
 
 public class Enemy : MonoBehaviour
 {
+    static Quest quest;
+    public void SetQuest(Quest questInstance)
+    {
+        quest = questInstance;
+    }
     
     Animator anim;
     //public GameObject Player;
@@ -68,8 +73,8 @@ public class Enemy : MonoBehaviour
         {
             if (!changeDiedEnemyCount)
             {
-                //FindObjectOfType<QuestManager>().diedEnemyCount++;
-                FindObjectOfType<QuestManager>().diedEnemyPlus();
+                quest.UpdateQuestProgress("Catch 5 monsters", 1);
+
                 changeDiedEnemyCount = true;
             }
         }

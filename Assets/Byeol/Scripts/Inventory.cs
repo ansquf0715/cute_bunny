@@ -5,6 +5,12 @@ using UnityEngine.UI;
 using StatePattern;
 public class Inventory : MonoBehaviour
 {
+    static Quest quest;
+    public void SetQuest(Quest questInstance)
+    {
+        quest = questInstance;
+    }
+
     public static bool inventoryActivated = false;
 
     [SerializeField]
@@ -203,25 +209,54 @@ public class Inventory : MonoBehaviour
 
     void checkItemForBirdQuest()
     {
-        //bird quest 진행중인지 확인
-        if(QuestManager.doingBirdQ == true)
+        QuestUI questUI = FindObjectOfType<QuestUI>();
+        if(questUI != null)
         {
-            int unknownPotionCount = 0;
-
-            foreach(Slot slot in slots)
+            string page = questUI.GetCurrentQuestPage().ToString();
+            if(page == "BirdQuest")
             {
-                if(slot.itemName == "DamageMinusItem"
-                    || slot.itemName == "HPMinusItem") //check item name
+                int unknownPotionCount = 0;
+
+                foreach (Slot slot in slots)
                 {
-                    unknownPotionCount += slot.temCount;
+                    if (slot.itemName == "DamageMinusItem"
+                        || slot.itemName == "HPMinusItem") //check item name
+                    {
+                        unknownPotionCount += slot.temCount;
+                    }
                 }
-            }
 
-            if(unknownPotionCount >= 2)
-            {
-                FindObjectOfType<QuestManager>().gotUnknownItemForBird();
-                unknownPotionCount = 0;
+                if (unknownPotionCount >= 2)
+                {
+                    //FindObjectOfType<QuestManager>().gotUnknownItemForBird();
+                    quest.CompleteQuest("You must have 2 unknown potions");
+                    unknownPotionCount = 0;
+                }
             }
         }
     }
+
+    //void checkItemForBirdQuest()
+    //{
+    //    //bird quest 진행중인지 확인
+    //    if (QuestManager.doingBirdQ == true)
+    //    {
+    //        int unknownPotionCount = 0;
+
+    //        foreach (Slot slot in slots)
+    //        {
+    //            if (slot.itemName == "DamageMinusItem"
+    //                || slot.itemName == "HPMinusItem") //check item name
+    //            {
+    //                unknownPotionCount += slot.temCount;
+    //            }
+    //        }
+
+    //        if (unknownPotionCount >= 2)
+    //        {
+    //            FindObjectOfType<QuestManager>().gotUnknownItemForBird();
+    //            unknownPotionCount = 0;
+    //        }
+    //    }
+    //}
 }

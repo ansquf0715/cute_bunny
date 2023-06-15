@@ -104,7 +104,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler,
         {
             if(SellingBox.checkSellBox() == true)
             {
-                Debug.Log("check item or fruit" + checkItemOrFruit());
+                //Debug.Log("check item or fruit" + checkItemOrFruit());
                 if (checkItemOrFruit() == 1)
                     SellingBox.SellThings(this.itemName, temCount);
                 if (checkItemOrFruit() == 2)

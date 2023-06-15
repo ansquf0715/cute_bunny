@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class SellingBox : MonoBehaviour
 {
+    static Quest quest;
+
+    public void SetQuest(Quest questInstance)
+    {
+        quest = questInstance;
+    }
+
     private Text MoneyText;
     BoxCollider rangeCollider;
     static public Rect baseSellRect;
@@ -43,7 +50,6 @@ public class SellingBox : MonoBehaviour
         SellBoxBase.SetActive(false);
         GameObject rectParent = GameObject.FindWithTag("SellBox");
         baseSellRect = rectParent.transform.GetChild(0).GetComponent<RectTransform>().rect;
-        //baseSellRect = transform.Find("SellBoxInside").gameObject.SetActive(false);
         rangeCollider = gameObject.GetComponent<BoxCollider>();
     }
 
@@ -95,12 +101,11 @@ public class SellingBox : MonoBehaviour
             case "Apple":
                 money += AppleMoney * temCount;
                 checkSellAppleCount += temCount;
-                if (checkSellAppleCount >= 1 && !checkAppleQuest ) //heart quest 2 : sell 2 apples
+
+                if(checkSellAppleCount >= 2)
                 {
-                    //Debug.Log("check sell apple count" + checkSellAppleCount);
-                    //Debug.Log("이거 몇번 호출 됨?");
-                    FindObjectOfType<QuestManager>().sellApplePlus();
-                    checkAppleQuest = true;
+                    quest.CompleteQuest("Sell 2 apples");
+                    Debug.Log("notify quest completion apple");
                 }
                 break;
             case "Grape":
@@ -130,10 +135,10 @@ public class SellingBox : MonoBehaviour
             case "HPPlusItem":
                 money += HPPlusItemMoney * temCount;
                 checkSellHPPlusCount += temCount;
-                if (checkSellHPPlusCount >= 1 && !checkHPPlusQuest) //heart quest 3: sell 1 hp plus item
+
+                if(checkSellHPPlusCount >= 1)
                 {
-                    FindObjectOfType<QuestManager>().sellHPItemPlus();
-                    checkHPPlusQuest = true;
+                    quest.CompleteQuest("Sell 1 HP Plus Item");
                 }
                 break;
             case "HPMinusItem":

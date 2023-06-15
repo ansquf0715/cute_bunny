@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class FightingZone : MonoBehaviour
 {
+    static Quest quest;
+    public void SetQuest(Quest questInstance)
+    {
+        quest = questInstance;
+    }
+
     public GameObject[] enemies;
     public Vector3 spawn;
 
@@ -14,8 +20,6 @@ public class FightingZone : MonoBehaviour
     void Start()
     {
         deathCount = 0;
-        //rangeCollider = gameObject.GetComponent<BoxCollider>();
-        //Debug.Log("Fighting Zone");
     }
 
     // Update is called once per frame
@@ -39,10 +43,10 @@ public class FightingZone : MonoBehaviour
     public void countDeath() //Á×Àº ³ª¹« ¼ö
     {
         deathCount++;
-        if(deathCount >= 1f && !checkTreeDeathQuest)
+        if(deathCount >= 1)
         {
-            FindObjectOfType<QuestManager>().diedTreePlus();
-            checkTreeDeathQuest = true;
+            quest.CompleteQuest("Cut down 3 trees!");
+            Debug.Log("cut down 3 trees");
         }
     }
 
@@ -64,8 +68,4 @@ public class FightingZone : MonoBehaviour
         spawn = _pos;
     }
 
-    //public BoxCollider getBoxCollider()
-    //{
-    //    return rangeCollider;
-    //}
 }
