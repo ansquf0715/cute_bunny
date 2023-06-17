@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SellingBox : MonoBehaviour
 {
     static Quest quest;
+    //audio?
 
     public void SetQuest(Quest questInstance)
     {
