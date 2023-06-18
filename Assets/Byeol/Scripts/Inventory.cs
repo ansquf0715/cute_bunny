@@ -236,27 +236,4 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    //void checkItemForBirdQuest()
-    //{
-    //    //bird quest 진행중인지 확인
-    //    if (QuestManager.doingBirdQ == true)
-    //    {
-    //        int unknownPotionCount = 0;
-
-    //        foreach (Slot slot in slots)
-    //        {
-    //            if (slot.itemName == "DamageMinusItem"
-    //                || slot.itemName == "HPMinusItem") //check item name
-    //            {
-    //                unknownPotionCount += slot.temCount;
-    //            }
-    //        }
-
-    //        if (unknownPotionCount >= 2)
-    //        {
-    //            FindObjectOfType<QuestManager>().gotUnknownItemForBird();
-    //            unknownPotionCount = 0;
-    //        }
-    //    }
-    //}
 }
