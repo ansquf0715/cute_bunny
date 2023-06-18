@@ -116,7 +116,7 @@ public class QuestUI : MonoBehaviour, IQuesetObserver
                     }
                 }
 
-                return; // 퀘스트 텍스트를 찾았으면 루프 종료
+                return; 
             }
         }
 
@@ -197,32 +197,4 @@ public class QuestUI : MonoBehaviour, IQuesetObserver
         currentQuestPage = QuestPage.BirdQuest;
     }
 
-    //private void SwitchToBirdQuestPage()
-    //{
-    //    // Clear existing quest texts
-    //    foreach (var questText in questTexts)
-    //    {
-    //        questText.text = string.Empty;
-    //    }
-
-    //    // Show bird quests
-    //    int questIndex = 0;
-    //    for (int i = 0; i < questData.Count; i++)
-    //    {
-    //        string npcName = questData[i]["NPC"].ToString();
-    //        bool isBirdQuest = npcName.Equals("bird", System.StringComparison.OrdinalIgnoreCase);
-
-    //        if (isBirdQuest)
-    //        {
-    //            string questText = questData[i]["Quest"].ToString();
-    //            questTexts[questIndex].text = " " + questText;
-    //            questIndex++;
-    //        }
-
-    //        if (questIndex >= questTexts.Count)
-    //            break;
-    //    }
-
-    //    currentQuestPage = QuestPage.BirdQuest;
-    //}
 }

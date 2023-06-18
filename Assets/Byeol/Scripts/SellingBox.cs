@@ -106,7 +106,6 @@ public class SellingBox : MonoBehaviour
                 if(checkSellAppleCount >= 2)
                 {
                     quest.CompleteQuest("Sell 2 apples");
-                    Debug.Log("notify quest completion apple");
                 }
                 break;
             case "Grape":
