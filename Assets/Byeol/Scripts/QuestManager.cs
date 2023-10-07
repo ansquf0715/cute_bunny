@@ -24,7 +24,6 @@ public class QuestManager : MonoBehaviour
 
         Inventory inventory = FindObjectOfType<Inventory>();
         inventory.SetQuest(quest);
-
         HiddenKey hiddenKey = FindObjectOfType<HiddenKey>();
         hiddenKey.SetQuest(quest);
 

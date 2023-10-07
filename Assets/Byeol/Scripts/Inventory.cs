@@ -178,7 +178,7 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    public int getCountSeed() //seed 개수 가져오는 함수
+    public int getCountSeed() 
     {
         if (canCountSeed() == true)
         {
@@ -186,7 +186,6 @@ public class Inventory : MonoBehaviour
             {
                 if (slots[i].fruitName == "seed")
                 {
-                    //Debug.Log("템카운트 " + slots[i].temCount);
                     return slots[i].temCount;
                 }
             }
