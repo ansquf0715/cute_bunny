@@ -81,12 +81,12 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < CheckSlotFull.Length; i++)
         {
-            if (CheckSlotFull[i] == false) //만약 빈칸이면
+            if (CheckSlotFull[i] == false) 
             {
-                return i; //인덱스를 return 하고
+                return i; 
             }
         }
-        return 15; //아니라면 쓰레기값 -> 예외처리 해야함
+        return 15; 
     }
 
     public int ItemExist(Items _item, int _count = 1) //슬롯에 이미 존재하는 아이템인지 확인
