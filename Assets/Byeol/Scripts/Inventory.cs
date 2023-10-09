@@ -14,14 +14,14 @@ public class Inventory : MonoBehaviour
     public static bool inventoryActivated = false;
 
     [SerializeField]
-    private GameObject InventoryBase; //inventory base 이미지
+    private GameObject InventoryBase; 
     [SerializeField]
-    private GameObject SlotsParent; //Slot들의 부모인 Grid Setting
+    private GameObject SlotsParent; 
 
     //나중에 오브젝트 풀린같은걸로 바꿔라
     private Slot[] slots = new Slot[10];
 
-    private bool[] CheckSlotFull = new bool[10]; //slot이 비었는지 확인하는 배열
+    private bool[] CheckSlotFull = new bool[10]; 
     private int[] SetButton = new int[10];
 
 
