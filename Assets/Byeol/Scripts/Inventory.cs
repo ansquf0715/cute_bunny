@@ -40,7 +40,7 @@ public class Inventory : MonoBehaviour
         checkItemForBirdQuest();
     }
 
-    private void TryOpenInventory() //tab 누르면 inventory 화면 띄우기
+    private void TryOpenInventory() 
     {
         if(!Boss.bossIsMoved)
         {
@@ -56,12 +56,12 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void OpenInventory() //인벤토리 열기
+    private void OpenInventory() 
     {
         InventoryBase.SetActive(true);
     }
 
-    private void CloseInventory() //인벤토리 닫기
+    private void CloseInventory() 
     {
         InventoryBase.SetActive(false);
     }
