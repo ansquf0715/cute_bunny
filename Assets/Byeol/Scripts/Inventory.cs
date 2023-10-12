@@ -66,7 +66,7 @@ public class Inventory : MonoBehaviour
         InventoryBase.SetActive(false);
     }
 
-    public void checkClear(Slot cleardSlot) //슬롯에 있는게 지워졌는지 확인?
+    public void checkClear(Slot cleardSlot) 
     {
         int temp = 0;
         for(int i=0; i<slots.Length; i++)
@@ -77,7 +77,7 @@ public class Inventory : MonoBehaviour
         CheckSlotFull[temp] = false;
     }
 
-    private int checkFull() //slot 칸이 비었는지 안비었는지 확인하는 함수
+    private int checkFull() 
     {
         for (int i = 0; i < CheckSlotFull.Length; i++)
         {
