@@ -14,8 +14,6 @@ public class EnemyWeapon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //speed = 5;
-        //DestroyTime = 1.0f;
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
         Destroy(gameObject, DestroyTime);
     }
