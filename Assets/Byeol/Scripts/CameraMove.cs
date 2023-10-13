@@ -11,7 +11,6 @@ public class CameraMove : MonoBehaviour
 
     public Dictionary<GameObject, Color> originalTreeColors = new Dictionary<GameObject, Color>();
     public Dictionary<GameObject, Color> oldTreeColors = new Dictionary<GameObject, Color>();
-    //Dictionary<GameObject, Color> currentTreeColors = new Dictionary<GameObject, Color>();
 
 
 
