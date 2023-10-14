@@ -315,7 +315,7 @@ public class Player : MonoBehaviour
         if (plantedTreeCount >= 1 && !checkPlantTreeQuest)
         //if(plantedTreeCount >= 1)
         {
-            Debug.Log("planted tree count quest");
+            //Debug.Log("planted tree count quest");
             quest.CompleteQuest("Plant a tree");
             checkPlantTreeQuest = true;
             plantedTreeCount = 0;
@@ -351,7 +351,6 @@ public class Player : MonoBehaviour
 
                     Vector3 treePoint = new Vector3(0, 0, 0);
 
-                    //if(Physics.Raycast(ray, out hit, 10000f))
                     if (Physics.Raycast(ray, out hit, 10000f))
                     {
                         treePoint = hit.point;
