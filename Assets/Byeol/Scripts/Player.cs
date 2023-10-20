@@ -313,9 +313,7 @@ public class Player : MonoBehaviour
         //heart Quest 5 : plant a tree
         plantedTreeCount++;
         if (plantedTreeCount >= 1 && !checkPlantTreeQuest)
-        //if(plantedTreeCount >= 1)
         {
-            //Debug.Log("planted tree count quest");
             quest.CompleteQuest("Plant a tree");
             checkPlantTreeQuest = true;
             plantedTreeCount = 0;
