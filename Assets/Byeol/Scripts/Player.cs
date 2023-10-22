@@ -319,9 +319,7 @@ public class Player : MonoBehaviour
             plantedTreeCount = 0;
         }
         if (plantedTreeCount >= 1 && !checkBirdTreeQuest)
-        //if(plantedTreeCount >= 1)
         {
-            Debug.Log("check plant bird quest");
             //FindObjectOfType<QuestManager>().plantedTreeForBird();
             quest.CompleteQuest("Plant 3 trees");
             checkBirdTreeQuest = true;
