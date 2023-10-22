@@ -15,7 +15,6 @@ public class HPBarControl : MonoBehaviour
 
     private float maxFill;
 
-    //private GameObject HPObj;
     private float currentFill;
 
     private bool isChanged;
@@ -46,7 +45,6 @@ public class HPBarControl : MonoBehaviour
     public void isChange()
     {
         isChanged = true;
-        //Debug.Log("is CHange ºÒ·¯Áü");
     }
 
     void setPlayer()
