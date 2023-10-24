@@ -26,9 +26,6 @@ public class HPBarControl : MonoBehaviour
         content = GetComponent<Image>();
         content.sprite = contentSprite;
 
-        //HPObj = GameObject.FindGameObjectWithTag("HP_fill");
-        //content = HPObj.GetComponent();
-
         setPlayer();
     }
 
