@@ -46,7 +46,6 @@ public class FightingZone : MonoBehaviour
         if(deathCount >= 1)
         {
             quest.CompleteQuest("Cut down 3 trees!");
-            Debug.Log("cut down 3 trees");
         }
     }
 

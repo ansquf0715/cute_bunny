@@ -47,7 +47,6 @@ public class Opening : MonoBehaviour
 
     string FindText()
     {
-        Debug.Log("string" + openingCSV[talkingNum]["message"]);
         return openingCSV[talkingNum]["message"].ToString();
     }
 
