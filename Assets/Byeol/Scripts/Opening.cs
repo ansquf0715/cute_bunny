@@ -115,9 +115,6 @@ public class Opening : MonoBehaviour
         StartCoroutine(Blinking());
     }
 
-    //배경음 페이드인
-    
-
     private IEnumerator Blinking()
     {
         blackBack.SetActive(false);
@@ -164,7 +161,6 @@ public class Opening : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         sceneIsChanged = true;
-        Debug.Log("scene fchange" + sceneIsChanged);
         SceneManager.LoadScene("Playing");
     }
 }
