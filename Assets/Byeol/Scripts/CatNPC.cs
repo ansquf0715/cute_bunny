@@ -119,7 +119,6 @@ public class CatNPC : MonoBehaviour
                 if(talkingNum == 6)
                 {
                     npcUI.SetActive(false);
-                    //FindObjectOfType<QuestManager>().questPageIsOn = true;
 
                     leftDoorTargetPos = leftDoor.transform.position
                         + new Vector3(0.0f, 0.0f, moveAmount);

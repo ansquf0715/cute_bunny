@@ -280,7 +280,7 @@ public class Player : MonoBehaviour
         CanUseSeed = true;
     }
 
-    GameObject TreeToMake() //여기 수정
+    GameObject TreeToMake() 
     {
         int randomItemCount = UnityEngine.Random.Range(0, trees.Length); //?
         GameObject selectedPrefab = trees[randomItemCount];
