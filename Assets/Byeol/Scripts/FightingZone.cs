@@ -30,7 +30,6 @@ public class FightingZone : MonoBehaviour
 
     void RandomEnemy()
     {
-        //int random_tree = Random.Range(2, 5);
         int random_tree = 3;
 
         if(deathCount == random_tree) //죽은 나무 수가 random_death 값이랑 같아지면
@@ -51,7 +50,6 @@ public class FightingZone : MonoBehaviour
 
     void Spawn()
     {
-        Debug.Log("Spawn");
 
         int selection = Random.Range(0, enemies.Length);
         GameObject selectedPrefab = enemies[selection];
