@@ -151,7 +151,6 @@ public class Inventory : MonoBehaviour
 
     public void PutFruits(TreeFruit _fruit, int _count=1)
     {
-        //Debug.Log("Put Fruits 함수");
         int check = FruitExist(_fruit, _count);
         if(check != -1)
         {
@@ -165,7 +164,6 @@ public class Inventory : MonoBehaviour
 
     public bool canCountSeed() //인벤에 씨앗이 있는지
     {
-        //Debug.Log("can Count Seed");
         for(int i=0; i<slots.Length; i++)
         {
             if(slots[i].fruitName == "seed")
