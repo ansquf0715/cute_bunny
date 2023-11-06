@@ -41,7 +41,6 @@ public class DragSlot : MonoBehaviour
         color.a = 0f;
         imageItem.color = color;
 
-        //Debug.Log("DragSlot setcolor");
     }
 
 }

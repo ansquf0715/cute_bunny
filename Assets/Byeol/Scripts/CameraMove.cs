@@ -63,7 +63,6 @@ public class CameraMove : MonoBehaviour
         {
             if (hit.collider.CompareTag("Tree"))
             {
-                //Debug.Log(" compare tag tree");
                 Renderer renderer = hit.collider.GetComponent<MeshRenderer>();
 
                 if (renderer != null)
