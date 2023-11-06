@@ -8,7 +8,6 @@ public class Trees : MonoBehaviour
     Vector3 pos;
     private float damage;
 
-    //public GameObject fruit;
     BoxCollider rangeCollider; //과일을 떨어트릴 위치를 정하기 위해
 
     public GameObject[] items; //tree에서 떨어트리는 아이템들
@@ -75,7 +74,7 @@ public class Trees : MonoBehaviour
         return SpawnPos;
     }
 
-    GameObject selectItem() //랜덤으로 떨어트릴 아이템 정하기
+    GameObject selectItem() 
     {
         int selectedIndex = Random.Range(0, items.Length);
         GameObject selectedPrefab = items[selectedIndex];

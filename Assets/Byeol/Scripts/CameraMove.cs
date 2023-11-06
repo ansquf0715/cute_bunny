@@ -12,12 +12,10 @@ public class CameraMove : MonoBehaviour
     public Dictionary<GameObject, Color> originalTreeColors = new Dictionary<GameObject, Color>();
     public Dictionary<GameObject, Color> oldTreeColors = new Dictionary<GameObject, Color>();
 
-
-
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.unityLogger.logEnabled = true;
+
     }
 
     // Update is called once per frame
