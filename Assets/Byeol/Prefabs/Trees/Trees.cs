@@ -31,7 +31,6 @@ public class Trees : MonoBehaviour
 
         if (other.gameObject.tag == "Bullet")
         {
-            //Destroy(other.gameObject);
             FindObjectOfType<bulletPool>().ReturnBullet(other.gameObject);
 
             Treehealth -= damage;
@@ -70,7 +69,6 @@ public class Trees : MonoBehaviour
         Vector3 RandomPosition = new Vector3(range_X, 0.5f, range_Z);
 
         Vector3 SpawnPos = gameObject.transform.position + RandomPosition;
-        //Debug.Log("SpawnPos : " + SpawnPos);
         return SpawnPos;
     }
 
