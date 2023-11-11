@@ -8,9 +8,9 @@ public class Trees : MonoBehaviour
     Vector3 pos;
     private float damage;
 
-    BoxCollider rangeCollider; //과일을 떨어트릴 위치를 정하기 위해
+    BoxCollider rangeCollider; 
 
-    public GameObject[] items; //tree에서 떨어트리는 아이템들
+    public GameObject[] items; 
 
     // Start is called before the first frame update
     void Start()
