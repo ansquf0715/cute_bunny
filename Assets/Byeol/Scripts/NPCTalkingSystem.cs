@@ -82,8 +82,6 @@ public class NPCTalkingSystem : MonoBehaviour
                             talkText.text = " " + npctalking[0]["message"];
                             talkingNum++;
 
-                            //Debug.Log("talking Num" + talkingNum);
-
                             break;
                         }
                         else
@@ -118,8 +116,6 @@ public class NPCTalkingSystem : MonoBehaviour
                 talkText.text = " " + npctalking[talkingNum]["message"];
                 talkingNum++;
 
-
-                //heartnpc일 때 talking num이 11  bird 일때는 또 다름
                 //if(talkingNum == 11)
                 //{
                 //    npcUI.SetActive(false);
@@ -133,8 +129,6 @@ public class NPCTalkingSystem : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            //Debug.Log("talking Num" + talkingNum);
-
             isStay = false;
             npcUI.SetActive(false);
         }

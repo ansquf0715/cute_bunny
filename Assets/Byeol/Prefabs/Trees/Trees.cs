@@ -37,7 +37,6 @@ public class Trees : MonoBehaviour
 
             if (Treehealth <= 0)
             {
-                //SpawnPos();
                 GameObject.Find("FightingZone").GetComponent<FightingZone>().setSpawnPos(pos);
                 Destroy(gameObject);
                 dropFruit();
