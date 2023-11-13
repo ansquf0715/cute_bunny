@@ -56,7 +56,6 @@ public class NPCTalkingSystem : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //npc가 123번중에 뭔지 결정해서 대화 불러와야 할 듯
         if(other.gameObject.tag == "Player") //player일 경우
         {
             if (Physics.Raycast(other.gameObject.transform.position,
