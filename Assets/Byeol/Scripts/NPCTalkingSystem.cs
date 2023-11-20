@@ -114,12 +114,6 @@ public class NPCTalkingSystem : MonoBehaviour
             {
                 talkText.text = " " + npctalking[talkingNum]["message"];
                 talkingNum++;
-
-                //if(talkingNum == 11)
-                //{
-                //    npcUI.SetActive(false);
-                //    FindObjectOfType<QuestManager>().questPageIsOn = true;
-                //}
             }
         }
     }
