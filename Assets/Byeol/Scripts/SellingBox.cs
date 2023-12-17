@@ -63,7 +63,6 @@ public class SellingBox : MonoBehaviour
         {
             if (checkMoney()) //µ∑¿Ã ¿÷¿∏∏È
             {
-                Debug.Log("check money true");
                 moneyToEscape = true;
                 moneyToEscapeIsChanged = true;
             }
@@ -151,7 +150,6 @@ public class SellingBox : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            //Debug.Log("Trigger Enter");
             SellBoxBase.SetActive(true);
             sellBoxActivated = true;
         }
@@ -161,7 +159,6 @@ public class SellingBox : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            //Debug.Log("Trigger Enter");
             SellBoxBase.SetActive(false);
             sellBoxActivated = false;
         }
