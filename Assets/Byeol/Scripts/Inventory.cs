@@ -192,7 +192,6 @@ public class Inventory : MonoBehaviour
 
     public void setSeedCount()
     {
-        //Debug.Log("Set Seed Count »£√‚µ ");
         for(int i=0; i<slots.Length; i++)
         {
             if(slots[i].fruitName == "seed")
@@ -223,7 +222,6 @@ public class Inventory : MonoBehaviour
 
                 if (unknownPotionCount >= 2)
                 {
-                    //FindObjectOfType<QuestManager>().gotUnknownItemForBird();
                     quest.CompleteQuest("You must have 2 unknown potions");
                     unknownPotionCount = 0;
                 }
