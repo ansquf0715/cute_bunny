@@ -52,7 +52,6 @@ namespace StatePattern
         float bossDamage;
 
         static public bool bossIsMoved;
-        //static public Vector3 meetPlayerPos;
 
         public bool firstMeetPlayer { get; set; }
 
@@ -85,7 +84,6 @@ namespace StatePattern
             audio = boss.GetComponent<AudioSource>();
 
             maxHp = 20f;
-            //Hp = 20f;
             Hp = maxHp;
             firstMeetPlayer = false;
 
@@ -101,7 +99,6 @@ namespace StatePattern
 
             attackAnimIsPlaying = false;
             alreadyChecked = false;
-            //dustParticle = Resources.Load<GameObject>("smoke");
             dustParticle = Resources.Load<GameObject>("bossDust");
 
             reachedOneThirdHP = false;
@@ -182,8 +179,6 @@ namespace StatePattern
             Vector3 canvasPosition = new Vector3(
                 relativePosition.x * Camera.main.pixelWidth,
                 relativePosition.y * Camera.main.pixelHeight, 0f);
-
-            //playerDamage.rectTransform.position = canvasPosition;
 
             GameObject textPrefab = Resources.Load<GameObject>("Dam");
             GameObject damageText = GameObject.Instantiate(textPrefab, canvasPosition, Quaternion.identity,
@@ -275,7 +270,6 @@ namespace StatePattern
             {
                 MeshCollider meshCollider =
                     transform.GetComponentInChildren<MeshCollider>();
-                //Debug.Log("mesh collider" + meshCollider);
                 if(player.GetComponent<Collider>().bounds.Intersects(meshCollider.bounds))
                 {
                     Debug.Log("player and boss fight");
