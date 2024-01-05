@@ -55,21 +55,15 @@ public class ItemEffectDatabase : MonoBehaviour
         switch(itemName)
         {
             case "DamagePlusItem":
-                //Debug.Log("Before item " + player.getPower());
-                //items.DamagePlus();
                 DamagePlus();
                 Invoke("replaceDamagePlus",15f);
-                //Debug.Log("After replace" + player.getPower());
                 break;
             case "DamageMinusItem":
-                //items.DamageMinus();
                 DamageMinus();
                 Invoke("replaceDamageMinus", 15f);
                 break;
             case "HPPlusItem":
-                //items.HPPlus();
                 HPPlus();
-                //Debug.Log("HP PLus switch");
                 break;
             case "HPMinusItem":
                 //items.HPMinus();
