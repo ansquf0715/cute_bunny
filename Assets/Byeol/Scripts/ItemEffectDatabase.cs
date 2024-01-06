@@ -75,11 +75,9 @@ public class ItemEffectDatabase : MonoBehaviour
                 GrapeEffect();
                 break;
             case "Orange":
-                //fruits.OrangeEffect();
                 OrangeEffect();
                 break;
             case "Peach":
-                //fruits.PeachEffect();
                 PeachEffect();
                 break;
             case "Plum":
