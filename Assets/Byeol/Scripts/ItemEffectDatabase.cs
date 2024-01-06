@@ -66,17 +66,12 @@ public class ItemEffectDatabase : MonoBehaviour
                 HPPlus();
                 break;
             case "HPMinusItem":
-                //items.HPMinus();
                 HPMinus();
-                //Debug.Log("HP Minus called");
                 break;
             case "Apple":
-                //fruits.AppleEffect();
                 AppleEffect();
-                Debug.Log("Apple Called");
                 break;
             case "Grape":
-                //fruits.GrapeEffect();
                 GrapeEffect();
                 break;
             case "Orange":
