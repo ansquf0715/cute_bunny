@@ -81,16 +81,13 @@ public class ItemEffectDatabase : MonoBehaviour
                 PeachEffect();
                 break;
             case "Plum":
-                //fruits.PlumEffect();
                 PlumEffect();
                 break;
             case "Raspberry":
-                //fruits.RaspberryEffect();
                 RaspberryEffect();
                 break;
             case "seed":
                 seedInfo.text = "PLANT A TREE!";
-                //fruits.SeedEffect();
                 SeedEffect();
                 break;
         }
