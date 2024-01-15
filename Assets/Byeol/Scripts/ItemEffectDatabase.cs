@@ -103,11 +103,6 @@ public class ItemEffectDatabase : MonoBehaviour
     {
         player.setPower(2f);
     }
-
-    //IEnumerator DelayReset()
-    //{
-    //    yield return new WaitForSeconds(5);
-    //}
     public void AppleEffect()
     {
         Debug.Log("Apple Effect");
@@ -141,7 +136,6 @@ public class ItemEffectDatabase : MonoBehaviour
 
     public void SeedEffect()
     {
-        Debug.Log("seed Effect »£√‚");
         FindObjectOfType<Player>().setUseSeed();
         FindObjectOfType<Player>().makeTree();
     }
@@ -154,7 +148,6 @@ public class ItemEffectDatabase : MonoBehaviour
     public void HPMinus()
     {
         player.minusPlayerHealth(2f);
-        //Debug.Log("hp minus item");
     }
 
     public void DamagePlus()
