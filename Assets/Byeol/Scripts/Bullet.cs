@@ -44,13 +44,11 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.CompareTag("floor")
             || collision.gameObject.CompareTag("FightingZonePlane"))
         {
-            //Destroy(this.gameObject, 0.3f);
             Invoke("returnObject", 0.3f);
         }
 
         if (collision.gameObject.CompareTag("empty"))
         {
-            //Destroy(this.gameObject);
             returnObject();
             GameObject emptyObject = collision.gameObject;
             FindObjectOfType<healPack>().bulletHitsEmptyObjects(collision.gameObject, collision.gameObject.transform.position);
