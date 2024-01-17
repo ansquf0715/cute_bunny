@@ -255,13 +255,6 @@ public class Player : MonoBehaviour
         playerDied = false;
     }
 
-    //IEnumerator AttackingDelay()
-    //{
-    //    float delayTime = 0.5f;
-    //    yield return new WaitForSeconds(delayTime);
-    //    anim.SetBool("isAttacking", false);
-    //}
-
     private void checkHealth()
     {
         if(CurrentHealth <= 0)
