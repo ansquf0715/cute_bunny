@@ -180,7 +180,6 @@ public class Player : MonoBehaviour
     public void setPower(float newPower)
     {
         power += newPower;
-        //Debug.Log("new Damage : " + power);
     }
 
     public Vector3 getPos()
@@ -313,7 +312,6 @@ public class Player : MonoBehaviour
         }
         if (plantedTreeCount >= 1 && !checkBirdTreeQuest)
         {
-            //FindObjectOfType<QuestManager>().plantedTreeForBird();
             quest.CompleteQuest("Plant 3 trees");
             checkBirdTreeQuest = true;
             plantedTreeCount = 0;
